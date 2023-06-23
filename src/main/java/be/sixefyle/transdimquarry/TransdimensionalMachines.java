@@ -1,5 +1,6 @@
 package be.sixefyle.transdimquarry;
 
+import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.screen.TransdimQuarryScreen;
 import be.sixefyle.transdimquarry.utils.OreUtils;
@@ -12,7 +13,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -38,6 +41,8 @@ public class TransdimensionalMachines
         BlockEntityRegister.ALL.register(modEventBus);
         MenuRegister.ALL.register(modEventBus);
         DimensionRegister.register();
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC, "transdimensional-machines.toml");
 
         MinecraftForge.EVENT_BUS.register(this);
     }

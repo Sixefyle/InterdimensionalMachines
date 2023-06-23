@@ -1,7 +1,9 @@
 package be.sixefyle.transdimquarry.utils;
 
+import be.sixefyle.transdimquarry.config.CommonConfig;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CommandBlock;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -21,15 +23,27 @@ public class OreUtils {
         return matcher.find();
     }
 
+    public static boolean isBlackListed(Block block){
+        for (String blockName : CommonConfig.BLACKLISTED_BLOCKS.get()) {
+            if(block.getDescriptionId().contains(blockName))
+                return true;
+        }
+
+        return false;
+    }
+
     public static void initRegisteredOreList(){
         IForgeRegistry<Block> blocks = ForgeRegistries.BLOCKS;
         for (Block block : blocks) {
             if(checkString(block.getDescriptionId())){
-                ores.add(block);
+                if(!isBlackListed(block)){
+                    ores.add(block);
+                }
             }
         }
 
-        ores.add(Blocks.ANCIENT_DEBRIS);
+        if(!isBlackListed(Blocks.ANCIENT_DEBRIS))
+            ores.add(Blocks.ANCIENT_DEBRIS);
     }
 
     public static List<Block> getOres() {
