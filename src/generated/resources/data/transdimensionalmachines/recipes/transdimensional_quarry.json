@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": {
+      "tag": "forge:storage_blocks/iron"
+    },
+    "N": {
+      "tag": "forge:ingots/netherite"
+    },
+    "S": {
+      "tag": "forge:nether_stars"
+    }
+  },
+  "pattern": [
+    "NIN",
+    "ISI",
+    "NIN"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:transdimensional_quarry"
+  }
+}

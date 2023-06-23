@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "E": {
+      "item": "transdimensionalmachines:empty_quarry_upgrade"
+    },
+    "R": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "S": {
+      "tag": "forge:ender_pearls"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "RER",
+    "RRR"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:speed_quarry_upgrade"
+  }
+}

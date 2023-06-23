@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "P": {
+      "item": "transdimensionalmachines:empty_quarry_upgrade"
+    },
+    "S": {
+      "tag": "forge:slimeballs"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "CPC",
+    "CCC"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:silk_quarry_upgrade"
+  }
+}

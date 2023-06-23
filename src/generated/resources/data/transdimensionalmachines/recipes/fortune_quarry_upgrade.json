@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:echo_shard"
+    },
+    "B": {
+      "tag": "forge:storage_blocks/gold"
+    },
+    "S": {
+      "item": "transdimensionalmachines:empty_quarry_upgrade"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "BSB",
+    "BBB"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:fortune_quarry_upgrade"
+  }
+}

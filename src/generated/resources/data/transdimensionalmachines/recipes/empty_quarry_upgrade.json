@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "forge:dyes/black"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    " B ",
+    "IPI",
+    "III"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:empty_quarry_upgrade"
+  }
+}

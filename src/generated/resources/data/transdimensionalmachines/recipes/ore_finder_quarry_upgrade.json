@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "forge:storage_blocks/diamond"
+    },
+    "P": {
+      "item": "transdimensionalmachines:empty_quarry_upgrade"
+    },
+    "S": {
+      "item": "minecraft:blue_ice"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "CPC",
+    "CCC"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:ore_finder_quarry_upgrade"
+  }
+}

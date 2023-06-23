@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "tag": "forge:storage_blocks/emerald"
+    },
+    "P": {
+      "item": "transdimensionalmachines:empty_quarry_upgrade"
+    },
+    "S": {
+      "item": "minecraft:oxidized_copper"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "CPC",
+    "CCC"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:energy_quarry_upgrade"
+  }
+}
