@@ -18,7 +18,7 @@ public class QuarrySpeedUpgradeItem extends Item implements QuarryUpgrade {
     private final double COST_MULTIPLIER = 2.25;
 
     public QuarrySpeedUpgradeItem() {
-        super(new Item.Properties().stacksTo(1).tab(ItemRegister.creativeTab).rarity(Rarity.COMMON));
+        super(new Item.Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

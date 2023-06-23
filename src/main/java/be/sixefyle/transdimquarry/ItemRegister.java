@@ -9,12 +9,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ItemRegister {
-    public static final ModCreativeTab creativeTab = new ModCreativeTab(CreativeModeTab.TABS.length, "test");
 
     public static final DeferredRegister<Item> ALL = DeferredRegister.create(ForgeRegistries.ITEMS, TransdimensionalMachines.MODID);
 
     public static final RegistryObject<Item> EMPTY_QUARRY_UPGRADE = ALL.register("empty_quarry_upgrade",
-            () -> new Item(new Item.Properties().tab(creativeTab)));
+            () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> QUARRY_SPEED_UPGRADE = ALL.register("speed_quarry_upgrade",
             QuarrySpeedUpgradeItem::new);
@@ -28,15 +27,4 @@ public class ItemRegister {
 
     public static final RegistryObject<Item> ORE_FINDER_UPGRADE = ALL.register("ore_finder_quarry_upgrade",
             QuarryOreFinderUpgradeItem::new);
-    public static class ModCreativeTab extends CreativeModeTab {
-
-        private ModCreativeTab(int index, String label) {
-            super(index, label);
-        }
-
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(BlockRegister.TRANSDIMENSIONAL_QUARRY.get());
-        }
-    }
 }

@@ -18,7 +18,7 @@ public class QuarryOreFinderUpgradeItem extends Item implements QuarryUpgrade {
     private final double COST_MULTIPLIER = 1.75;
 
     public QuarryOreFinderUpgradeItem() {
-        super(new Properties().stacksTo(1).tab(ItemRegister.creativeTab).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

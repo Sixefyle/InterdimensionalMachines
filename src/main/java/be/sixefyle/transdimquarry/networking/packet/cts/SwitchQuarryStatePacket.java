@@ -29,7 +29,7 @@ public class SwitchQuarryStatePacket {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
-            ServerLevel world = player.getLevel();
+            ServerLevel world = player.serverLevel();
 
             TransdimQuarryBlockEntity blockEntity = (TransdimQuarryBlockEntity) world.getBlockEntity(quarryPos);
             if(blockEntity == null) return;

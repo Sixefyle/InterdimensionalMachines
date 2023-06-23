@@ -15,7 +15,7 @@ import java.util.List;
 
 public class QuarrySilkTouchUpgradeItem extends Item implements QuarryUpgrade {
     public QuarrySilkTouchUpgradeItem() {
-        super(new Properties().stacksTo(1).tab(ItemRegister.creativeTab).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

@@ -18,7 +18,7 @@ public class QuarryFortuneUpgradeItem extends Item implements QuarryUpgrade {
     private final int COST_MULTIPLIER = 3;
 
     public QuarryFortuneUpgradeItem() {
-        super(new Properties().stacksTo(1).tab(ItemRegister.creativeTab).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

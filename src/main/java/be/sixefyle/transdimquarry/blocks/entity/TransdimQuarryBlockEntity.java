@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
@@ -286,8 +287,7 @@ public class TransdimQuarryBlockEntity extends BaseContainerBlockEntity implemen
                     generatedBlockState = OreUtils.getOres().get(random.nextInt(OreUtils.getOres().size())).defaultBlockState();
                 }
 
-                LootContext.Builder context = new LootContext.Builder((ServerLevel) level)
-                        .withRandom(level.random)
+                LootParams.Builder context = new LootParams.Builder((ServerLevel) level)
                         .withParameter(LootContextParams.TOOL, getHarvesterTool())
                         .withParameter(LootContextParams.ORIGIN, new Vec3(0, 0, 0))
                         .withOptionalParameter(LootContextParams.BLOCK_STATE, generatedBlockState);
@@ -339,7 +339,7 @@ public class TransdimQuarryBlockEntity extends BaseContainerBlockEntity implemen
         } else if (itemStack.getCount() > itemStack.getMaxStackSize()) {
             return false;
         } else {
-            return ItemStack.tagMatches(itemStack, itemStack2);
+            return ItemStack.isSameItemSameTags(itemStack, itemStack2);
         }
     }
 

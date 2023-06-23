@@ -19,14 +19,14 @@ public class TransdimQuarryMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public TransdimQuarryMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
-        this(id, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(6));
+        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(6));
     }
 
     public TransdimQuarryMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
         super(MenuRegister.TRANSDIMENSIONAL_QUARRY.get(), id);
         checkContainerSize(inv, TransdimQuarryBlockEntity.CONTAINER_SIZE);
         blockEntity = (TransdimQuarryBlockEntity) entity;
-        this.level = inv.player.level;
+        this.level = inv.player.level();
         this.data = data;
 
         addPlayerInventory(inv);

@@ -5,7 +5,9 @@ import be.sixefyle.transdimquarry.ItemRegister;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
@@ -16,14 +18,14 @@ import java.util.function.Consumer;
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
 
-    public ModRecipeProvider(DataGenerator p_125973_) {
-        super(p_125973_);
+    public ModRecipeProvider(PackOutput packOutput) {
+        super(packOutput);
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+    protected void buildRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
 
-        ShapedRecipeBuilder.shaped(BlockRegister.TRANSDIMENSIONAL_QUARRY.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.TRANSDIMENSIONAL_QUARRY.get())
                 .define('S', Tags.Items.NETHER_STARS)
                 .define('I', Tags.Items.STORAGE_BLOCKS_IRON)
                 .define('N', Tags.Items.INGOTS_NETHERITE)
@@ -34,7 +36,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(BlockRegister.TRANSDIMENSIONAL_QUARRY.get()).build()))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ItemRegister.EMPTY_QUARRY_UPGRADE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('P', Items.PAPER)
                 .define('B', Tags.Items.DYES_BLACK)
                 .define('I', Tags.Items.INGOTS_IRON)
@@ -45,7 +47,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(ItemRegister.EMPTY_QUARRY_UPGRADE.get()).build()))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ItemRegister.QUARRY_SPEED_UPGRADE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.QUARRY_SPEED_UPGRADE.get())
                 .define('E', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('R', Tags.Items.STORAGE_BLOCKS_REDSTONE)
                 .define('S', Tags.Items.ENDER_PEARLS)
@@ -56,7 +58,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ItemRegister.QUARRY_FORTUNE_UPGRADE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.QUARRY_FORTUNE_UPGRADE.get())
                 .define('S', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('A', Items.ECHO_SHARD)
                 .define('B', Tags.Items.STORAGE_BLOCKS_GOLD)
@@ -67,7 +69,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ItemRegister.QUARRY_SILK_UPGRADE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.QUARRY_SILK_UPGRADE.get())
                 .define('P', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('S', Tags.Items.SLIMEBALLS)
                 .define('C', Items.CRYING_OBSIDIAN)
@@ -78,7 +80,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ItemRegister.ORE_FINDER_UPGRADE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.ORE_FINDER_UPGRADE.get())
                 .define('P', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('S', Items.BLUE_ICE)
                 .define('C', Tags.Items.STORAGE_BLOCKS_DIAMOND)
@@ -89,7 +91,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(ItemRegister.ENERGY_UPGRADE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.ENERGY_UPGRADE.get())
                 .define('P', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('S', Items.OXIDIZED_COPPER)
                 .define('C', Tags.Items.STORAGE_BLOCKS_EMERALD)

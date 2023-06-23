@@ -37,7 +37,6 @@ public class TransdimensionalMachines
         ItemRegister.ALL.register(modEventBus);
         BlockEntityRegister.ALL.register(modEventBus);
         MenuRegister.ALL.register(modEventBus);
-        DimensionRegister.register();
 
         MinecraftForge.EVENT_BUS.register(this);
     }
