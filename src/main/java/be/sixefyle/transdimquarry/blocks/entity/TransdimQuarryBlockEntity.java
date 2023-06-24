@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.blocks.entity;
 
 import be.sixefyle.transdimquarry.BlockEntityRegister;
+import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.items.QuarryFortuneUpgradeItem;
 import be.sixefyle.transdimquarry.items.QuarrySilkTouchUpgradeItem;
 import be.sixefyle.transdimquarry.items.QuarryUpgrade;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
@@ -60,15 +60,15 @@ public class TransdimQuarryBlockEntity extends BaseContainerBlockEntity implemen
             PacketSender.sendToClients(new EnergySyncPacket(this.energy, getBlockPos()));
         }
     };
-    private int baseEnergyNeeded = 32500;
+    private int baseEnergyNeeded = CommonConfig.QUARRY_BASE_COST.get();;
     private int energyNeeded = baseEnergyNeeded;
     private LazyOptional<IEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
     private boolean isWorking = false;
 
     protected final ContainerData data;
     private int progress = 0;
-    private int timeToMine = 10;
-    private double oreFindChange = .07;
+    private int timeToMine = CommonConfig.MINING_TIME.get();
+    private double oreFindChange = CommonConfig.ORE_FIND_CHANCE.get();;
     private boolean isSilkTouch = false;
     private int fortuneLevel = 0;
     private ItemStack tool;
