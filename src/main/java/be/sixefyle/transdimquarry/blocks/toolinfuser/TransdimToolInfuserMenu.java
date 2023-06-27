@@ -1,8 +1,8 @@
-package be.sixefyle.transdimquarry.screen;
+package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.BlockRegister;
 import be.sixefyle.transdimquarry.MenuRegister;
-import be.sixefyle.transdimquarry.blocks.entity.TransdimQuarryBlockEntity;
+import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -13,19 +13,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class TransdimQuarryMenu extends AbstractContainerMenu {
-    public final TransdimQuarryBlockEntity blockEntity;
+public class TransdimToolInfuserMenu extends AbstractContainerMenu {
+    public final TransdimToolInfuserBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
 
-    public TransdimQuarryMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
+    public TransdimToolInfuserMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
         this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(6));
     }
 
-    public TransdimQuarryMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(MenuRegister.TRANSDIMENSIONAL_QUARRY.get(), id);
-        checkContainerSize(inv, TransdimQuarryBlockEntity.CONTAINER_SIZE);
-        blockEntity = (TransdimQuarryBlockEntity) entity;
+    public TransdimToolInfuserMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(MenuRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(), id);
+        checkContainerSize(inv, TransdimToolInfuserBlockEntity.CONTAINER_SIZE);
+        blockEntity = (TransdimToolInfuserBlockEntity) entity;
         this.level = inv.player.level();
         this.data = data;
 
@@ -33,51 +33,14 @@ public class TransdimQuarryMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            for(int i = 0; i < (blockEntity.getItemSlotsSize()) / 9; ++i) {
-                for(int j = 0; j < 9; ++j) {
-                    this.addSlot(new SlotItemHandler(handler, i * 9 + j, 8 + j * 18, -10 + i * 18));
-                }
-            }
-
-            for (int i = 0; i < blockEntity.getUpgradeSlotsSize(); i++) {
-                this.addSlot(new SlotItemHandler(handler, blockEntity.getItemSlotsSize() + i, 16 + i * 18, 53));
-            }
+            this.addSlot(new SlotItemHandler(handler, 0, 200, 200));
         });
 
         addDataSlots(data);
     }
 
-    public TransdimQuarryBlockEntity getBlockEntity() {
+    public TransdimToolInfuserBlockEntity getBlockEntity() {
         return blockEntity;
-    }
-
-    public boolean isWorking() {
-        return data.get(0) > 0;
-    }
-
-    public int getPowerConsumption(){
-        return data.get(2);
-    }
-    public int getFortuneLevel(){
-        return data.get(3);
-    }
-    public int getEnergyCostMultiplier(){
-        return data.get(5);
-    }
-    public int getProgression(){
-        return data.get(0);
-    }
-    public int getTimeToMine(){
-        return data.get(1);
-    }
-    public boolean isSilkTouch(){
-        return data.get(4) > 0;
-    }
-    public double getScaledProgress() {
-        int progress = this.data.get(0);
-        int maxProgress = this.data.get(1);
-
-        return Math.min((double) progress / maxProgress, 1);
     }
 
     public double getScaledEnergy(){
@@ -100,7 +63,7 @@ public class TransdimQuarryMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = TransdimQuarryBlockEntity.CONTAINER_SIZE;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = TransdimToolInfuserBlockEntity.CONTAINER_SIZE;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {
@@ -138,7 +101,7 @@ public class TransdimQuarryMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                player, BlockRegister.TRANSDIMENSIONAL_QUARRY.get());
+                player, BlockRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

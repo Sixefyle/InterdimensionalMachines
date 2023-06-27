@@ -1,15 +1,14 @@
-package be.sixefyle.transdimquarry.blocks.entity;
+package be.sixefyle.transdimquarry.blocks.quarry;
 
 import be.sixefyle.transdimquarry.BlockEntityRegister;
 import be.sixefyle.transdimquarry.config.CommonConfig;
-import be.sixefyle.transdimquarry.items.QuarryFortuneUpgradeItem;
-import be.sixefyle.transdimquarry.items.QuarrySilkTouchUpgradeItem;
-import be.sixefyle.transdimquarry.items.QuarryUpgrade;
+import be.sixefyle.transdimquarry.items.quarryupgrades.QuarryFortuneUpgradeItem;
+import be.sixefyle.transdimquarry.items.quarryupgrades.QuarrySilkTouchUpgradeItem;
+import be.sixefyle.transdimquarry.items.quarryupgrades.QuarryUpgrade;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
-import be.sixefyle.transdimquarry.screen.TransdimQuarryMenu;
 import be.sixefyle.transdimquarry.utils.OreUtils;
-import be.sixefyle.transdimquarry.utils.TDQEnergyStorage;
+import be.sixefyle.transdimquarry.energy.BlockEnergyStorage;
 import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -53,7 +52,7 @@ public class TransdimQuarryBlockEntity extends BaseContainerBlockEntity implemen
 
     private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 
-    private final TDQEnergyStorage energyStorage = new TDQEnergyStorage(100000000, Integer.MAX_VALUE, Integer.MAX_VALUE) {
+    private final BlockEnergyStorage energyStorage = new BlockEnergyStorage(100000000, Integer.MAX_VALUE, Integer.MAX_VALUE) {
         @Override
         public void onEnergyChanged() {
             setChanged();

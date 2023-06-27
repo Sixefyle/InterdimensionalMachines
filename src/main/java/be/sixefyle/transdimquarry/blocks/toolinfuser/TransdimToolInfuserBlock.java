@@ -1,7 +1,6 @@
-package be.sixefyle.transdimquarry.blocks;
+package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.BlockEntityRegister;
-import be.sixefyle.transdimquarry.blocks.entity.TransdimQuarryBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,7 +9,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,10 +23,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class TransdimQuarryBlock extends BaseEntityBlock {
+public class TransdimToolInfuserBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public TransdimQuarryBlock(Properties p_49795_) {
+    public TransdimToolInfuserBlock(Properties p_49795_) {
         super(p_49795_);
 
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
@@ -43,11 +45,8 @@ public class TransdimQuarryBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return BlockEntityRegister.TRANSDIMENSIONAL_QUARRY.get().create(pos, state);
+        return BlockEntityRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get().create(pos, state);
     }
-
-
-    /** BlockEntity **/
 
     @Override
     public RenderShape getRenderShape(BlockState p_49232_) {
@@ -58,8 +57,8 @@ public class TransdimQuarryBlock extends BaseEntityBlock {
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if(state.getBlock() != newState.getBlock()){
             BlockEntity blockEntity = level.getBlockEntity(pos);
-            if(blockEntity instanceof TransdimQuarryBlockEntity){
-                ((TransdimQuarryBlockEntity) blockEntity).dropInventory();
+            if(blockEntity instanceof TransdimToolInfuserBlockEntity){
+                ((TransdimToolInfuserBlockEntity) blockEntity).dropInventory();
             }
         }
         super.onRemove(state, level, pos, newState, isMoving);
@@ -70,8 +69,8 @@ public class TransdimQuarryBlock extends BaseEntityBlock {
                                  Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide()) {
             BlockEntity entity = level.getBlockEntity(pos);
-            if(entity instanceof TransdimQuarryBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)player), (TransdimQuarryBlockEntity)entity, pos);
+            if(entity instanceof TransdimToolInfuserBlockEntity) {
+                NetworkHooks.openScreen(((ServerPlayer)player), (TransdimToolInfuserBlockEntity)entity, pos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }
@@ -83,7 +82,7 @@ public class TransdimQuarryBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, BlockEntityRegister.TRANSDIMENSIONAL_QUARRY.get(),
-                TransdimQuarryBlockEntity::tick);
+        return createTickerHelper(type, BlockEntityRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(),
+                TransdimToolInfuserBlockEntity::tick);
     }
 }

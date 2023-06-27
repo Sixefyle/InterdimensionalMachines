@@ -30,5 +30,6 @@
     "recipes": [
       "transdimensionalmachines:ore_finder_quarry_upgrade"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

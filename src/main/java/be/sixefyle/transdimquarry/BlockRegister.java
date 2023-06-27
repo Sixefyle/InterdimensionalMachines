@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry;
 
-import be.sixefyle.transdimquarry.blocks.TransdimQuarryBlock;
+import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryBlock;
+import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -26,6 +27,8 @@ public class BlockRegister {
     public static final RegistryObject<Block> TRANSDIMENSIONAL_QUARRY = ALL.register("transdimensional_quarry",
             () -> new TransdimQuarryBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
+    public static final RegistryObject<Block> TRANSDIMENSIONAL_TOOL_INFUSER = ALL.register("transdimensional_tool_infuser",
+            () -> new TransdimToolInfuserBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     @SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {
         if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)){

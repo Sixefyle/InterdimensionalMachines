@@ -1,7 +1,6 @@
-package be.sixefyle.transdimquarry.items;
+package be.sixefyle.transdimquarry.items.quarryupgrades;
 
-import be.sixefyle.transdimquarry.ItemRegister;
-import be.sixefyle.transdimquarry.blocks.entity.TransdimQuarryBlockEntity;
+import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

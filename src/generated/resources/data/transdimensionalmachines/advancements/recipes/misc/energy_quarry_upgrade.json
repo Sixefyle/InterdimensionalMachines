@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "transdimensionalmachines:silk_quarry_upgrade"
+        "recipe": "transdimensionalmachines:energy_quarry_upgrade"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,8 @@
   ],
   "rewards": {
     "recipes": [
-      "transdimensionalmachines:silk_quarry_upgrade"
+      "transdimensionalmachines:energy_quarry_upgrade"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

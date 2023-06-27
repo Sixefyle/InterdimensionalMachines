@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry;
 
-import be.sixefyle.transdimquarry.screen.TransdimQuarryMenu;
+import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryMenu;
+import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -16,6 +17,8 @@ public class MenuRegister {
     public static final RegistryObject<MenuType<TransdimQuarryMenu>> TRANSDIMENSIONAL_QUARRY =
         registerMenuType(TransdimQuarryMenu::new, "transdimensional_quarry_menu");
 
+    public static final RegistryObject<MenuType<TransdimToolInfuserMenu>> TRANSDIMENSIONAL_TOOL_INFUSER =
+            registerMenuType(TransdimToolInfuserMenu::new, "transdimensional_tool_infuser_menu");
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory,
                                                                                                   String name) {
         return ALL.register(name, () -> IForgeMenuType.create(factory));

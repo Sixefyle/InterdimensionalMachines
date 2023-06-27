@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "item": "minecraft:crying_obsidian"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "transdimensionalmachines:silk_quarry_upgrade"
-  }
+  },
+  "show_notification": true
 }

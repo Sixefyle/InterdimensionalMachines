@@ -20,5 +20,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemRegister.QUARRY_SILK_UPGRADE.get());
         basicItem(ItemRegister.ENERGY_UPGRADE.get());
         basicItem(ItemRegister.ORE_FINDER_UPGRADE.get());
+        basicItem(ItemRegister.TRANSDIM_SWORD.get());
     }
 }

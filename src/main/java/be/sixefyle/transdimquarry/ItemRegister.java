@@ -1,9 +1,8 @@
 package be.sixefyle.transdimquarry;
 
-import be.sixefyle.transdimquarry.items.*;
-import net.minecraft.world.item.CreativeModeTab;
+import be.sixefyle.transdimquarry.items.quarryupgrades.*;
+import be.sixefyle.transdimquarry.items.tools.TransdimSword;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -27,4 +26,7 @@ public class ItemRegister {
 
     public static final RegistryObject<Item> ORE_FINDER_UPGRADE = ALL.register("ore_finder_quarry_upgrade",
             QuarryOreFinderUpgradeItem::new);
+
+    public static final RegistryObject<Item> TRANSDIM_SWORD = ALL.register("transdimensional_sword",
+            TransdimSword::new);
 }

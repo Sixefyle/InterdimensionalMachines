@@ -1,13 +1,12 @@
 package be.sixefyle.transdimquarry;
 
+import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserScreen;
 import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.networking.PacketSender;
-import be.sixefyle.transdimquarry.screen.TransdimQuarryScreen;
+import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryScreen;
 import be.sixefyle.transdimquarry.utils.OreUtils;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartedEvent;
@@ -20,7 +19,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -69,6 +67,7 @@ public class TransdimensionalMachines
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             MenuScreens.register(MenuRegister.TRANSDIMENSIONAL_QUARRY.get(), TransdimQuarryScreen::new);
+            MenuScreens.register(MenuRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(), TransdimToolInfuserScreen::new);
         }
     }
 }

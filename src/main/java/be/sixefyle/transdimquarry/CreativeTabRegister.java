@@ -23,8 +23,10 @@ public class CreativeTabRegister {
                         output.accept(ItemRegister.ORE_FINDER_UPGRADE.get());
                         output.accept(ItemRegister.QUARRY_SILK_UPGRADE.get());
                         output.accept(ItemRegister.QUARRY_SPEED_UPGRADE.get());
+                        output.accept(ItemRegister.TRANSDIM_SWORD.get());
 
                         output.accept(BlockRegister.TRANSDIMENSIONAL_QUARRY.get());
+                        output.accept(BlockRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get());
                     })
                     .build());
 

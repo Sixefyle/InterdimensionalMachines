@@ -1,17 +1,17 @@
-package be.sixefyle.transdimquarry.utils;
+package be.sixefyle.transdimquarry.energy;
 
 import net.minecraftforge.energy.EnergyStorage;
 
-public abstract class TDQEnergyStorage extends EnergyStorage {
-    public TDQEnergyStorage(int capacity, int maxTransfer) {
+public abstract class BlockEnergyStorage extends EnergyStorage {
+    public BlockEnergyStorage(int capacity, int maxTransfer) {
         super(capacity, maxTransfer);
     }
 
-    public TDQEnergyStorage(int capacity, int maxReceive, int maxExtract) {
+    public BlockEnergyStorage(int capacity, int maxReceive, int maxExtract) {
         super(capacity, maxReceive, maxExtract);
     }
 
-    public TDQEnergyStorage(int capacity) {
+    public BlockEnergyStorage(int capacity) {
         super(capacity);
     }
 

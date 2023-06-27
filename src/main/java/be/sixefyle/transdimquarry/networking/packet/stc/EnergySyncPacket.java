@@ -1,7 +1,7 @@
 package be.sixefyle.transdimquarry.networking.packet.stc;
 
-import be.sixefyle.transdimquarry.blocks.entity.TransdimQuarryBlockEntity;
-import be.sixefyle.transdimquarry.screen.TransdimQuarryMenu;
+import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryBlockEntity;
+import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

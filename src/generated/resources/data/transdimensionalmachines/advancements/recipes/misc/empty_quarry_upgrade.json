@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_nether_star": {
+    "has_ebony_planks": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:nether_star"
+              "transdimensionalmachines:empty_quarry_upgrade"
             ]
           }
         ]
@@ -15,20 +15,21 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "transdimensionalmachines:energy_quarry_upgrade"
+        "recipe": "transdimensionalmachines:empty_quarry_upgrade"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_nether_star",
+      "has_ebony_planks",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "transdimensionalmachines:energy_quarry_upgrade"
+      "transdimensionalmachines:empty_quarry_upgrade"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

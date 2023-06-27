@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "E": {
       "item": "transdimensionalmachines:empty_quarry_upgrade"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "transdimensionalmachines:speed_quarry_upgrade"
-  }
+  },
+  "show_notification": true
 }

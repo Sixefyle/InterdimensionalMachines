@@ -1,6 +1,7 @@
-package be.sixefyle.transdimquarry.screen;
+package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
+import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryMenu;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.cts.SwitchQuarryStatePacket;
 import be.sixefyle.transdimquarry.utils.MouseUtil;
@@ -15,11 +16,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarryMenu> {
+public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimToolInfuserMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(TransdimensionalMachines.MODID, "textures/gui/transdimensional_quarry.png");
+            new ResourceLocation(TransdimensionalMachines.MODID, "textures/gui/transdimensional_tool_infuser.png");
 
-    public TransdimQuarryScreen(TransdimQuarryMenu menu, Inventory inventory, Component component) {
+    public TransdimToolInfuserScreen(TransdimToolInfuserMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
     }
 
@@ -28,13 +29,6 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         super.init();
         imageHeight = 214;
         imageWidth = 176;
-
-        addRenderableWidget(new Button.Builder(Component.literal("Start"), (button) -> {
-            PacketSender.sendToServer(new SwitchQuarryStatePacket(menu.getBlockEntity().getBlockPos()));
-            button.setMessage(Component.literal(menu.isWorking() ? "Start" : "Pause"));
-        })      .size(54, 20)
-                .pos(width / 2 - 73, height / 2 - 10)
-                .build());
     }
 
     @Override
@@ -60,21 +54,6 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
 
         guiGraphics.drawString(this.font, this.title, 7, -20, 4210752, false);
         guiGraphics.drawString(this.font, this.playerInventoryTitle, 7, 96, 4210752, false);
-
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(.5f,.5f,.5f);
-        guiGraphics.drawString(this.font, "Progression: " + String.format("%.0f", menu.getScaledProgress() * 100) + "%", 190, 120, 0x00FF00, false);
-        guiGraphics.drawString(this.font, "Tick Needed: " + menu.getTimeToMine(), 190, 132, 0x00FF00, false);
-        guiGraphics.drawString(this.font, "Power Usage: " + NumberUtil.format(menu.getPowerConsumption()) + " FE/t", 190, 144, 0x00FF00, false);
-        guiGraphics.drawString(this.font, "Energy Multiplier: " + menu.getEnergyCostMultiplier() + "% ", 190, 158, 0x00FF00, false);
-
-        if(menu.isSilkTouch()){
-            guiGraphics.drawString(this.font, "Silk Touch Activated", 190, 170, 0x9370DB, false);
-        }
-        else if(menu.getFortuneLevel() > 0){
-            guiGraphics.drawString(this.font, "Fortune Power: " + menu.getFortuneLevel(), 190, 170, 0xFFD700, false);
-        }
-        guiGraphics.pose().popPose();
 
         renderEnergyAreaTooltips(guiGraphics, mouseX, mouseY, x, y);
     }

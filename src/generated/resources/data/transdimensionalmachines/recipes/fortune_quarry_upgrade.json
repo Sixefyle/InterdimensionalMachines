@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "minecraft:echo_shard"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "transdimensionalmachines:fortune_quarry_upgrade"
-  }
+  },
+  "show_notification": true
 }
