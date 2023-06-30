@@ -38,7 +38,7 @@ public class QuarryEnergyOptimizationUpgradeItem extends Item implements QuarryU
         super.appendHoverText(itemStack, level, components, tooltipFlag);
 
         components.add(Component.literal("Reduce the energy usage of the Quarry but at the cost of speed").withStyle(ChatFormatting.YELLOW));
-        components.add(Component.literal("  - Base Energy Cost: -" + BASE_ENERGY_COST_REDUCTION + " FE/t").withStyle(ChatFormatting.GREEN));
+        components.add(Component.literal("  - Base Energy Cost: -" + BASE_ENERGY_COST_REDUCTION + "/t").withStyle(ChatFormatting.GREEN));
         components.add(Component.literal("  - Tick Needed: +" + TICK_ADDED +" ticks").withStyle(ChatFormatting.RED));
     }
 }

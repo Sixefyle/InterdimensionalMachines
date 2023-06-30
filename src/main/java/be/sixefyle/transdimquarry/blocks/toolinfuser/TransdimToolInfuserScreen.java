@@ -96,9 +96,9 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
 
     private void renderEnergyAreaTooltips(GuiGraphics guiGraphics, int pMouseX, int pMouseY, int x, int y) {
         IEnergyStorage energyStorage = menu.blockEntity.getEnergyStorage();
-        if(isMouseAboveArea(pMouseX, pMouseY, x, y, 52, 12, 71, 7)) {
+        if(isMouseAboveArea(pMouseX, pMouseY, x, y, 42, 15, 72, 11)) {
             guiGraphics.renderTooltip(this.font,
-                    Component.literal(NumberUtil.format(energyStorage.getEnergyStored())+"/"+NumberUtil.format(energyStorage.getMaxEnergyStored())+" FE"), pMouseX - x, pMouseY - y);
+                    Component.literal(NumberUtil.format(energyStorage.getEnergyStored())+"/"+NumberUtil.format(energyStorage.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
         }
     }
 

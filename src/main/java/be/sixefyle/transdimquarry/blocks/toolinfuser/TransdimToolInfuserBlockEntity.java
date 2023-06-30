@@ -2,6 +2,7 @@ package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.BlockEntityRegister;
 import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
+import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.energy.BlockEnergyStorage;
 import be.sixefyle.transdimquarry.items.tools.TransdimSword;
 import be.sixefyle.transdimquarry.networking.PacketSender;
@@ -34,7 +35,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
     private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 
-    private final BlockEnergyStorage energyStorage = new BlockEnergyStorage(100000000, Integer.MAX_VALUE, Integer.MAX_VALUE) {
+    private final BlockEnergyStorage energyStorage = new BlockEnergyStorage(CommonConfig.TOOL_INFUSER_ENERGY_CAPACITY.get(), Integer.MAX_VALUE, Integer.MAX_VALUE) {
         @Override
         public void onEnergyChanged() {
             setChanged();
@@ -43,7 +44,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
     };
     private int baseEnergyNeeded = 100000;
     private int progress = 0;
-    private int maxProgress = 60;
+    private int maxProgress = CommonConfig.TOOL_INFUSER_MAX_PROGRESS.get();
     private LazyOptional<IEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
 
     protected final ContainerData data;
@@ -151,9 +152,9 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
         setChanged(level, pos, state);
 
-        if(blockEntity.getEnergyStorage().getEnergyStored() <= 1){
-            blockEntity.getEnergyStorage().receiveEnergy(100000000, false);
-        }
+//        if(blockEntity.getEnergyStorage().getEnergyStored() <= 1){
+//            blockEntity.getEnergyStorage().receiveEnergy(100000000, false);
+//        }
 
         int energyCost = blockEntity.getEnergyCost();
         if(!blockEntity.items.get(0).isEmpty() && energyCost > 0){
@@ -168,11 +169,11 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
                 }
 
                 blockEntity.progress = 0;
-                blockEntity.maxProgress = Math.max(2, blockEntity.maxProgress - 5);
+                blockEntity.maxProgress = Math.max(CommonConfig.TOOL_INFUSER_MIN_PROGRESS.get(), blockEntity.maxProgress - 5);
             }
         } else {
             blockEntity.progress = 0;
-            blockEntity.maxProgress = 60;
+            blockEntity.maxProgress = CommonConfig.TOOL_INFUSER_MAX_PROGRESS.get();
         }
     }
 

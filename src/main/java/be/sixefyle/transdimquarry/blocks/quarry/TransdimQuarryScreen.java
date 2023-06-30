@@ -66,7 +66,7 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         guiGraphics.pose().scale(.5f,.5f,.5f);
         guiGraphics.drawString(this.font, "Progression: " + String.format("%.0f", menu.getScaledProgress() * 100) + "%", 190, 120, 0x00FF00, false);
         guiGraphics.drawString(this.font, "Tick Needed: " + menu.getTimeToMine(), 190, 132, 0x00FF00, false);
-        guiGraphics.drawString(this.font, "Power Usage: " + NumberUtil.format(menu.getPowerConsumption()) + " FE/t", 190, 144, 0x00FF00, false);
+        guiGraphics.drawString(this.font, "Power Usage: " + NumberUtil.format(menu.getPowerConsumption()) + "/t", 190, 144, 0x00FF00, false);
         guiGraphics.drawString(this.font, "Energy Multiplier: " + menu.getEnergyCostMultiplier() + "% ", 190, 158, 0x00FF00, false);
 
         if(menu.isSilkTouch()){
@@ -84,7 +84,7 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         IEnergyStorage energyStorage = menu.blockEntity.getEnergyStorage();
         if(isMouseAboveArea(pMouseX, pMouseY, x, y, 92, 69, 77, 10)) {
             guiGraphics.renderTooltip(this.font,
-                    Component.literal(NumberUtil.format(energyStorage.getEnergyStored())+"/"+NumberUtil.format(energyStorage.getMaxEnergyStored())+" FE"), pMouseX, pMouseY);
+                    Component.literal(NumberUtil.format(energyStorage.getEnergyStored())+"/"+NumberUtil.format(energyStorage.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
         }
     }
 
