@@ -1,8 +1,11 @@
 package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.BlockEntityRegister;
+import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
 import be.sixefyle.transdimquarry.energy.BlockEnergyStorage;
 import be.sixefyle.transdimquarry.items.tools.TransdimSword;
+import be.sixefyle.transdimquarry.networking.PacketSender;
+import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -25,22 +28,23 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
-public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity implements MenuProvider {
+public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity implements MenuProvider, IEnergyHandler {
 
     public static final int CONTAINER_SIZE = 1;
 
     private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 
-    private final BlockEnergyStorage energyStorage = new BlockEnergyStorage(10000000, Integer.MAX_VALUE, Integer.MAX_VALUE) {
+    private final BlockEnergyStorage energyStorage = new BlockEnergyStorage(100000000, Integer.MAX_VALUE, Integer.MAX_VALUE) {
         @Override
         public void onEnergyChanged() {
             setChanged();
-            //PacketSender.sendToClients(new EnergySyncPacket(this.energy, getBlockPos()));
+            PacketSender.sendToClients(new EnergySyncPacket(this.energy, getBlockPos()));
         }
     };
     private int baseEnergyNeeded = 100000;
+    private int progress = 0;
+    private int maxProgress = 60;
     private LazyOptional<IEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
-    private boolean isWorking = false;
 
     protected final ContainerData data;
 
@@ -53,6 +57,8 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
             public int get(int index) {
                 return switch (index) {
                     case 0 -> TransdimToolInfuserBlockEntity.this.baseEnergyNeeded;
+                    case 1 -> TransdimToolInfuserBlockEntity.this.progress;
+                    case 2 -> TransdimToolInfuserBlockEntity.this.maxProgress;
                     default -> 0;
                 };
             }
@@ -61,12 +67,14 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
             public void set(int index, int value) {
                 switch (index) {
                     case 0 -> TransdimToolInfuserBlockEntity.this.baseEnergyNeeded = value;
+                    case 1 -> TransdimToolInfuserBlockEntity.this.progress = value;
+                    case 2 -> TransdimToolInfuserBlockEntity.this.maxProgress = value;
                 };
             }
 
             @Override
             public int getCount() {
-                return 1;
+                return 3;
             }
         };
     }
@@ -109,7 +117,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
         ContainerHelper.saveAllItems(nbt, this.items);
         nbt.putInt("energy", energyStorage.getEnergyStored());
-        nbt.putBoolean("isWorking", isWorking);
+        nbt.putInt("energyNeeded", baseEnergyNeeded);
     }
 
 
@@ -127,7 +135,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
         ContainerHelper.loadAllItems(nbt, this.items);
         energyStorage.setEnergy(nbt.getInt("energy"));
-        setWorking(nbt.getBoolean("isWorking"));
+        baseEnergyNeeded = nbt.getInt("energyNeeded");
     }
 
     protected NonNullList<ItemStack> getItems() {
@@ -140,18 +148,40 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
     public static void tick(Level level, BlockPos pos, BlockState state, TransdimToolInfuserBlockEntity blockEntity) {
         if(level.isClientSide) return;
-        if(!blockEntity.isWorking) return;
 
         setChanged(level, pos, state);
 
-        if(blockEntity.hasEnoughEnergy()){
-            blockEntity.energyStorage.extractEnergy(blockEntity.baseEnergyNeeded, false);
+        if(blockEntity.getEnergyStorage().getEnergyStored() <= 1){
+            blockEntity.getEnergyStorage().receiveEnergy(100000000, false);
+        }
 
+        int energyCost = blockEntity.getEnergyCost();
+        if(!blockEntity.items.get(0).isEmpty() && energyCost > 0){
+            if(++blockEntity.progress >= blockEntity.maxProgress){
+                blockEntity.energyStorage.extractEnergy(energyCost, false);
+
+                ItemStack itemStack = blockEntity.items.get(0);
+                if(!itemStack.isEmpty() && itemStack.getItem() instanceof TransdimSword sword) {
+                    if(itemStack.hasTag()){
+                        sword.addInfusedEnergy(itemStack, energyCost);
+                    }
+                }
+
+                blockEntity.progress = 0;
+                blockEntity.maxProgress = Math.max(2, blockEntity.maxProgress - 5);
+            }
+        } else {
+            blockEntity.progress = 0;
+            blockEntity.maxProgress = 60;
         }
     }
 
     private boolean hasEnoughEnergy() {
         return energyStorage.getEnergyStored() >= baseEnergyNeeded;
+    }
+
+    private int getEnergyCost(){
+        return Math.min(energyStorage.getEnergyStored(), baseEnergyNeeded);
     }
 
     @Override
@@ -208,20 +238,24 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
         this.baseEnergyNeeded = baseEnergyNeeded;
     }
 
-    public boolean isWorking() {
-        return isWorking;
-    }
-
-    public void setWorking(boolean started) {
-        isWorking = started;
-    }
-
+    @Override
     public IEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 
-    public void setEnergyLevel(int energy) {
-        this.energyStorage.setEnergy(energy);
+    @Override
+    public int getEnergy() {
+        return energyStorage.getEnergyStored();
+    }
+
+    @Override
+    public void setEnergy(int value) {
+        this.energyStorage.setEnergy(value);
+    }
+
+    @Override
+    public void setMaxEnergyInput(int value) {
+        baseEnergyNeeded = value;
     }
 
     @Override

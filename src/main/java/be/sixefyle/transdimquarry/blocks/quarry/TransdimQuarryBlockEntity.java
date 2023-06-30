@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.blocks.quarry;
 
 import be.sixefyle.transdimquarry.BlockEntityRegister;
+import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
 import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.items.quarryupgrades.QuarryFortuneUpgradeItem;
 import be.sixefyle.transdimquarry.items.quarryupgrades.QuarrySilkTouchUpgradeItem;
@@ -39,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class TransdimQuarryBlockEntity extends BaseContainerBlockEntity implements MenuProvider, WorldlyContainer {
+public class TransdimQuarryBlockEntity extends BaseContainerBlockEntity implements MenuProvider, WorldlyContainer, IEnergyHandler {
 
     public static final int CONTAINER_SIZE = 30;
     public static final int[] UPGRADE_SLOTS = {27,28,29};
@@ -534,12 +535,22 @@ public class TransdimQuarryBlockEntity extends BaseContainerBlockEntity implemen
         return energyStorage;
     }
 
-    public void setEnergyLevel(int energy) {
+    public void setEnergy(int energy) {
         this.energyStorage.setEnergy(energy);
+    }
+
+    @Override
+    public void setMaxEnergyInput(int value) {
+        baseEnergyNeeded = value;
     }
 
     @Override
     public void clearContent() {
         items.clear();
+    }
+
+    @Override
+    public int getEnergy() {
+        return this.energyStorage.getEnergyStored();
     }
 }

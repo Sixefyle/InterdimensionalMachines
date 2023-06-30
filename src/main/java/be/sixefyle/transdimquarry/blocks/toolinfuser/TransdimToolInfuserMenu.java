@@ -2,7 +2,7 @@ package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.BlockRegister;
 import be.sixefyle.transdimquarry.MenuRegister;
-import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryBlockEntity;
+import be.sixefyle.transdimquarry.items.tools.TransdimSword;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +33,7 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            this.addSlot(new SlotItemHandler(handler, 0, 200, 200));
+            this.addSlot(new SlotItemHandler(handler, 0, 118, 20));
         });
 
         addDataSlots(data);
@@ -45,6 +45,32 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
 
     public double getScaledEnergy(){
         return (double) blockEntity.getEnergyStorage().getEnergyStored() / blockEntity.getEnergyStorage().getMaxEnergyStored();
+    }
+
+    public double getScaledInfusedEnergy(){
+        ItemStack itemStack = blockEntity.getItem(0);
+        if(itemStack.isEmpty() || !itemStack.hasTag()) return 0;
+
+        if(itemStack.getItem() instanceof TransdimSword sword){
+            return (double) sword.getInfusedEnergy(itemStack) / sword.getInfusedEnergyNeeded(itemStack);
+        }
+        return 0;
+    }
+
+    public double getScaledInfusingEnergy(){
+        return (double) getProgress() / getMaxProgress();
+    }
+
+    public int getNeededEnergy(){
+        return this.data.get(0);
+    }
+
+    public int getProgress(){
+        return this.data.get(1);
+    }
+
+    public int getMaxProgress(){
+        return this.data.get(2);
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -107,14 +133,14 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 108 + i * 18));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 77 + i * 18));
             }
         }
     }
 
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 166));
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 135));
         }
     }
 }

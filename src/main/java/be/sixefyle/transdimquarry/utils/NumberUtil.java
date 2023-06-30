@@ -9,7 +9,7 @@ public class NumberUtil {
             return String.valueOf(number);
         }
 
-        String[] suffixes = {"", "K", "M", "B", "T"};
+        String[] suffixes = {"", " kFE", " MFE", " GFE", " TFE"};
         int suffixIndex = 0;
         double formatedNumber = number;
 

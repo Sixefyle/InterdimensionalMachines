@@ -1,7 +1,6 @@
 package be.sixefyle.transdimquarry.networking.packet.stc;
 
-import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryBlockEntity;
-import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryMenu;
+import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -31,13 +30,13 @@ public class EnergySyncPacket {
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            if(Minecraft.getInstance().level.getBlockEntity(pos) instanceof TransdimQuarryBlockEntity blockEntity) {
-                blockEntity.setEnergyLevel(energy);
+            if(Minecraft.getInstance().level.getBlockEntity(pos) instanceof IEnergyHandler blockEntity) {
+                blockEntity.setEnergy(energy);
 
-                if(Minecraft.getInstance().player.containerMenu instanceof TransdimQuarryMenu menu &&
-                        menu.getBlockEntity().getBlockPos().equals(pos)) {
-                    blockEntity.setEnergyLevel(energy);
-                }
+//                if(Minecraft.getInstance().player.containerMenu instanceof TransdimQuarryMenu menu &&
+//                        menu.getBlockEntity().getBlockPos().equals(pos)) {
+//                    blockEntity.setEnergy(energy);
+//                }
             }
         });
         return true;

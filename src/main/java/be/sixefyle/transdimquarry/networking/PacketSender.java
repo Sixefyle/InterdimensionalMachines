@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.networking;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
+import be.sixefyle.transdimquarry.networking.packet.cts.SetMaxEnergyInputPacket;
 import be.sixefyle.transdimquarry.networking.packet.cts.SwitchQuarryStatePacket;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -34,6 +35,13 @@ public class PacketSender {
                 .encoder(SwitchQuarryStatePacket::toBytes)
                 .consumerMainThread(SwitchQuarryStatePacket::handle)
                 .add();
+
+        net.messageBuilder(SetMaxEnergyInputPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SetMaxEnergyInputPacket::new)
+                .encoder(SetMaxEnergyInputPacket::toBytes)
+                .consumerMainThread(SetMaxEnergyInputPacket::handle)
+                .add();
+
 
 
         net.messageBuilder(EnergySyncPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)

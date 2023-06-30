@@ -1,14 +1,14 @@
 package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
-import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryMenu;
 import be.sixefyle.transdimquarry.networking.PacketSender;
-import be.sixefyle.transdimquarry.networking.packet.cts.SwitchQuarryStatePacket;
+import be.sixefyle.transdimquarry.networking.packet.cts.SetMaxEnergyInputPacket;
 import be.sixefyle.transdimquarry.utils.MouseUtil;
 import be.sixefyle.transdimquarry.utils.NumberUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -20,6 +20,8 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(TransdimensionalMachines.MODID, "textures/gui/transdimensional_tool_infuser.png");
 
+    EditBox energyInput;
+
     public TransdimToolInfuserScreen(TransdimToolInfuserMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
     }
@@ -27,8 +29,25 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
     @Override
     protected void init() {
         super.init();
-        imageHeight = 214;
+        imageHeight = 151;
         imageWidth = 176;
+
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+
+        energyInput = new EditBox(this.font, x + 43, y + 45, 60, 10, Component.literal("max_energy_input"));
+
+        addRenderableWidget(energyInput);
+        addRenderableWidget(new Button.Builder(Component.literal("Apply"), (button) -> {
+            try {
+                PacketSender.sendToServer(new SetMaxEnergyInputPacket(
+                        menu.getBlockEntity().getBlockPos(), Integer.parseInt(energyInput.getValue())));
+            } catch (Exception ignore){
+
+            }
+        })      .size(30, 10)
+                .pos(x + 104, y + 45)
+                .build());
     }
 
     @Override
@@ -40,11 +59,21 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
         int y = (height - imageHeight) / 2;
 
         guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
-        renderProgressEnergyBar(guiGraphics, x, y);
+        renderProgressEnergyBar(guiGraphics, x + 42, y + 15);
+        renderProgressInfusingBar(guiGraphics, x + 42, y + 26);
+        renderProgressInfusedBar(guiGraphics, x + 118, y + 30);
     }
 
     private void renderProgressEnergyBar(GuiGraphics guiGraphics, int x, int y){
-        guiGraphics.blit(TEXTURE, x + 92, y + 69, imageWidth, 13, (int) (menu.getScaledEnergy() * 77), 10);
+        guiGraphics.blit(TEXTURE, x, y, imageWidth, 0, (int) (menu.getScaledEnergy() * 72), 11);
+    }
+
+    private void renderProgressInfusingBar(GuiGraphics guiGraphics, int x, int y){
+        guiGraphics.blit(TEXTURE, x, y, imageWidth, 11, (int) (menu.getScaledInfusingEnergy() * 70), 2);
+    }
+
+    private void renderProgressInfusedBar(GuiGraphics guiGraphics, int x, int y){
+        guiGraphics.blit(TEXTURE, x, y, imageWidth, 13, (int) (menu.getScaledInfusedEnergy() * 18), 4);
     }
 
     @Override
@@ -52,17 +81,24 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        guiGraphics.drawString(this.font, this.title, 7, -20, 4210752, false);
-        guiGraphics.drawString(this.font, this.playerInventoryTitle, 7, 96, 4210752, false);
+        guiGraphics.drawString(this.font, this.title, 7, 11, 4210752, false);
+        guiGraphics.drawString(this.font, this.playerInventoryTitle, 7, 67, 4210752, false);
+
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().scale(.5f,.5f,.5f);
+
+        guiGraphics.drawString(this.font, String.format("%s added per infuse.", NumberUtil.format(Math.min(menu.getNeededEnergy(), menu.blockEntity.getEnergyStorage().getMaxEnergyStored()))), 86, 95, 0xffffff, true);
+
+        guiGraphics.pose().popPose();
 
         renderEnergyAreaTooltips(guiGraphics, mouseX, mouseY, x, y);
     }
 
     private void renderEnergyAreaTooltips(GuiGraphics guiGraphics, int pMouseX, int pMouseY, int x, int y) {
         IEnergyStorage energyStorage = menu.blockEntity.getEnergyStorage();
-        if(isMouseAboveArea(pMouseX, pMouseY, x, y, 92, 69, 77, 10)) {
+        if(isMouseAboveArea(pMouseX, pMouseY, x, y, 52, 12, 71, 7)) {
             guiGraphics.renderTooltip(this.font,
-                    Component.literal(NumberUtil.format(energyStorage.getEnergyStored())+"/"+NumberUtil.format(energyStorage.getMaxEnergyStored())+" FE"), pMouseX, pMouseY);
+                    Component.literal(NumberUtil.format(energyStorage.getEnergyStored())+"/"+NumberUtil.format(energyStorage.getMaxEnergyStored())+" FE"), pMouseX - x, pMouseY - y);
         }
     }
 
