@@ -1,0 +1,12 @@
+{
+  "type": "transdimensionalmachines:cosmic_boundary",
+  "generator": {
+    "type": "minecraft:noise",
+    "effect": "transdimensionalmachines:cosmic_boundary",
+    "settings": "minecraft:overworld",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "transdimensionalmachines:cosmic_boundary"
+    }
+  }
+}

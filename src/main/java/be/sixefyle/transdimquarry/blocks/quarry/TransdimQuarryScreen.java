@@ -1,7 +1,6 @@
 package be.sixefyle.transdimquarry.blocks.quarry;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
-import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryMenu;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.cts.SwitchQuarryStatePacket;
 import be.sixefyle.transdimquarry.utils.MouseUtil;
@@ -20,6 +19,8 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(TransdimensionalMachines.MODID, "textures/gui/transdimensional_quarry.png");
 
+    Button switchButton;
+
     public TransdimQuarryScreen(TransdimQuarryMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
     }
@@ -30,12 +31,13 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         imageHeight = 214;
         imageWidth = 176;
 
-        addRenderableWidget(new Button.Builder(Component.literal("Start"), (button) -> {
+        switchButton = new Button.Builder(Component.literal("Start"), (button) -> {
             PacketSender.sendToServer(new SwitchQuarryStatePacket(menu.getBlockEntity().getBlockPos()));
-            button.setMessage(Component.literal(menu.isWorking() ? "Start" : "Pause"));
         })      .size(54, 20)
                 .pos(width / 2 - 73, height / 2 - 10)
-                .build());
+                .build();
+
+        addRenderableWidget(switchButton);
     }
 
     @Override
@@ -59,6 +61,8 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
+        switchButton.setMessage(Component.literal(menu.isWorking() ? "Start" : "Pause"));
+
         guiGraphics.drawString(this.font, this.title, 7, -20, 4210752, false);
         guiGraphics.drawString(this.font, this.playerInventoryTitle, 7, 96, 4210752, false);
 
@@ -66,7 +70,7 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         guiGraphics.pose().scale(.5f,.5f,.5f);
         guiGraphics.drawString(this.font, "Progression: " + String.format("%.0f", menu.getScaledProgress() * 100) + "%", 190, 120, 0x00FF00, false);
         guiGraphics.drawString(this.font, "Tick Needed: " + menu.getTimeToMine(), 190, 132, 0x00FF00, false);
-        guiGraphics.drawString(this.font, "Power Usage: " + NumberUtil.format(menu.getPowerConsumption()) + "/t", 190, 144, 0x00FF00, false);
+        guiGraphics.drawString(this.font, "Power Usage: " + NumberUtil.formatToEnergy(menu.getPowerConsumption()) + "/t", 190, 144, 0x00FF00, false);
         guiGraphics.drawString(this.font, "Energy Multiplier: " + menu.getEnergyCostMultiplier() + "% ", 190, 158, 0x00FF00, false);
 
         if(menu.isSilkTouch()){
@@ -84,7 +88,7 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         IEnergyStorage energyStorage = menu.blockEntity.getEnergyStorage();
         if(isMouseAboveArea(pMouseX, pMouseY, x, y, 92, 69, 77, 10)) {
             guiGraphics.renderTooltip(this.font,
-                    Component.literal(NumberUtil.format(energyStorage.getEnergyStored())+"/"+NumberUtil.format(energyStorage.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
+                    Component.literal(NumberUtil.formatToEnergy(energyStorage.getEnergyStored())+"/"+NumberUtil.formatToEnergy(energyStorage.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
         }
     }
 

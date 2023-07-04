@@ -16,6 +16,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     @Override
     protected void generate() {
         this.dropSelf(BlockRegister.TRANSDIMENSIONAL_QUARRY.get());
+        this.dropSelf(BlockRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get());
     }
 
     @Override

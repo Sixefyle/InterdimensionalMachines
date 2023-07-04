@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry;
 
 import be.sixefyle.transdimquarry.items.quarryupgrades.*;
+import be.sixefyle.transdimquarry.items.tools.TransdimExcavator;
 import be.sixefyle.transdimquarry.items.tools.TransdimSword;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
@@ -29,4 +30,7 @@ public class ItemRegister {
 
     public static final RegistryObject<Item> TRANSDIM_SWORD = ALL.register("transdimensional_sword",
             TransdimSword::new);
+
+    public static final RegistryObject<Item> TRANSDIM_EXCAVATOR = ALL.register("transdimensional_excavator",
+            TransdimExcavator::new);
 }

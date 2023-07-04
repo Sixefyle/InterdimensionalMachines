@@ -4,7 +4,8 @@ import be.sixefyle.transdimquarry.BlockEntityRegister;
 import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
 import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.energy.BlockEnergyStorage;
-import be.sixefyle.transdimquarry.items.tools.TransdimSword;
+import be.sixefyle.transdimquarry.items.IInfusedTool;
+import be.sixefyle.transdimquarry.items.tools.InfusedTool;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import net.minecraft.core.BlockPos;
@@ -150,11 +151,13 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
     public static void tick(Level level, BlockPos pos, BlockState state, TransdimToolInfuserBlockEntity blockEntity) {
         if(level.isClientSide) return;
 
+        if(!pos.equals(blockEntity.getBlockPos())) return;
+
         setChanged(level, pos, state);
 
-//        if(blockEntity.getEnergyStorage().getEnergyStored() <= 1){
-//            blockEntity.getEnergyStorage().receiveEnergy(100000000, false);
-//        }
+        if(blockEntity.getEnergyStorage().getEnergyStored() <= 1){
+            blockEntity.getEnergyStorage().receiveEnergy(1000000000, false);
+        }
 
         int energyCost = blockEntity.getEnergyCost();
         if(!blockEntity.items.get(0).isEmpty() && energyCost > 0){
@@ -162,10 +165,8 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
                 blockEntity.energyStorage.extractEnergy(energyCost, false);
 
                 ItemStack itemStack = blockEntity.items.get(0);
-                if(!itemStack.isEmpty() && itemStack.getItem() instanceof TransdimSword sword) {
-                    if(itemStack.hasTag()){
-                        sword.addInfusedEnergy(itemStack, energyCost);
-                    }
+                if(!itemStack.isEmpty() && itemStack.getItem() instanceof InfusedTool tool) {
+                    tool.addInfusedEnergy(itemStack, energyCost);
                 }
 
                 blockEntity.progress = 0;
@@ -187,7 +188,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack itemStack) {
-        return itemStack.getItem() instanceof TransdimSword;
+        return itemStack.getItem() instanceof InfusedTool;
     }
 
     @Override

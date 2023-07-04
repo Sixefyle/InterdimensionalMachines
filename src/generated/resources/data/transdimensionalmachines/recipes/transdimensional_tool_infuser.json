@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:amethyst_cluster"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "pattern": [
+    "NSN",
+    "SAS",
+    "NSN"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:transdimensional_tool_infuser"
+  },
+  "show_notification": true
+}

@@ -24,6 +24,7 @@ public class CreativeTabRegister {
                         output.accept(ItemRegister.QUARRY_SILK_UPGRADE.get());
                         output.accept(ItemRegister.QUARRY_SPEED_UPGRADE.get());
                         output.accept(ItemRegister.TRANSDIM_SWORD.get());
+                        output.accept(ItemRegister.TRANSDIM_EXCAVATOR.get());
 
                         output.accept(BlockRegister.TRANSDIMENSIONAL_QUARRY.get());
                         output.accept(BlockRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get());

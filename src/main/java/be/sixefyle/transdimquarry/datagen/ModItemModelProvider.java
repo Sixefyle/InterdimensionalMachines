@@ -4,8 +4,11 @@ import be.sixefyle.transdimquarry.ItemRegister;
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
@@ -20,6 +23,19 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemRegister.QUARRY_SILK_UPGRADE.get());
         basicItem(ItemRegister.ENERGY_UPGRADE.get());
         basicItem(ItemRegister.ORE_FINDER_UPGRADE.get());
-        basicItem(ItemRegister.TRANSDIM_SWORD.get());
+
+        handheld(ItemRegister.TRANSDIM_SWORD);
+        handheld(ItemRegister.TRANSDIM_EXCAVATOR);
+    }
+
+
+    private void handheld(RegistryObject<Item> item) {
+        String itemName = item.getId().getPath();
+
+        singleTexture(
+                itemName,
+                new ResourceLocation("item/handheld"),
+                "layer0",
+                new ResourceLocation(TransdimensionalMachines.MODID, "item/" + itemName));
     }
 }

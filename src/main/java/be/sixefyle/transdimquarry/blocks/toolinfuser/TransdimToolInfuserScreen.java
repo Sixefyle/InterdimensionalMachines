@@ -60,8 +60,8 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
 
         guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
         renderProgressEnergyBar(guiGraphics, x + 42, y + 15);
-        renderProgressInfusingBar(guiGraphics, x + 42, y + 26);
-        renderProgressInfusedBar(guiGraphics, x + 118, y + 30);
+        renderProgressInfusingBar(guiGraphics, x + 43, y + 26);
+        renderProgressInfusedBar(guiGraphics, x + 117, y + 30);
     }
 
     private void renderProgressEnergyBar(GuiGraphics guiGraphics, int x, int y){
@@ -87,7 +87,7 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(.5f,.5f,.5f);
 
-        guiGraphics.drawString(this.font, String.format("%s added per infuse.", NumberUtil.format(Math.min(menu.getNeededEnergy(), menu.blockEntity.getEnergyStorage().getMaxEnergyStored()))), 86, 95, 0xffffff, true);
+        guiGraphics.drawString(this.font, String.format("%s added per infuse.", NumberUtil.formatToEnergy(Math.min(menu.getNeededEnergy(), menu.blockEntity.getEnergyStorage().getMaxEnergyStored()))), 86, 95, 0xffffff, true);
 
         guiGraphics.pose().popPose();
 
@@ -98,7 +98,7 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
         IEnergyStorage energyStorage = menu.blockEntity.getEnergyStorage();
         if(isMouseAboveArea(pMouseX, pMouseY, x, y, 42, 15, 72, 11)) {
             guiGraphics.renderTooltip(this.font,
-                    Component.literal(NumberUtil.format(energyStorage.getEnergyStored())+"/"+NumberUtil.format(energyStorage.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
+                    Component.literal(NumberUtil.formatToEnergy(energyStorage.getEnergyStored())+"/"+NumberUtil.formatToEnergy(energyStorage.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
         }
     }
 

@@ -101,5 +101,27 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.TRANSDIM_SWORD.get())
+                .define('N', Items.NETHERITE_BLOCK)
+                .define('S', Items.STICK)
+                .define('A', Items.NETHER_STAR)
+                .pattern("ANA")
+                .pattern("ANA")
+                .pattern(" S ")
+                .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.NETHER_STAR).build()))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get())
+                .define('N', Items.NETHERITE_BLOCK)
+                .define('A', Items.AMETHYST_CLUSTER)
+                .define('S', Items.NETHER_STAR)
+                .pattern("NSN")
+                .pattern("SAS")
+                .pattern("NSN")
+                .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.NETHER_STAR).build()))
+                .save(pFinishedRecipeConsumer);
     }
 }

@@ -2,7 +2,8 @@ package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.BlockRegister;
 import be.sixefyle.transdimquarry.MenuRegister;
-import be.sixefyle.transdimquarry.items.tools.TransdimSword;
+import be.sixefyle.transdimquarry.items.IInfusedTool;
+import be.sixefyle.transdimquarry.items.tools.InfusedTool;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -51,8 +52,8 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
         ItemStack itemStack = blockEntity.getItem(0);
         if(itemStack.isEmpty() || !itemStack.hasTag()) return 0;
 
-        if(itemStack.getItem() instanceof TransdimSword sword){
-            return (double) sword.getInfusedEnergy(itemStack) / sword.getInfusedEnergyNeeded(itemStack);
+        if(itemStack.getItem() instanceof InfusedTool tool){
+            return (double) tool.getInfusedEnergy(itemStack) / tool.getInfusedEnergyNeeded(itemStack);
         }
         return 0;
     }

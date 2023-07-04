@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:block/orientable",
   "textures": {
-    "top": "minecraft:block/iron_block",
-    "front": "transdimensionalmachines:block/transdimensional_quarry",
-    "side": "minecraft:block/iron_block",
-    "bottom": "minecraft:block/iron_block"
+    "top": "minecraft:block/netherite_block",
+    "front": "transdimensionalmachines:block/transdimensional_tool_infuser",
+    "side": "minecraft:block/netherite_block",
+    "bottom": "minecraft:block/netherite_block"
   }
 }

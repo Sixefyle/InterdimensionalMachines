@@ -47,6 +47,8 @@ public class ItemEnergyStorage extends EnergyStorage {
 
     @Override
     public int getEnergyStored() {
+        if(!container.hasTag()) return 0;
+
         return container.getTag().getInt("energy");
     }
 

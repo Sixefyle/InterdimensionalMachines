@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:nether_star"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "ANA",
+    "ANA",
+    " S "
+  ],
+  "result": {
+    "item": "transdimensionalmachines:transdimensional_sword"
+  },
+  "show_notification": true
+}
