@@ -3,13 +3,13 @@
   "category": "misc",
   "key": {
     "I": {
-      "tag": "forge:storage_blocks/iron"
+      "item": "transdimensionalmachines:calibred_echo_ingot"
     },
     "N": {
-      "tag": "forge:ingots/netherite"
+      "tag": "forge:storage_blocks/netherite"
     },
     "S": {
-      "tag": "forge:nether_stars"
+      "item": "transdimensionalmachines:reinforced_nether_star"
     }
   },
   "pattern": [

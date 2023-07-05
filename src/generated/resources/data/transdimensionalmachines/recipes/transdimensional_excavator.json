@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "transdimensionalmachines:calibrer"
+    },
+    "E": {
+      "item": "transdimensionalmachines:echo_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "S": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "pattern": [
+    "ESE",
+    "NCN",
+    " E "
+  ],
+  "result": {
+    "item": "transdimensionalmachines:transdimensional_excavator"
+  },
+  "show_notification": true
+}

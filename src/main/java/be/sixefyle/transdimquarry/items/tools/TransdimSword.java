@@ -1,11 +1,8 @@
 package be.sixefyle.transdimquarry.items.tools;
 
-import be.sixefyle.transdimquarry.items.EnergizedItem;
-import be.sixefyle.transdimquarry.items.IInfusedTool;
-import be.sixefyle.transdimquarry.utils.NumberUtil;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -45,8 +42,8 @@ public class TransdimSword extends InfusedTool {
 
     @Override
     public boolean hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity damager) {
-        if(getEnergyStorage(itemStack).getEnergyStored() > getUseEnergyCost()) {
-            getEnergyStorage(itemStack).extractEnergy(getUseEnergyCost(), false);
+        if(getEnergyStorage(itemStack).getEnergyStored() > getBaseEnergyCost()) {
+            getEnergyStorage(itemStack).extractEnergy(getBaseEnergyCost(), false);
         }
 
         return true;
@@ -58,7 +55,7 @@ public class TransdimSword extends InfusedTool {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             int addedDamage = getDamageAdded(stack);
 
-            if(getEnergyStorage(stack).getEnergyStored() >= getUseEnergyCost()) {
+            if(getEnergyStorage(stack).getEnergyStored() >= getBaseEnergyCost()) {
                 builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 33 + addedDamage, AttributeModifier.Operation.ADDITION));
                 builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", 1.6, AttributeModifier.Operation.ADDITION));
             } else {
@@ -88,9 +85,13 @@ public class TransdimSword extends InfusedTool {
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, components, tooltipFlag);
 
-        if(itemStack.getTag() != null){
-            int addedDamage = getDamageAdded(itemStack);
+        int addedDamage = getDamageAdded(itemStack);
+        components.add(Component.empty());
+        if(Screen.hasShiftDown()) {
+            components.add(Component.literal("Tool Stats:"));
             components.add(Component.literal(String.format("Damage added: %d", addedDamage)));
+        } else {
+            components.add(Component.literal("§7Press §aSHIFT§7 to show tool details"));
         }
     }
 }

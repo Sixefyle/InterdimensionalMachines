@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class EnergizedItem extends Item {
-    private static final IEnergyStorage EMPTY_ENERGY_STORAGE = new EnergyStorage(0);
+    public static final IEnergyStorage EMPTY_ENERGY_STORAGE = new EnergyStorage(0);
     final int capacity;
 
 

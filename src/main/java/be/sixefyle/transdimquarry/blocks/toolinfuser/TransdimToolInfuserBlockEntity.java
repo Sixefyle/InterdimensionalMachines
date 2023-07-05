@@ -155,17 +155,21 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
         setChanged(level, pos, state);
 
-        if(blockEntity.getEnergyStorage().getEnergyStored() <= 1){
-            blockEntity.getEnergyStorage().receiveEnergy(1000000000, false);
-        }
+//        if(blockEntity.getEnergyStorage().getEnergyStored() <= 1){
+//            blockEntity.getEnergyStorage().receiveEnergy(1000000000, false);
+//        }
 
         int energyCost = blockEntity.getEnergyCost();
-        if(!blockEntity.items.get(0).isEmpty() && energyCost > 0){
-            if(++blockEntity.progress >= blockEntity.maxProgress){
+        ItemStack itemStack = blockEntity.items.get(0);
+        if(!itemStack.isEmpty() && energyCost > 0){
+            boolean isItemMaxed = itemStack.hasTag() && itemStack.getTag().getBoolean("is_maxed");
+            if(!isItemMaxed && ++blockEntity.progress >= blockEntity.maxProgress){
                 blockEntity.energyStorage.extractEnergy(energyCost, false);
 
-                ItemStack itemStack = blockEntity.items.get(0);
                 if(!itemStack.isEmpty() && itemStack.getItem() instanceof InfusedTool tool) {
+                    if(!itemStack.hasTag())
+                        itemStack.setTag(new CompoundTag());
+
                     tool.addInfusedEnergy(itemStack, energyCost);
                 }
 

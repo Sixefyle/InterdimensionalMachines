@@ -2,7 +2,6 @@ package be.sixefyle.transdimquarry.datagen;
 
 import be.sixefyle.transdimquarry.ItemRegister;
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -24,8 +23,16 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemRegister.ENERGY_UPGRADE.get());
         basicItem(ItemRegister.ORE_FINDER_UPGRADE.get());
 
-        handheld(ItemRegister.TRANSDIM_SWORD);
-        handheld(ItemRegister.TRANSDIM_EXCAVATOR);
+        basicItem(ItemRegister.CALIBRATOR.get());
+        basicItem(ItemRegister.CALIBRATED_ECHO_INGOT.get());
+        basicItem(ItemRegister.RAW_ECHO_INGOT.get());
+        basicItem(ItemRegister.ECHO_INGOT.get());
+        basicItem(ItemRegister.REINFORCED_NETHER_STAR.get());
+        basicItem(ItemRegister.ORE_FINDER_UPGRADE.get());
+        basicItem(ItemRegister.CALIBRATED_ECHO_SHARD.get());
+
+        handheld(ItemRegister.TRANSDIMENSIONAL_SWORD);
+        handheld(ItemRegister.TRANSDIMENSIONAL_EXCAVATOR);
     }
 
 

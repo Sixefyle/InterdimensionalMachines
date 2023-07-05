@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "transdimensionalmachines:echo_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "pattern": [
+    "ENE",
+    "NSN",
+    "ENE"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:reinforced_nether_star"
+  },
+  "show_notification": true
+}

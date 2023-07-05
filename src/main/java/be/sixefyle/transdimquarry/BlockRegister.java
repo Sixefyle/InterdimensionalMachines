@@ -24,11 +24,11 @@ public class BlockRegister {
 
     public static final DeferredRegister<Block> ALL = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 
-    public static final RegistryObject<Block> TRANSDIMENSIONAL_QUARRY = ALL.register("transdimensional_quarry",
-            () -> new TransdimQuarryBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> TRANSDIMENSIONAL_QUARRY = CreativeTabRegister.add(ALL.register("transdimensional_quarry",
+            () -> new TransdimQuarryBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))));
 
-    public static final RegistryObject<Block> TRANSDIMENSIONAL_TOOL_INFUSER = ALL.register("transdimensional_tool_infuser",
-            () -> new TransdimToolInfuserBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> TRANSDIMENSIONAL_TOOL_INFUSER = CreativeTabRegister.add(ALL.register("transdimensional_tool_infuser",
+            () -> new TransdimToolInfuserBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))));
     @SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {
         if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)){

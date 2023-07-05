@@ -2,23 +2,24 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
+    "C": {
       "item": "transdimensionalmachines:calibrer"
     },
-    "N": {
-      "item": "minecraft:netherite_block"
+    "E": {
+      "item": "transdimensionalmachines:echo_ingot"
     },
-    "S": {
+    "R": {
       "item": "transdimensionalmachines:reinforced_nether_star"
     }
   },
   "pattern": [
-    "SNS",
-    "NAN",
-    "SNS"
+    "EEE",
+    "RCR",
+    "EEE"
   ],
   "result": {
-    "item": "transdimensionalmachines:transdimensional_tool_infuser"
+    "count": 3,
+    "item": "transdimensionalmachines:calibred_echo_shard"
   },
   "show_notification": true
 }

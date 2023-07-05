@@ -66,4 +66,8 @@ public class ItemEnergyStorage extends EnergyStorage {
     public boolean canExtract() {
         return true;
     }
+
+    public void setCapacity(int amount){
+        this.capacity = amount;
+    }
 }

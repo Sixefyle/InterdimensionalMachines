@@ -1,8 +1,8 @@
 package be.sixefyle.transdimquarry.items.tools;
 
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -18,9 +18,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
@@ -68,14 +65,15 @@ public class TransdimExcavator extends InfusedTool {
             BlockState blockState = level.getBlockState(currentBlockPos);
             if(blockState.is(Blocks.BEDROCK)) continue;
 
-            List<ItemStack> drops = blockState
-                    .getDrops(new LootParams.Builder((ServerLevel) level)
-                            .withParameter(LootContextParams.TOOL, tool)
-                            .withParameter(LootContextParams.ORIGIN, Vec3.ZERO)
-                            .withOptionalParameter(LootContextParams.BLOCK_STATE, blockState));
+            LootParams.Builder context = new LootParams.Builder((ServerLevel) level)
+                    .withParameter(LootContextParams.TOOL, tool)
+                    .withParameter(LootContextParams.ORIGIN, blockPos.getCenter())
+                    .withOptionalParameter(LootContextParams.BLOCK_STATE, blockState);
+            List<ItemStack> drops = blockState.getDrops(context);
 
             drops.forEach(itemStack -> Block.popResource(level, currentBlockPos, itemStack));
             level.removeBlock(currentBlockPos, false);
+            getEnergyStorage(tool).extractEnergy(getMineEnergyCost(tool), false);
         }
     }
 
@@ -94,17 +92,25 @@ public class TransdimExcavator extends InfusedTool {
             if(!blockState.is(blockType)) continue;
 
             currentBrokenVeinBlock++;
-            level.removeBlock(blockPos, false);
-            List<ItemStack> drops = blockState
-                    .getDrops(new LootParams.Builder((ServerLevel) level)
-                            .withParameter(LootContextParams.TOOL, tool)
-                            .withParameter(LootContextParams.ORIGIN, Vec3.ZERO)
-                            .withOptionalParameter(LootContextParams.BLOCK_STATE, blockState));
+            LootParams.Builder context = new LootParams.Builder((ServerLevel) level)
+                    .withParameter(LootContextParams.TOOL, tool)
+                    .withParameter(LootContextParams.ORIGIN, blockPos.getCenter())
+                    .withOptionalParameter(LootContextParams.BLOCK_STATE, blockState);
+
+            List<ItemStack> drops = blockState.getDrops(context);
 
             drops.forEach(itemStack -> Block.popResource(level, blockPos, itemStack));
+            level.removeBlock(blockPos, false);
+            getEnergyStorage(tool).extractEnergy(getMineEnergyCost(tool), false);
 
             mineVein(blockPos, blockType, level, tool);
         }
+    }
+
+    @Override
+    public void addInfusedEnergy(ItemStack itemStack, int amount) {
+        if(!isMaxed(itemStack))
+            super.addInfusedEnergy(itemStack, amount);
     }
 
     public int getInfusedLevel(ItemStack itemStack){
@@ -139,41 +145,86 @@ public class TransdimExcavator extends InfusedTool {
         return itemStack.hasTag() ? itemStack.getTag().getInt("mine_height") : 3;
     }
 
-    public int getFortunePower(ItemStack itemStack){
-        if(itemStack.hasTag() && !itemStack.getTag().contains("fortune_power")) {
-            itemStack.getTag().putInt("fortune_power", 0);
+    public int getMiningSpeed(ItemStack itemStack){
+        if(itemStack.hasTag() && !itemStack.getTag().contains("mining_speed")) {
+            itemStack.getTag().putInt("mining_speed", 10);
         }
 
-        return itemStack.hasTag() ? itemStack.getTag().getInt("fortune_power") : 0;
+        return itemStack.hasTag() ? itemStack.getTag().getInt("mining_speed") : 10;
     }
+
+    public int getMineEnergyCost(ItemStack itemStack){
+        if(itemStack.hasTag() && !itemStack.getTag().contains("energy_cost")) {
+            itemStack.getTag().putInt("energy_cost", energyCostPerBlock);
+        }
+
+        return itemStack.hasTag() ? itemStack.getTag().getInt("energy_cost") : energyCostPerBlock;
+    }
+
 
     @Override
     public float getDestroySpeed(ItemStack itemStack, BlockState p_41426_) {
-        return getEnergyStorage(itemStack).getEnergyStored() > energyCostPerBlock ? 20 : 10;
+        return getEnergyStorage(itemStack).getEnergyStored() > getMineEnergyCost(itemStack) ? getMiningSpeed(itemStack) : 1;
+    }
+
+    /**
+     *
+     * @param itemStack
+     * @return true if vein size is not maxed out
+     */
+    public boolean increaseVeinSize(ItemStack itemStack){
+        int maxVeinSize = getMaxVeinSize(itemStack);
+        if(maxVeinSize < maxVeinBroke){
+            itemStack.getTag().putInt("vein_size", maxVeinSize + 8);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean increaseMineEnergyCost(ItemStack itemStack){
+        int energyCost = getMineEnergyCost(itemStack);
+        if (energyCost > 250){
+            itemStack.getTag().putInt("energy_cost", energyCost - 10);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean increaseMiningSpeed(ItemStack itemStack){
+        int miningSpeed = getMiningSpeed(itemStack);
+        if(miningSpeed < 30){
+            itemStack.getTag().putInt("mining_speed", miningSpeed + 1);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean increaseMineArea(ItemStack itemStack){
+        int mineWidth = getMineWidth(itemStack);
+        int mineHeight = getMineHeight(itemStack);
+
+        if (mineHeight < 9) {
+            if (mineWidth - mineHeight == 0) {
+                itemStack.getTag().putInt("mine_width", mineWidth + 1);
+            } else {
+                itemStack.getTag().putInt("mine_height", mineHeight + 1);
+            }
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void onInfuseLevelUp(ItemStack itemStack) {
-        if(!itemStack.hasTag())
+        if(!itemStack.hasTag() || (itemStack.getTag().getBoolean("is_maxed")))
             return;
 
-        int maxVeinSize = getMaxVeinSize(itemStack);
-        if(maxVeinSize < maxVeinBroke){
-            itemStack.getTag().putInt("vein_size", maxVeinSize + 1);
-        } else {
-            int mineWidth = getMineWidth(itemStack);
-            int mineHeight = getMineHeight(itemStack);
-
-            if(mineHeight < 9){
-                if(mineWidth - mineHeight == 0){
-                    itemStack.getTag().putInt("mine_width", mineWidth + 1);
-                } else {
-                    itemStack.getTag().putInt("mine_height", mineHeight + 1);
-                }
-            } else {
-                int fortunePower = getFortunePower(itemStack);
-                if(fortunePower < 10){
-                    itemStack.getTag().putInt("fortune_power", fortunePower + 1);
+        if(increaseMineEnergyCost(itemStack)){
+            if(increaseMiningSpeed(itemStack)){
+                if(increaseVeinSize(itemStack)){
+                    if(increaseMineArea(itemStack)){
+                        itemStack.getTag().putBoolean("is_maxed", true);
+                    }
                 }
             }
         }
@@ -190,12 +241,24 @@ public class TransdimExcavator extends InfusedTool {
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, components, tooltipFlag);
 
-        if(itemStack.getTag() != null){
-            components.add(Component.empty());
+        components.add(Component.empty());
+        if(Screen.hasShiftDown()){
             components.add(Component.literal("Tool Stats:"));
-            components.add(Component.literal(String.format("Level: %d", getInfusedLevel(itemStack))));
-            components.add(Component.literal(String.format("Max vein size: %d", getMaxVeinSize(itemStack))));
-            components.add(Component.literal(String.format("Mining width: %d, height: %d", getMineWidth(itemStack), getMineHeight(itemStack))));
+            components.add(Component.literal(String.format("Infused Level: %d", getInfusedLevel(itemStack))));
+            components.add(Component.literal(String.format("§eEnergy per block: %d§7/250 FE", getMineEnergyCost(itemStack))));
+            components.add(Component.literal(String.format("§cMining speed: %d§7/30", getMiningSpeed(itemStack))));
+            components.add(Component.literal(String.format("§aMax vein size: %d§7/256", getMaxVeinSize(itemStack))));
+            components.add(Component.literal(String.format("§9Mining width: %d§7/9§9, height: %d§7/9", getMineWidth(itemStack), getMineHeight(itemStack))));
+        } else if(Screen.hasControlDown()){
+            components.add(Component.literal("§7This tool can also mine, dig and chop trees"));
+            components.add(Component.literal("§6- §eWhile used on tree the tool will automatically use"));
+            components.add(Component.literal("  §ethe vein miner to chop the whole tree (using Max vein size)"));
+            components.add(Component.literal("§2- §aElse it will mine in area (Using Mining width & height)"));
+            components.add(Component.literal("  §aif you press SHIFT while mining it will use the vein"));
+            components.add(Component.literal("  §aminer instead of area!"));
+        } else {
+            components.add(Component.literal("§7Hold §aSHIFT§7 to show tool stats"));
+            components.add(Component.literal("§7Hold §eCTRL§7 to show tool info"));
         }
     }
 }

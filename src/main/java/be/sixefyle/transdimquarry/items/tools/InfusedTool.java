@@ -17,7 +17,7 @@ public abstract class InfusedTool extends EnergizedItem {
     private final int baseInfusedEnergyNeeded;
 
     public InfusedTool(Properties p_41383_, int capacity, int energyCost, int infusedEnergyNeeded) {
-        super(p_41383_, capacity);
+        super(p_41383_.stacksTo(1), capacity);
 
         this.useEnergyCost = energyCost;
         this.baseInfusedEnergyNeeded = infusedEnergyNeeded;
@@ -40,6 +40,7 @@ public abstract class InfusedTool extends EnergizedItem {
                     setInfusedEnergy(itemStack, newInfusedEnergy);
                 } else {
                     onInfuseLevelUp(itemStack);
+                    neededEnergy = getInfusedEnergyNeeded(itemStack);
                     itemStack.getTag().putInt("infused_energy", 0);
                 }
                 newInfusedEnergy -= neededEnergy;
@@ -54,6 +55,10 @@ public abstract class InfusedTool extends EnergizedItem {
     }
 
     public abstract int getInfusedEnergyNeeded(ItemStack itemStack);
+
+    public boolean isMaxed(ItemStack itemStack){
+        return itemStack.hasTag() && itemStack.getTag().getBoolean("is_maxed");
+    }
 
     public int getInfusedEnergy(ItemStack itemStack){
         return itemStack.hasTag() ? itemStack.getTag().getInt("infused_energy") : 0;
@@ -71,11 +76,15 @@ public abstract class InfusedTool extends EnergizedItem {
         int infusedEnergy = getInfusedEnergy(itemStack);
 
         components.add(Component.empty());
-        components.add(Component.literal(String.format("Infused Energy %s/%s", NumberUtil.formatToEnergy(infusedEnergy), NumberUtil.formatToEnergy(getInfusedEnergyNeeded(itemStack)))).withStyle(ChatFormatting.YELLOW));
+        if(isMaxed(itemStack)){
+            components.add(Component.literal("Infused Energy Maxed").withStyle(ChatFormatting.YELLOW));
+        } else {
+            components.add(Component.literal(String.format("Infused Energy %s/%s", NumberUtil.formatToEnergy(infusedEnergy), NumberUtil.formatToEnergy(getInfusedEnergyNeeded(itemStack)))).withStyle(ChatFormatting.YELLOW));
+        }
         components.add(Component.literal("Can be infused in a Tool Infuser").withStyle(ChatFormatting.GRAY));
     }
 
-    public int getUseEnergyCost() {
+    public int getBaseEnergyCost() {
         return useEnergyCost;
     }
 }

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "pattern": [
+    "EE ",
+    "EE ",
+    "   "
+  ],
+  "result": {
+    "item": "transdimensionalmachines:raw_echo_ingot"
+  },
+  "show_notification": true
+}
