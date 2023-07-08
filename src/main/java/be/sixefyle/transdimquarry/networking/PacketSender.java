@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.networking;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
+import be.sixefyle.transdimquarry.networking.packet.cts.ChangeToolModePacket;
 import be.sixefyle.transdimquarry.networking.packet.cts.SetMaxEnergyInputPacket;
 import be.sixefyle.transdimquarry.networking.packet.cts.SwitchQuarryStatePacket;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
@@ -42,6 +43,11 @@ public class PacketSender {
                 .consumerMainThread(SetMaxEnergyInputPacket::handle)
                 .add();
 
+        net.messageBuilder(ChangeToolModePacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(ChangeToolModePacket::new)
+                .encoder(ChangeToolModePacket::toBytes)
+                .consumerMainThread(ChangeToolModePacket::handle)
+                .add();
 
 
         net.messageBuilder(EnergySyncPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)

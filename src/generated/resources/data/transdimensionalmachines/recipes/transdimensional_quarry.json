@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "I": {
-      "item": "transdimensionalmachines:calibred_echo_ingot"
+      "item": "transdimensionalmachines:calibrated_echo_ingot"
     },
     "N": {
       "tag": "forge:storage_blocks/netherite"

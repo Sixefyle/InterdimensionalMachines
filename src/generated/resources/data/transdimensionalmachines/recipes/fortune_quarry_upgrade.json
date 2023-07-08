@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "A": {
-      "item": "minecraft:echo_shard"
+      "item": "transdimensionalmachines:calibrated_echo_ingot"
     },
     "B": {
       "tag": "forge:storage_blocks/gold"

@@ -6,9 +6,17 @@
   "item.transdimensionalmachines.fortune_quarry_upgrade": "Fortune Quarry Upgrade",
   "item.transdimensionalmachines.silk_quarry_upgrade": "Silk Touch Quarry Upgrade",
   "item.transdimensionalmachines.energy_quarry_upgrade": "Energy Quarry Upgrade",
-  "item.transdimensionalmachines.ore_finder_quarry_upgrade": "Ore Finder Quarry Upgrade",
+  "item.transdimensionalmachines.raw_echo_ingot": "Raw Echo Ingot",
+  "item.transdimensionalmachines.echo_ingot": "Echo Ingot",
+  "item.transdimensionalmachines.reinforced_nether_star": "Reinforced Nether Star",
+  "item.transdimensionalmachines.calibrator": "Calibrator",
+  "item.transdimensionalmachines.calibrated_echo_shard": "Calibrated Echo Shard",
+  "item.transdimensionalmachines.calibrated_echo_ingot": "Calibrated Echo Ingot",
   "item.transdimensionalmachines.transdimensional_sword": "Trans-dimensional Sword",
   "item.transdimensionalmachines.transdimensional_excavator": "Trans-dimensional Excavator",
-  "transdimensionalmachines.tab": "Transdimensional Machines"
+  "transdimensionalmachines.tab": "Transdimensional Machines",
+
+  "key.category.transdimensional": "Trans-dimensional Machines",
+  "key.transdimensional.open_tool_gui": "Open Tool Gui"
 }
 

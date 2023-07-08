@@ -24,7 +24,7 @@ public class TransdimSword extends InfusedTool {
 
     public TransdimSword() {
         super(new Properties().rarity(Rarity.EPIC).fireResistant().setNoRepair(),
-                1_000_000, 12_500, 5_000_000);
+                5_000_000, 12_500, 5_000_000);
     }
 
     public int getDamageAdded(ItemStack itemStack){

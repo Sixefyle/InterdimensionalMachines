@@ -4,7 +4,6 @@ import be.sixefyle.transdimquarry.BlockEntityRegister;
 import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
 import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.energy.BlockEnergyStorage;
-import be.sixefyle.transdimquarry.items.IInfusedTool;
 import be.sixefyle.transdimquarry.items.tools.InfusedTool;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;

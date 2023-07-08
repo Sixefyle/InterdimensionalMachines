@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "transdimensionalmachines:item/calibrer"
+    "layer0": "transdimensionalmachines:item/calibrator"
   }
 }

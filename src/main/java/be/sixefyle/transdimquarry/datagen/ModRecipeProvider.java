@@ -56,7 +56,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.QUARRY_FORTUNE_UPGRADE.get())
                 .define('S', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
-                .define('A', Items.ECHO_SHARD)
+                .define('A', ItemRegister.CALIBRATED_ECHO_INGOT.get())
                 .define('B', Tags.Items.STORAGE_BLOCKS_GOLD)
                 .pattern("AAA")
                 .pattern("BSB")
@@ -110,12 +110,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.TRANSDIMENSIONAL_EXCAVATOR.get())
                 .define('E', ItemRegister.ECHO_INGOT.get())
-                .define('C', ItemRegister.CALIBRATOR.get())
                 .define('S', Items.ECHO_SHARD)
                 .define('N', Items.NETHERITE_INGOT)
-                .pattern("ESE")
-                .pattern("NCN")
-                .pattern(" E ")
+                .pattern("NSN")
+                .pattern("NEN")
+                .pattern(" S ")
                 .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.ECHO_SHARD).build()))
                 .save(pFinishedRecipeConsumer);

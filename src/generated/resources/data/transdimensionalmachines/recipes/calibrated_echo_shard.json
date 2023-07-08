@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "C": {
-      "item": "transdimensionalmachines:calibrer"
+      "item": "transdimensionalmachines:calibrator"
     },
     "E": {
       "item": "transdimensionalmachines:echo_ingot"
@@ -19,7 +19,7 @@
   ],
   "result": {
     "count": 3,
-    "item": "transdimensionalmachines:calibred_echo_shard"
+    "item": "transdimensionalmachines:calibrated_echo_shard"
   },
   "show_notification": true
 }

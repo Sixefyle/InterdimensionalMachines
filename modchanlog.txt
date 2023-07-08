@@ -1,0 +1,7 @@
+1.2.0:
++ Added Trans-dimensional Excavator (With configuration tool gui)
+* Change all current crafts
+* Fix Sword handle texture
+* Fix some bugs
+
+Updated to Forge 47.1.0

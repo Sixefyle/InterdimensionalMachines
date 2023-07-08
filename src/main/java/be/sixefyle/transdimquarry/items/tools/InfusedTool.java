@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.items.tools;
 
 import be.sixefyle.transdimquarry.items.EnergizedItem;
+import be.sixefyle.transdimquarry.key.KeyBinding;
 import be.sixefyle.transdimquarry.utils.NumberUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -82,6 +83,14 @@ public abstract class InfusedTool extends EnergizedItem {
             components.add(Component.literal(String.format("Infused Energy %s/%s", NumberUtil.formatToEnergy(infusedEnergy), NumberUtil.formatToEnergy(getInfusedEnergyNeeded(itemStack)))).withStyle(ChatFormatting.YELLOW));
         }
         components.add(Component.literal("Can be infused in a Tool Infuser").withStyle(ChatFormatting.GRAY));
+
+        if(this instanceof IModeHandle){
+            components.add(Component.empty());
+            components.add(Component.literal("You can configure this tool!").withStyle(ChatFormatting.GRAY));
+            components.add(Component.literal("§7Press [§9")
+                    .append(KeyBinding.TOOL_SETTINGS_KEY.getKey().getDisplayName())
+                    .append("§7] while holding to open the config menu."));
+        }
     }
 
     public int getBaseEnergyCost() {

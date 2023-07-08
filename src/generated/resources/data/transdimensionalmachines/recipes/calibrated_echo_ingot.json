@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "E": {
-      "item": "transdimensionalmachines:calibred_echo_shard"
+      "item": "transdimensionalmachines:calibrated_echo_shard"
     }
   },
   "pattern": [
@@ -12,7 +12,7 @@
     "EEE"
   ],
   "result": {
-    "item": "transdimensionalmachines:calibred_echo_ingot"
+    "item": "transdimensionalmachines:calibrated_echo_ingot"
   },
   "show_notification": true
 }

@@ -2,7 +2,6 @@ package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.BlockRegister;
 import be.sixefyle.transdimquarry.MenuRegister;
-import be.sixefyle.transdimquarry.items.IInfusedTool;
 import be.sixefyle.transdimquarry.items.tools.InfusedTool;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
