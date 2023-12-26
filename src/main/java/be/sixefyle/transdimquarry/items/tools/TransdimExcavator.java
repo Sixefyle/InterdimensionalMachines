@@ -19,6 +19,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
@@ -223,8 +225,8 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
 
     @Override
     public float getDestroySpeed(ItemStack itemStack, BlockState p_41426_) {
-        return getMineSpeed(itemStack);
-        //return getEnergyStorage(itemStack).getEnergyStored() > getMineEnergyCost(itemStack) ? getMineSpeed(itemStack) : 1;
+        //return getMineSpeed(itemStack);
+        return getEnergyStorage(itemStack).getEnergyStored() > getMineEnergyCost(itemStack) ? getMineSpeed(itemStack) : 1;
     }
 
     /**
@@ -330,6 +332,7 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public Screen getScreen(ItemStack itemStack) {
         return new TransdimExcavatorScreen(itemStack);
     }

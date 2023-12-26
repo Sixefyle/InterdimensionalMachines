@@ -1,6 +1,7 @@
 1.2.0:
 + Added Trans-dimensional Excavator (With configuration tool gui)
 * Change all current crafts
+* Add more energy to tools
 * Fix Sword handle texture
 * Fix some bugs
 

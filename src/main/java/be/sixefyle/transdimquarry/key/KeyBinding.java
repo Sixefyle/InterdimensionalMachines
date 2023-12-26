@@ -10,5 +10,5 @@ public class KeyBinding {
     public static final String KEY_OPEN_TOOL_GUI = "key.transdimensional.open_tool_gui";
 
     public static final KeyMapping TOOL_SETTINGS_KEY = new KeyMapping(KEY_OPEN_TOOL_GUI, KeyConflictContext.IN_GAME,
-            InputConstants.Type.KEYSYM, GLFW.GLFW_MOUSE_BUTTON_RIGHT, KEY_CATEGORY);
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_O, KEY_CATEGORY);
 }
