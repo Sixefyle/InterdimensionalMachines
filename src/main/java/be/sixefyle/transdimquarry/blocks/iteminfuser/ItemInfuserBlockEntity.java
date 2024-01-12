@@ -3,7 +3,7 @@ package be.sixefyle.transdimquarry.blocks.iteminfuser;
 import be.sixefyle.transdimquarry.blocks.BaseEnergyContainerBlockEntity;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
-import be.sixefyle.transdimquarry.customrecipes.iteminfuser.ItemInfuserRecipe;
+import be.sixefyle.transdimquarry.recipes.iteminfuser.ItemInfuserRecipe;
 import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
 import be.sixefyle.transdimquarry.registries.ItemRegister;
 import net.minecraft.core.BlockPos;
@@ -79,14 +79,10 @@ public class ItemInfuserBlockEntity extends BaseEnergyContainerBlockEntity {
             ItemStack harmonizationMatrix = blockEntity.getItem(HARMONIZATION_MATRIX_SLOT);
             ItemInfuserRecipe recipe = ItemInfuserRecipe.getRecipe(input, harmonizationMatrix);
             if(recipe != null){
-                if(blockEntity.getNeededEnergy() != recipe.getEnergyCost()){
-                    blockEntity.setEnergyNeeded(recipe.getEnergyCost());
-                }
-
                 if(blockEntity.getEnergy() >= blockEntity.getNeededEnergy()){
                     blockEntity.setProgress(blockEntity.getProgress() + 1);
                     if(blockEntity.getProgress() >= blockEntity.getMaxProgress()){
-                        blockEntity.setProgress(0);
+                        blockEntity.resetProgress();
                         blockEntity.getItem(INPUT_SLOT).shrink(recipe.getInput().getCount());
                         blockEntity.getItem(HARMONIZATION_MATRIX_SLOT).shrink(recipe.getHarmonizationMatrix().getCount());
 
@@ -98,7 +94,7 @@ public class ItemInfuserBlockEntity extends BaseEnergyContainerBlockEntity {
                         ItemStack output = blockEntity.getItem(OUTPUT_SLOT);
 
                         if(output.isEmpty()){
-                            blockEntity.setItem(OUTPUT_SLOT, recipe.getOutput().copy());
+                            blockEntity.setItem(OUTPUT_SLOT, recipe.getOutput());
                         } else if(!output.isEmpty() && output.is(recipe.getOutput().getItem())){
                             output.grow(recipe.getOutput().getCount());
                         }
@@ -106,7 +102,7 @@ public class ItemInfuserBlockEntity extends BaseEnergyContainerBlockEntity {
                 }
             }
         } else {
-            blockEntity.setProgress(0);
+            blockEntity.resetProgress();
         }
     }
 }

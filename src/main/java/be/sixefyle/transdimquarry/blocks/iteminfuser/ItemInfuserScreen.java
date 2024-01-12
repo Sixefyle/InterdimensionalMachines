@@ -1,8 +1,7 @@
 package be.sixefyle.transdimquarry.blocks.iteminfuser;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
-import be.sixefyle.transdimquarry.customrecipes.iteminfuser.ItemInfuserRecipe;
-import be.sixefyle.transdimquarry.customrecipes.iteminfuser.ItemInfuserRecipeRegister;
+import be.sixefyle.transdimquarry.recipes.iteminfuser.ItemInfuserRecipe;
 import be.sixefyle.transdimquarry.enums.EnumColor;
 import be.sixefyle.transdimquarry.utils.MouseUtil;
 import be.sixefyle.transdimquarry.utils.NumberUtil;

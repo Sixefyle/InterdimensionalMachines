@@ -1,6 +1,8 @@
-package be.sixefyle.transdimquarry.customrecipes.iteminfuser;
+package be.sixefyle.transdimquarry.recipes.iteminfuser;
 
 
+import be.sixefyle.transdimquarry.TransdimensionalMachines;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemInfuserRecipe {
@@ -23,7 +25,7 @@ public class ItemInfuserRecipe {
     }
 
     public ItemStack getOutput() {
-        return output;
+        return output.copy();
     }
 
     public long getEnergyCost() {
@@ -40,6 +42,7 @@ public class ItemInfuserRecipe {
 
     public static ItemInfuserRecipe getRecipe(ItemStack input, ItemStack harmonizationMatrix){
         for (ItemInfuserRecipe itemInfuserRecipe : ItemInfuserRecipeRegister.all) {
+            if(itemInfuserRecipe == null) continue;
             if(itemInfuserRecipe.getInput().is(input.getItem())
                     && input.getCount() >= itemInfuserRecipe.getInput().getCount()
                     && itemInfuserRecipe.getHarmonizationMatrix().is(harmonizationMatrix.getItem())
@@ -55,7 +58,7 @@ public class ItemInfuserRecipe {
         private ItemStack input;
         private ItemStack output;
         private ItemStack harmonizationMatrix;
-        private long energyCost;
+        private long energyCost = 15_000;
         private int calibratorDurabilityCost = 1;
 
         public Builder setInput(ItemStack input){

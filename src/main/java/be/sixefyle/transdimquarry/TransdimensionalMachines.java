@@ -6,7 +6,7 @@ import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.dimension.CosmicBoundaryRender;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryScreen;
-import be.sixefyle.transdimquarry.customrecipes.iteminfuser.ItemInfuserRecipeRegister;
+import be.sixefyle.transdimquarry.recipes.iteminfuser.ItemInfuserRecipeRegister;
 import be.sixefyle.transdimquarry.registries.*;
 import be.sixefyle.transdimquarry.utils.OreUtils;
 import com.mojang.logging.LogUtils;
