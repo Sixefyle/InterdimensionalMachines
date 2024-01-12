@@ -1,12 +1,11 @@
 package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
-import be.sixefyle.transdimquarry.BlockEntityRegister;
+import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
 import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
 import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.energy.BlockEnergyStorage;
+import be.sixefyle.transdimquarry.energy.ILongEnergyStorage;
 import be.sixefyle.transdimquarry.items.tools.InfusedTool;
-import be.sixefyle.transdimquarry.networking.PacketSender;
-import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity implements MenuProvider, IEnergyHandler {
@@ -35,17 +33,11 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
     private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 
-    private final BlockEnergyStorage energyStorage = new BlockEnergyStorage(CommonConfig.TOOL_INFUSER_ENERGY_CAPACITY.get(), Integer.MAX_VALUE, Integer.MAX_VALUE) {
-        @Override
-        public void onEnergyChanged() {
-            setChanged();
-            PacketSender.sendToClients(new EnergySyncPacket(this.energy, getBlockPos()));
-        }
-    };
-    private int baseEnergyNeeded = 100000;
+    private final BlockEnergyStorage energyStorage = new BlockEnergyStorage(CommonConfig.TOOL_INFUSER_ENERGY_CAPACITY.get(), Integer.MAX_VALUE, Integer.MAX_VALUE);
+    private long baseEnergyNeeded = 100000;
     private int progress = 0;
     private int maxProgress = CommonConfig.TOOL_INFUSER_MAX_PROGRESS.get();
-    private LazyOptional<IEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
+    private LazyOptional<ILongEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
 
     protected final ContainerData data;
 
@@ -57,7 +49,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> TransdimToolInfuserBlockEntity.this.baseEnergyNeeded;
+                    case 0 -> (int) TransdimToolInfuserBlockEntity.this.baseEnergyNeeded;
                     case 1 -> TransdimToolInfuserBlockEntity.this.progress;
                     case 2 -> TransdimToolInfuserBlockEntity.this.maxProgress;
                     default -> 0;
@@ -117,8 +109,8 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
         super.saveAdditional(nbt);
 
         ContainerHelper.saveAllItems(nbt, this.items);
-        nbt.putInt("energy", energyStorage.getEnergyStored());
-        nbt.putInt("energyNeeded", baseEnergyNeeded);
+        nbt.putLong("energy", energyStorage.getEnergyStored());
+        nbt.putLong("energyNeeded", baseEnergyNeeded);
     }
 
 
@@ -158,7 +150,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 //            blockEntity.getEnergyStorage().receiveEnergy(1000000000, false);
 //        }
 
-        int energyCost = blockEntity.getEnergyCost();
+        long energyCost = blockEntity.getEnergyCost();
         ItemStack itemStack = blockEntity.items.get(0);
         if(!itemStack.isEmpty() && energyCost > 0){
             boolean isItemMaxed = itemStack.hasTag() && itemStack.getTag().getBoolean("is_maxed");
@@ -185,7 +177,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
         return energyStorage.getEnergyStored() >= baseEnergyNeeded;
     }
 
-    private int getEnergyCost(){
+    private long getEnergyCost(){
         return Math.min(energyStorage.getEnergyStored(), baseEnergyNeeded);
     }
 
@@ -235,7 +227,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
         return ContainerHelper.takeItem(this.items, slot);
     }
 
-    public int getBaseEnergyNeeded() {
+    public long getBaseEnergyNeeded() {
         return baseEnergyNeeded;
     }
 
@@ -244,22 +236,22 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
     }
 
     @Override
-    public IEnergyStorage getEnergyStorage() {
+    public ILongEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 
     @Override
-    public int getEnergy() {
+    public long getEnergy() {
         return energyStorage.getEnergyStored();
     }
 
     @Override
-    public void setEnergy(int value) {
+    public void setEnergy(long value) {
         this.energyStorage.setEnergy(value);
     }
 
     @Override
-    public void setMaxEnergyInput(int value) {
+    public void setMaxEnergyInput(long value) {
         baseEnergyNeeded = value;
     }
 

@@ -26,7 +26,7 @@ public class CommonConfig {
         BUILDER.push("Quarry");
 
         QUARRY_BASE_COST = BUILDER.comment("Base Energy Needed (in FE/t)").define("energyConsumption",32500);
-        MINING_TIME = BUILDER.comment("Time To Mine (in ticks)").defineInRange("timeToMine",10, 10, Integer.MAX_VALUE);
+        MINING_TIME = BUILDER.comment("Time To Mine (in ticks)").defineInRange("timeToMine",40, 1, Integer.MAX_VALUE);
         ORE_FIND_CHANCE = BUILDER.comment("Chance To Find Ore (default value is 0.07 and mean 7% chance to find ore)").defineInRange("oreFindChance",0.07, 0,1);
         BLACKLISTED_BLOCKS = BUILDER.comment("Blacklisted Ores (Only work for ores, example: [\"iron_ore\", \"coal_ore\"])").define("blacklistedOres", new ArrayList<>());
 

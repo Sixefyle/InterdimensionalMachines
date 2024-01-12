@@ -1,6 +1,6 @@
 package be.sixefyle.transdimquarry.datagen;
 
-import be.sixefyle.transdimquarry.ItemRegister;
+import be.sixefyle.transdimquarry.registries.ItemRegister;
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -17,11 +17,24 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         basicItem(ItemRegister.EMPTY_QUARRY_UPGRADE.get());
+
         basicItem(ItemRegister.QUARRY_SPEED_UPGRADE.get());
+        basicItem(ItemRegister.ADVANCED_QUARRY_SPEED_UPGRADE.get());
+        basicItem(ItemRegister.COSMIC_QUARRY_SPEED_UPGRADE.get());
+
         basicItem(ItemRegister.QUARRY_FORTUNE_UPGRADE.get());
+        basicItem(ItemRegister.ADVANCED_QUARRY_FORTUNE_UPGRADE.get());
+        basicItem(ItemRegister.COSMIC_QUARRY_FORTUNE_UPGRADE.get());
+
         basicItem(ItemRegister.QUARRY_SILK_UPGRADE.get());
-        basicItem(ItemRegister.ENERGY_UPGRADE.get());
+
+        basicItem(ItemRegister.QUARRY_ENERGY_UPGRADE.get());
+        basicItem(ItemRegister.ADVANCED_QUARRY_ENERGY_UPGRADE.get());
+        basicItem(ItemRegister.COSMIC_QUARRY_ENERGY_UPGRADE.get());
+
         basicItem(ItemRegister.ORE_FINDER_UPGRADE.get());
+        basicItem(ItemRegister.ADVANCED_ORE_FINDER_UPGRADE.get());
+        basicItem(ItemRegister.COSMIC_ORE_FINDER_UPGRADE.get());
 
         basicItem(ItemRegister.CALIBRATOR.get());
         basicItem(ItemRegister.CALIBRATED_ECHO_INGOT.get());
@@ -31,10 +44,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemRegister.ORE_FINDER_UPGRADE.get());
         basicItem(ItemRegister.CALIBRATED_ECHO_SHARD.get());
 
+        basicItem(ItemRegister.RAW_QUANTUMITE_ORE.get());
+        basicItem(ItemRegister.QUANTUMITE_INGOT.get());
+        basicItem(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get());
+
         handheld(ItemRegister.TRANSDIMENSIONAL_SWORD);
         handheld(ItemRegister.TRANSDIMENSIONAL_EXCAVATOR);
     }
-
 
     private void handheld(RegistryObject<Item> item) {
         String itemName = item.getId().getPath();

@@ -1,5 +1,6 @@
 package be.sixefyle.transdimquarry.items.tools;
 
+import be.sixefyle.transdimquarry.enums.EnumColor;
 import be.sixefyle.transdimquarry.items.tools.screen.TransdimExcavatorScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -27,9 +28,13 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TransdimExcavator extends InfusedTool implements IModeHandle {
+    private static final int MIN_COST_PER_BLOCK = 250;
+    private static final int MAX_MINING_SPEED = 128;
+    private static final int MAX_VEIN_SIZE = 256;
+    private static final int MAX_WIDTH = 9;
+    private static final int MAX_HEIGHT = 9;
+
     static final int energyCostPerBlock = 1000;
-    static final int maxVeinBroke = 256;
-    static final int maxSpeed = 128;
     static final int defaultVeinSize = 16;
     int currentBrokenVeinBlock = 0;
 
@@ -47,8 +52,8 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
         if(!(livingEntity instanceof Player player)) return super.mineBlock(itemStack, level, blockState, blockPos, livingEntity);
 
         if(blockState.is(BlockTags.LOGS) || player.isShiftKeyDown()){
-            mineVein(blockPos, blockState.getBlock(), level, player.getMainHandItem());
             currentBrokenVeinBlock = 0;
+            mineVein(blockPos, blockState.getBlock(), level, player.getMainHandItem());
         } else {
             mineBlockArea(blockPos, level, livingEntity, player.getMainHandItem());
         }
@@ -79,7 +84,7 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
                     .withOptionalParameter(LootContextParams.BLOCK_STATE, blockState);
             List<ItemStack> drops = blockState.getDrops(context);
 
-            drops.forEach(itemStack -> Block.popResource(level, currentBlockPos, itemStack));
+            drops.forEach(itemStack -> Block.popResource(level, livingEntity.blockPosition(), itemStack));
             level.removeBlock(currentBlockPos, false);
             getEnergyStorage(tool).extractEnergy(getMineEnergyCost(tool), false);
         }
@@ -116,7 +121,7 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
     }
 
     @Override
-    public void addInfusedEnergy(ItemStack itemStack, int amount) {
+    public void addInfusedEnergy(ItemStack itemStack, long amount) {
         if(!isMaxed(itemStack))
             super.addInfusedEnergy(itemStack, amount);
     }
@@ -236,7 +241,7 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
      */
     public boolean increaseVeinSize(ItemStack itemStack){
         int maxVeinSize = getMaxVeinSize(itemStack);
-        if(maxVeinSize < maxVeinBroke){
+        if(maxVeinSize < MAX_VEIN_SIZE){
             itemStack.getTag().putInt("vein_size", maxVeinSize + 8);
             return false;
         }
@@ -245,7 +250,7 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
 
     public boolean increaseMineEnergyCost(ItemStack itemStack){
         int energyCost = getMineEnergyCost(itemStack);
-        if (energyCost > 250){
+        if (energyCost > MIN_COST_PER_BLOCK){
             itemStack.getTag().putInt("energy_cost", energyCost - 10);
             return false;
         }
@@ -254,7 +259,7 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
 
     public boolean increaseMiningSpeed(ItemStack itemStack){
         int miningSpeed = getMaxMiningSpeed(itemStack);
-        if(miningSpeed < maxSpeed){
+        if(miningSpeed < MAX_MINING_SPEED){
             itemStack.getTag().putInt("max_mining_speed", miningSpeed + 2);
             return false;
         }
@@ -265,7 +270,7 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
         int mineWidth = getMaxMineWidth(itemStack);
         int mineHeight = getMaxMineHeight(itemStack);
 
-        if (mineHeight < 9) {
+        if (mineHeight < MAX_HEIGHT) {
             if (mineWidth - mineHeight == 0) {
                 itemStack.getTag().putInt("max_mine_width", mineWidth + 1);
             } else {
@@ -295,32 +300,50 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
     }
 
     @Override
-    public int getInfusedEnergyNeeded(ItemStack itemStack) {
-        return getBaseInfusedEnergyNeeded() + (getInfusedLevel(itemStack) * 175_000);
+    public double getNeededInfusedEnergy(ItemStack itemStack) {
+        return getBaseNeededInfusedEnergy() + (getInfusedLevel(itemStack) * 175_000);
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(itemStack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> tooltip, TooltipFlag tooltipFlag) {
+        //tooltip.add(Component.empty());
 
-        components.add(Component.empty());
         if(Screen.hasShiftDown()){
-            components.add(Component.literal("Tool Stats:"));
-            components.add(Component.literal(String.format("Infused Level: %d", getInfusedLevel(itemStack))));
-            components.add(Component.literal(String.format("§eEnergy per block: %d§7/250 FE", getBaseMineEnergyCost(itemStack))));
-            components.add(Component.literal(String.format("§cMining speed: %d§7/" + maxSpeed, getMaxMiningSpeed(itemStack))));
-            components.add(Component.literal(String.format("§aMax vein size: %d§7/256", getMaxVeinSize(itemStack))));
-            components.add(Component.literal(String.format("§9Mining width: %d§7/9§9, height: %d§7/9", getMaxMineWidth(itemStack), getMaxMineHeight(itemStack))));
+            tooltip.add(EnumColor.GRAY.getColoredComponent("Tool Details:"));
+            tooltip.add(EnumColor.PURPLE.getColoredComponent("Infused Level: ")
+                    .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getInfusedLevel(itemStack)))));
+            tooltip.add(EnumColor.TEAL.getColoredComponent("Energy Per Block: ")
+                    .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getBaseMineEnergyCost(itemStack))))
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MIN_COST_PER_BLOCK + " FE")));
+            tooltip.add(EnumColor.RED.getColoredComponent("Mining Speed: ")
+                    .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMiningSpeed(itemStack))))
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MAX_MINING_SPEED)));
+            tooltip.add(EnumColor.YELLOW.getColoredComponent("Max Vein Size: ")
+                    .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxVeinSize(itemStack))))
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MAX_VEIN_SIZE)));
+            tooltip.add(EnumColor.BLUE.getColoredComponent("Mining")
+                    .append(EnumColor.BLUE.getColoredComponent(" Width: "))
+                    .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMineWidth(itemStack))))
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MAX_WIDTH)));
+            tooltip.add(EnumColor.BLUE.getColoredComponent("        Height: ")
+                    .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMineHeight(itemStack))))
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MAX_HEIGHT)));
         } else if(Screen.hasControlDown()){
-            components.add(Component.literal("§7This tool can also mine, dig and chop trees"));
-            components.add(Component.literal("§6- §eWhile used on tree the tool will automatically use"));
-            components.add(Component.literal("  §ethe vein miner to chop the whole tree (using Max vein size)"));
-            components.add(Component.literal("§2- §aElse it will mine in area (Using Mining width & height)"));
-            components.add(Component.literal("  §aif you press SHIFT while mining it will use the vein"));
-            components.add(Component.literal("  §aminer instead of area!"));
+            tooltip.add(Component.literal("§7This tool can also mine, dig and chop trees"));
+            tooltip.add(Component.literal("§6- §eWhile used on tree the tool will automatically use"));
+            tooltip.add(Component.literal("  §ethe vein miner to chop the whole tree (using Max vein size)"));
+            tooltip.add(Component.literal("§2- §aElse it will mine in area (Using Mining width & height)"));
+            tooltip.add(Component.literal("  §aif you press SHIFT while mining it will use the vein"));
+            tooltip.add(Component.literal("  §aminer instead of area!"));
         } else {
-            components.add(Component.literal("§7Hold §aSHIFT§7 to show tool stats"));
-            components.add(Component.literal("§7Hold §eCTRL§7 to show tool info"));
+            super.appendHoverText(itemStack, level, tooltip, tooltipFlag);
+
+            tooltip.add(EnumColor.GRAY.getColoredComponent("Hold [")
+                    .append(EnumColor.PURPLE.getColoredComponent("SHIFT"))
+                    .append(EnumColor.GRAY.getColoredComponent("] to show tool details")));
+            tooltip.add(EnumColor.GRAY.getColoredComponent("Hold [")
+                    .append(EnumColor.YELLOW.getColoredComponent("CTRL"))
+                    .append(EnumColor.GRAY.getColoredComponent("] to show tool info")));
         }
     }
 

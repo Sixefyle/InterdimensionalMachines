@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "transdimensionalmachines:block/item_infuser",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "transdimensionalmachines:block/item_infuser"
+    },
+    "facing=south": {
+      "model": "transdimensionalmachines:block/item_infuser",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "transdimensionalmachines:block/item_infuser",
+      "y": 270
+    }
+  }
+}

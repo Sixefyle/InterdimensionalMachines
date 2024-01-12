@@ -1,7 +1,9 @@
 package be.sixefyle.transdimquarry.items.tools;
 
+import be.sixefyle.transdimquarry.enums.EnumColor;
 import be.sixefyle.transdimquarry.items.EnergizedItem;
 import be.sixefyle.transdimquarry.key.KeyBinding;
+import be.sixefyle.transdimquarry.utils.ComponentUtil;
 import be.sixefyle.transdimquarry.utils.NumberUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -14,17 +16,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public abstract class InfusedTool extends EnergizedItem {
-    private final int useEnergyCost;
-    private final int baseInfusedEnergyNeeded;
 
-    public InfusedTool(Properties p_41383_, int capacity, int energyCost, int infusedEnergyNeeded) {
-        super(p_41383_.stacksTo(1), capacity);
+    private final int useEnergyCost;
+    private final int baseNeededInfusedEnergy;
+
+
+    public InfusedTool(Properties properties, int capacity, int energyCost, int infusedEnergyNeeded) {
+        super(properties.stacksTo(1), capacity);
 
         this.useEnergyCost = energyCost;
-        this.baseInfusedEnergyNeeded = infusedEnergyNeeded;
+        this.baseNeededInfusedEnergy = infusedEnergyNeeded;
     }
 
-    public void addInfusedEnergy(ItemStack itemStack, int amount){
+    public void addInfusedEnergy(ItemStack itemStack, long amount){
         if(!itemStack.hasTag()){
             itemStack.setTag(new CompoundTag());
         }
@@ -33,29 +37,31 @@ public abstract class InfusedTool extends EnergizedItem {
             itemStack.getTag().putInt("infused_energy", 0);
         }
 
-        int newInfusedEnergy = getInfusedEnergy(itemStack) + amount;
-        int neededEnergy = getInfusedEnergyNeeded(itemStack);
-        if(neededEnergy > 0){
-            do {
-                if(newInfusedEnergy < neededEnergy){
-                    setInfusedEnergy(itemStack, newInfusedEnergy);
+        long infusedEnergy = getInfusedEnergy(itemStack) + amount;
+        double neededEnergy = getNeededInfusedEnergy(itemStack);
+        if (neededEnergy > 0) {
+            while (infusedEnergy > 0) {
+                if (infusedEnergy < neededEnergy) {
+                    setInfusedEnergy(itemStack, infusedEnergy);
+                    break;
                 } else {
                     onInfuseLevelUp(itemStack);
-                    neededEnergy = getInfusedEnergyNeeded(itemStack);
-                    itemStack.getTag().putInt("infused_energy", 0);
+                    infusedEnergy -= neededEnergy;
+                    neededEnergy = getNeededInfusedEnergy(itemStack);
                 }
-                newInfusedEnergy -= neededEnergy;
-            }while (newInfusedEnergy > 0);
+            }
+
+            setInfusedEnergy(itemStack, infusedEnergy);
         }
     }
 
     public abstract void onInfuseLevelUp(ItemStack itemStack);
 
-    public int getBaseInfusedEnergyNeeded() {
-        return baseInfusedEnergyNeeded;
+    public int getBaseNeededInfusedEnergy() {
+        return baseNeededInfusedEnergy;
     }
 
-    public abstract int getInfusedEnergyNeeded(ItemStack itemStack);
+    public abstract double getNeededInfusedEnergy(ItemStack itemStack);
 
     public boolean isMaxed(ItemStack itemStack){
         return itemStack.hasTag() && itemStack.getTag().getBoolean("is_maxed");
@@ -65,35 +71,35 @@ public abstract class InfusedTool extends EnergizedItem {
         return itemStack.hasTag() ? itemStack.getTag().getInt("infused_energy") : 0;
     }
 
-    public void setInfusedEnergy(ItemStack itemStack, int value){
-        if(!itemStack.hasTag())return;
+    public void setInfusedEnergy(ItemStack itemStack, long value){
+        if(!itemStack.hasTag()) return;
 
-        itemStack.getTag().putInt("infused_energy", value);
+        itemStack.getTag().putLong("infused_energy", value);
     }
 
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(itemStack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> tooltip, TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, level, tooltip, tooltipFlag);
 
         int infusedEnergy = getInfusedEnergy(itemStack);
 
-        components.add(Component.empty());
         if(isMaxed(itemStack)){
-            components.add(Component.literal("Infused Energy Maxed").withStyle(ChatFormatting.YELLOW));
+            tooltip.add(EnumColor.PURPLE.getColoredComponent("Tool Maxed"));
         } else {
-            components.add(Component.literal(String.format("Infused Energy %s/%s", NumberUtil.formatToEnergy(infusedEnergy), NumberUtil.formatToEnergy(getInfusedEnergyNeeded(itemStack)))).withStyle(ChatFormatting.YELLOW));
+            tooltip.add(EnumColor.PURPLE.getColoredComponent("Infused Energy: ")
+                    .append(EnumColor.GRAY.getColoredComponent(NumberUtil.formatToEnergy(infusedEnergy))
+                    .append(EnumColor.GRAY.getColoredComponent("/" + NumberUtil.formatToEnergy(getNeededInfusedEnergy(itemStack))))));
         }
-        components.add(Component.literal("Can be infused in a Tool Infuser").withStyle(ChatFormatting.GRAY));
 
         if(this instanceof IModeHandle){
-            components.add(Component.empty());
-            components.add(Component.literal("You can configure this tool!").withStyle(ChatFormatting.GRAY));
-            components.add(Component.literal("§7Press [§9")
-                    .append(KeyBinding.TOOL_SETTINGS_KEY.getKey().getDisplayName())
-                    .append("§7] while holding to open the config menu."));
+            tooltip.add(Component.empty());
+            tooltip.add(EnumColor.GRAY.getColoredComponent("Press [")
+                    .append(EnumColor.RED.getColoredComponent(KeyBinding.TOOL_SETTINGS_KEY.getKey().getDisplayName().getString())
+                    .append(EnumColor.GRAY.getColoredComponent("] to open the config menu."))));
         }
     }
 
     public int getBaseEnergyCost() {
         return useEnergyCost;
     }
+
 }

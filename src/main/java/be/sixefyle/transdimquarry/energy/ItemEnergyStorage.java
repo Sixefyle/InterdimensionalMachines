@@ -14,6 +14,8 @@ public class ItemEnergyStorage extends EnergyStorage {
 
     @Override
     public int extractEnergy(int maxExtract, boolean simulate) {
+        if(!container.hasTag()) return 0;
+
         int energy = container.getTag().getInt("energy");
         int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
 

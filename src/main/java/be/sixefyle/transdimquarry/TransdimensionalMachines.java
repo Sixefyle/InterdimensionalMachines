@@ -1,15 +1,17 @@
 package be.sixefyle.transdimquarry;
 
+import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserScreen;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserScreen;
 import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.dimension.CosmicBoundaryRender;
 import be.sixefyle.transdimquarry.networking.PacketSender;
-import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryScreen;
+import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryScreen;
+import be.sixefyle.transdimquarry.customrecipes.iteminfuser.ItemInfuserRecipeRegister;
+import be.sixefyle.transdimquarry.registries.*;
 import be.sixefyle.transdimquarry.utils.OreUtils;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.DimensionSpecialEffects;
-import net.minecraft.client.telemetry.events.WorldLoadEvent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -24,8 +26,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
-
-import java.awt.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(TransdimensionalMachines.MODID)
@@ -46,6 +46,7 @@ public class TransdimensionalMachines
         MenuRegister.ALL.register(modEventBus);
         CreativeTabRegister.CREATIVE_MODE_TABS.register(modEventBus);
 
+
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC, "transdimensional-machines.toml");
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -64,8 +65,13 @@ public class TransdimensionalMachines
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event){
         OreUtils.initRegisteredOreList();
+        ItemInfuserRecipeRegister.register();
     }
 
+
+    public static ResourceLocation resourceLocation(String path){
+        return new ResourceLocation(MODID, path);
+    }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
@@ -75,6 +81,8 @@ public class TransdimensionalMachines
         {
             MenuScreens.register(MenuRegister.TRANSDIMENSIONAL_QUARRY.get(), TransdimQuarryScreen::new);
             MenuScreens.register(MenuRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(), TransdimToolInfuserScreen::new);
+            MenuScreens.register(MenuRegister.ITEM_INFUSER.get(), ItemInfuserScreen::new);
+            ItemInfuserRecipeRegister.register();
         }
 
         @SubscribeEvent

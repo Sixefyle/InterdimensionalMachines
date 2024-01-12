@@ -1,5 +1,6 @@
 package be.sixefyle.transdimquarry.items.tools;
 
+import be.sixefyle.transdimquarry.enums.EnumColor;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,17 +23,19 @@ import java.util.List;
 
 public class TransdimSword extends InfusedTool {
 
+    public static final double DAMAGE_PER_INFUSE = 0.1;
+
     public TransdimSword() {
         super(new Properties().rarity(Rarity.EPIC).fireResistant().setNoRepair(),
-                5_000_000, 12_500, 5_000_000);
+                5_000_000, 12_500, 50_000);
     }
 
-    public int getDamageAdded(ItemStack itemStack){
+    public double getDamageAdded(ItemStack itemStack){
         if(itemStack.hasTag() && !itemStack.getTag().contains("added_damage")){
-            itemStack.getTag().putInt("added_damage", 0);
+            itemStack.getTag().putDouble("added_damage", 0);
         }
 
-        return itemStack.hasTag() ? itemStack.getTag().getInt("added_damage") : 0;
+        return itemStack.hasTag() ? itemStack.getTag().getDouble("added_damage") : 0;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class TransdimSword extends InfusedTool {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         if(slot == EquipmentSlot.MAINHAND){
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            int addedDamage = getDamageAdded(stack);
+            double addedDamage = getDamageAdded(stack);
 
             if(getEnergyStorage(stack).getEnergyStored() >= getBaseEnergyCost()) {
                 builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 33 + addedDamage, AttributeModifier.Operation.ADDITION));
@@ -73,25 +76,29 @@ public class TransdimSword extends InfusedTool {
         if(!itemStack.hasTag())
             return;
 
-        itemStack.getTag().putInt("added_damage", getDamageAdded(itemStack) + 1);
+        itemStack.getTag().putDouble("added_damage", getDamageAdded(itemStack) + DAMAGE_PER_INFUSE);
     }
 
     @Override
-    public int getInfusedEnergyNeeded(ItemStack itemStack) {
-        return getBaseInfusedEnergyNeeded() + (getDamageAdded(itemStack) * 1000000);
+    public double getNeededInfusedEnergy(ItemStack itemStack) {
+        return getBaseNeededInfusedEnergy() + (getDamageAdded(itemStack) * 150_000);
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
-        super.appendHoverText(itemStack, level, components, tooltipFlag);
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> tooltip, TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, level, tooltip, tooltipFlag);
 
-        int addedDamage = getDamageAdded(itemStack);
-        components.add(Component.empty());
+        double addedDamage = getDamageAdded(itemStack);
+        tooltip.add(Component.empty());
         if(Screen.hasShiftDown()) {
-            components.add(Component.literal("Tool Stats:"));
-            components.add(Component.literal(String.format("Damage added: %d", addedDamage)));
+            tooltip.add(EnumColor.GRAY.getColoredComponent("Tool Informations:"));
+
+            tooltip.add(EnumColor.BLUE.getColoredComponent("Damage Added: ")
+                    .append(EnumColor.TEAL.getColoredComponent(String.format("%.2f", addedDamage))));
         } else {
-            components.add(Component.literal("§7Press §aSHIFT§7 to show tool details"));
+            tooltip.add(EnumColor.GRAY.getColoredComponent("Hold [")
+                    .append(EnumColor.PURPLE.getColoredComponent("SHIFT"))
+                    .append(EnumColor.GRAY.getColoredComponent("] to show tool details")));
         }
     }
 }

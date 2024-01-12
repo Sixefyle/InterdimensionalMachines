@@ -1,0 +1,4 @@
+// 1.20.1	2024-01-09T18:47:46.4460733	Registries
+ba210ebbf8e30e78d1be66fc72604bfdedbddae9 data/transdimensionalmachines/forge/biome_modifier/add_quantumite_ore.json
+1b05840be292906cb2037786506e330555f645d7 data/transdimensionalmachines/worldgen/configured_feature/quantumite_ore.json
+759d2145ec88b54a18d75c2e5a539b5e0656c38f data/transdimensionalmachines/worldgen/placed_feature/quantumite_ore_placed.json

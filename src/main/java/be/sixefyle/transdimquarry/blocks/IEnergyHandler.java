@@ -1,11 +1,11 @@
 package be.sixefyle.transdimquarry.blocks;
 
-import net.minecraftforge.energy.IEnergyStorage;
+import be.sixefyle.transdimquarry.energy.ILongEnergyStorage;
 
 public interface IEnergyHandler {
-    int getEnergy();
-    void setEnergy(int value);
-    IEnergyStorage getEnergyStorage();
+    long getEnergy();
+    void setEnergy(long value);
+    ILongEnergyStorage getEnergyStorage();
 
-    void setMaxEnergyInput(int value);
+    void setMaxEnergyInput(long value);
 }

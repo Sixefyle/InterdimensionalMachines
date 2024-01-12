@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.datagen;
 
-import be.sixefyle.transdimquarry.BlockRegister;
+import be.sixefyle.transdimquarry.registries.BlockRegister;
+import be.sixefyle.transdimquarry.registries.ItemRegister;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
@@ -15,8 +16,14 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
+//        this.dropSelf(BlockRegister.DIMENSIONAL_QUARRY.get());
         this.dropSelf(BlockRegister.TRANSDIMENSIONAL_QUARRY.get());
         this.dropSelf(BlockRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get());
+        this.dropSelf(BlockRegister.ITEM_INFUSER.get());
+
+        this.dropSelf(BlockRegister.QUANTUMITE_BLOCK.get());
+
+        this.dropOther(BlockRegister.QUANTUMITE_ORE.get(), ItemRegister.RAW_QUANTUMITE_ORE.get());
     }
 
     @Override

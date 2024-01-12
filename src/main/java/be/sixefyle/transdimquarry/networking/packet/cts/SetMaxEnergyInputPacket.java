@@ -1,7 +1,6 @@
 package be.sixefyle.transdimquarry.networking.packet.cts;
 
 import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
-import be.sixefyle.transdimquarry.blocks.quarry.TransdimQuarryBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;

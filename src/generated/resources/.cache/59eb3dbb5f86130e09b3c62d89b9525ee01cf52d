@@ -1,3 +1,6 @@
-// 1.20.1	2023-06-30T16:17:50.7149267	Loot Tables
+// 1.20.1	2024-01-09T21:25:31.9215256	Loot Tables
+7f11863358c56b29fa5129a7ffc339a99a9b9662 data/transdimensionalmachines/loot_tables/blocks/item_infuser.json
+48ae53f84a07a8f5e5401fb9f3d1a4c558d8d014 data/transdimensionalmachines/loot_tables/blocks/quantumite_block.json
+4e6e6c52e91d36c115e906df04e9df9cf3cc9e0a data/transdimensionalmachines/loot_tables/blocks/quantumite_ore.json
 8a3efc71d54587972da7830619015948a3428234 data/transdimensionalmachines/loot_tables/blocks/transdimensional_quarry.json
 98e2238bb1528bf11cb3c6386662a995a2a70c4b data/transdimensionalmachines/loot_tables/blocks/transdimensional_tool_infuser.json

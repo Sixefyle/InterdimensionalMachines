@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.datagen;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
+import be.sixefyle.transdimquarry.worldgen.WorldGenProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -20,5 +21,6 @@ public class DataGenerators {
         //generator.addProvider(true, new ModBlockStateProvider(generator, existingFileHelper));
         generator.addProvider(true, ModLootTableProvider.create(packOutput));
         generator.addProvider(true, new ModRecipeProvider(packOutput));
+        generator.addProvider(true, new WorldGenProvider(packOutput, event.getLookupProvider()));
     }
 }

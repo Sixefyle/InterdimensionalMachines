@@ -1,6 +1,6 @@
 package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
-import be.sixefyle.transdimquarry.BlockEntityRegister;
+import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;

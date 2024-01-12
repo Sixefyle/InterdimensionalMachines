@@ -1,44 +1,23 @@
 package be.sixefyle.transdimquarry.energy;
 
-import net.minecraftforge.energy.EnergyStorage;
-
-public abstract class BlockEnergyStorage extends EnergyStorage {
-    public BlockEnergyStorage(int capacity, int maxTransfer) {
+public class BlockEnergyStorage extends LongEnergyStorage {
+    public BlockEnergyStorage(long capacity, long maxTransfer) {
         super(capacity, maxTransfer);
     }
 
-    public BlockEnergyStorage(int capacity, int maxReceive, int maxExtract) {
+    public BlockEnergyStorage(long capacity, long maxReceive, long maxExtract) {
         super(capacity, maxReceive, maxExtract);
     }
 
-    public BlockEnergyStorage(int capacity) {
+    public BlockEnergyStorage(long capacity) {
         super(capacity);
     }
 
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        int extractedEnergy = super.extractEnergy(maxExtract, simulate);
-        if(extractedEnergy != 0) {
-            onEnergyChanged();
-        }
-
-        return extractedEnergy;
-    }
-
-    @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        int receiveEnergy = super.receiveEnergy(maxReceive, simulate);
-        if(receiveEnergy != 0) {
-            onEnergyChanged();
-        }
-
-        return receiveEnergy;
-    }
-
-    public int setEnergy(int energy) {
+    public void setEnergy(long energy) {
         this.energy = energy;
-        return energy;
     }
 
-    public abstract void onEnergyChanged();
+    public void setCapacity(long capacity){
+        this.capacity = capacity;
+    }
 }

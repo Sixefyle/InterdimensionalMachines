@@ -1,7 +1,8 @@
 package be.sixefyle.transdimquarry.datagen;
 
-import be.sixefyle.transdimquarry.BlockRegister;
-import be.sixefyle.transdimquarry.ItemRegister;
+import be.sixefyle.transdimquarry.registries.BlockRegister;
+import be.sixefyle.transdimquarry.registries.ItemRegister;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -87,7 +88,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.ENERGY_UPGRADE.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.QUARRY_ENERGY_UPGRADE.get())
                 .define('P', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('S', Items.OXIDIZED_COPPER)
                 .define('C', Tags.Items.STORAGE_BLOCKS_EMERALD)
@@ -151,13 +152,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.ECHO_SHARD).build()))
                 .save(pFinishedRecipeConsumer);
 
-        SimpleCookingRecipeBuilder.blasting(
-                Ingredient.of(ItemRegister.RAW_ECHO_INGOT.get()), RecipeCategory.MISC, ItemRegister.ECHO_INGOT.get(),
-                10, 40)
-                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(Items.ECHO_SHARD).build()))
-                .save(pFinishedRecipeConsumer);
-
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.CALIBRATOR.get())
                 .define('E', ItemRegister.ECHO_INGOT.get())
@@ -185,6 +179,30 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("EEE")
                 .pattern("EEE")
                 .pattern("EEE")
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegister.QUANTUMITE_BLOCK.get())
+                .define('E', ItemRegister.QUANTUMITE_INGOT.get())
+                .pattern("EEE")
+                .pattern("EEE")
+                .pattern("EEE")
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer);
+
+        SimpleCookingRecipeBuilder.smelting(
+                        Ingredient.of(ItemRegister.RAW_ECHO_INGOT.get()), RecipeCategory.MISC, ItemRegister.ECHO_INGOT.get(),
+                        10, 40)
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer);
+
+
+        SimpleCookingRecipeBuilder.smelting(
+                        Ingredient.of(ItemRegister.RAW_QUANTUMITE_ORE.get()), RecipeCategory.MISC, ItemRegister.QUANTUMITE_INGOT.get(),
+                        0, 120)
                 .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.ECHO_SHARD).build()))
                 .save(pFinishedRecipeConsumer);

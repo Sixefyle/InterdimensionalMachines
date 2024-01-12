@@ -1,9 +1,12 @@
 package be.sixefyle.transdimquarry.items;
 
 import be.sixefyle.transdimquarry.energy.ItemEnergyStorage;
+import be.sixefyle.transdimquarry.enums.EnumColor;
 import be.sixefyle.transdimquarry.utils.NumberUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -19,7 +22,6 @@ import java.util.List;
 public class EnergizedItem extends Item {
     public static final IEnergyStorage EMPTY_ENERGY_STORAGE = new EnergyStorage(0);
     final int capacity;
-
 
     public EnergizedItem(Properties p_41383_, int capacity) {
         super(p_41383_);
@@ -51,14 +53,20 @@ public class EnergizedItem extends Item {
     }
 
     @Override
+    public int getBarColor(ItemStack p_150901_) {
+        return FastColor.ARGB32.color(0, 136,21,237);
+    }
+
+    @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, components, tooltipFlag);
 
         IEnergyStorage energyStorage = getEnergyStorage(itemStack);
-        int storedEnergy = energyStorage.getEnergyStored();
-        int maxEnergy = energyStorage.getMaxEnergyStored();
+        double storedEnergy = energyStorage.getEnergyStored();
+        double maxEnergy = energyStorage.getMaxEnergyStored();
 
-        components.add(Component.literal(
-                String.format("Energy: %s/%s", NumberUtil.formatToEnergy(storedEnergy), NumberUtil.formatToEnergy(maxEnergy))));
+        components.add(EnumColor.TEAL.getColoredComponent("Tool Energy: ")
+                .append(EnumColor.GRAY.getColoredComponent(NumberUtil.formatToEnergy(storedEnergy)))
+                .append(EnumColor.GRAY.getColoredComponent("/" + NumberUtil.formatToEnergy(maxEnergy))));
     }
 }

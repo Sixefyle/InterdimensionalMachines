@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
+import be.sixefyle.transdimquarry.energy.ILongEnergyStorage;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.cts.SetMaxEnergyInputPacket;
 import be.sixefyle.transdimquarry.utils.MouseUtil;
@@ -14,7 +15,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.energy.IEnergyStorage;
 
 public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimToolInfuserMenu> {
     private static final ResourceLocation TEXTURE =
@@ -95,7 +95,7 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
     }
 
     private void renderEnergyAreaTooltips(GuiGraphics guiGraphics, int pMouseX, int pMouseY, int x, int y) {
-        IEnergyStorage energyStorage = menu.blockEntity.getEnergyStorage();
+        ILongEnergyStorage energyStorage = menu.blockEntity.getEnergyStorage();
         if(isMouseAboveArea(pMouseX, pMouseY, x, y, 42, 15, 72, 11)) {
             guiGraphics.renderTooltip(this.font,
                     Component.literal(NumberUtil.formatToEnergy(energyStorage.getEnergyStored())+"/"+NumberUtil.formatToEnergy(energyStorage.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
