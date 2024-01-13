@@ -18,7 +18,7 @@ public class TransdimQuarryMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public TransdimQuarryMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
-        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(5));
+        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(6));
     }
 
     public TransdimQuarryMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
@@ -67,14 +67,16 @@ public class TransdimQuarryMenu extends AbstractContainerMenu {
     public int getProgression(){
         return data.get(1);
     }
+
+    // i should use maxProgression instead of this
     public int getTimeToMine(){
-        return data.get(2);
-    }
-    public int getFortuneLevel(){
         return data.get(3);
     }
+    public int getFortuneLevel(){
+        return data.get(4);
+    }
     public boolean isSilkTouch(){
-        return data.get(4) > 0;
+        return data.get(5) > 0;
     }
     public boolean isInventoryFull() {
         return blockEntity.isContainerFull();

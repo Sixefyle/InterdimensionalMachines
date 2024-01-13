@@ -113,9 +113,10 @@ public class ItemInfuserScreen extends AbstractContainerScreen<ItemInfuserMenu> 
         ItemStack input = blockEntity.getItem(ItemInfuserBlockEntity.INPUT_SLOT);
         ItemStack harmonisationMatrix = blockEntity.getItem(ItemInfuserBlockEntity.HARMONIZATION_MATRIX_SLOT);
         ItemInfuserRecipe recipe = ItemInfuserRecipe.getRecipe(input, harmonisationMatrix);
-        boolean haveEnoughEnergy = menu.getPowerConsumption() <= 0 || menu.getEnergyStored() > menu.getPowerConsumption();
+        boolean haveEnoughEnergy = menu.getPowerConsumption() <= 0 || menu.getEnergyStored() >= menu.getPowerConsumption();
+        boolean canUseCalibrator = blockEntity.canUseCalibrator(recipe, calibrator);
 
-        if(input.isEmpty() || calibrator.isEmpty() || !haveEnoughEnergy || harmonisationMatrix.isEmpty()){
+        if(input.isEmpty() || calibrator.isEmpty() || !haveEnoughEnergy || harmonisationMatrix.isEmpty() || !canUseCalibrator){
             List<String> strings = new ArrayList<>();
             if(calibrator.isEmpty()){
                 strings.add("- No calibrator detected!");
@@ -127,14 +128,18 @@ public class ItemInfuserScreen extends AbstractContainerScreen<ItemInfuserMenu> 
                 strings.add("- No harmonization matrix");
                 strings.add("  detected!");
             }
+            if(!calibrator.isEmpty() && !canUseCalibrator){
+                strings.add("- Calibrator doesn't have");
+                strings.add("  enough durability!");
+            }
             if(!haveEnoughEnergy){
                 strings.add("- Not enought energy!");
                 strings.add(String.format("  Need %s to work", NumberUtil.formatToEnergy(menu.getPowerConsumption() - menu.getEnergyStored())));
-                if(recipe != null){
-                    strings.add("");
-                    strings.add("Current output:");
-                    strings.add(" -" + recipe.getOutput().getDisplayName().getString());
-                }
+//                if(recipe != null){
+//                    strings.add("");
+//                    strings.add("Current output:");
+//                    strings.add(" -" + recipe.getOutput().getDisplayName().getString());
+//                }
             }
             showErrorMessage(guiGraphics, strings.toArray(new String[0]));
         } else {

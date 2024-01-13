@@ -1,5 +1,6 @@
 package be.sixefyle.transdimquarry.networking.packet.cts;
 
+import be.sixefyle.transdimquarry.blocks.BaseEnergyContainerBlockEntity;
 import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -12,21 +13,21 @@ import java.util.function.Supplier;
 public class SetMaxEnergyInputPacket {
 
     private final BlockPos blockpos;
-    private final int newAmount;
+    private final long newAmount;
 
-    public SetMaxEnergyInputPacket(BlockPos pos, int newAmount){
+    public SetMaxEnergyInputPacket(BlockPos pos, long newAmount){
         this.blockpos = pos;
         this.newAmount = newAmount;
     }
 
     public SetMaxEnergyInputPacket(FriendlyByteBuf buf){
         this.blockpos = buf.readBlockPos();
-        this.newAmount = buf.readInt();
+        this.newAmount = buf.readLong();
     }
 
     public void toBytes(FriendlyByteBuf buf){
         buf.writeBlockPos(blockpos);
-        buf.writeInt(newAmount);
+        buf.writeLong(newAmount);
     }
 
     public void handle(Supplier<NetworkEvent.Context> supplier){
@@ -35,8 +36,9 @@ public class SetMaxEnergyInputPacket {
             ServerPlayer player = context.getSender();
             ServerLevel world = player.serverLevel();
 
-            if(world.getBlockEntity(blockpos) instanceof IEnergyHandler energyHandler){
-                energyHandler.setMaxEnergyInput(newAmount);
+            if(world.getBlockEntity(blockpos) instanceof BaseEnergyContainerBlockEntity blockEntity){
+               blockEntity.setEnergyNeeded(newAmount);
+               blockEntity.setEnergyCapacity((long)(newAmount * 1.1));
             }
         });
     }

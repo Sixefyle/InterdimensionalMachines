@@ -9,11 +9,12 @@ public class NumberUtil {
 //            return String.valueOf(number);
 //        }
 
-        String[] suffixes = {" FE", " kFE", " MFE", " GFE", " TFE"};
+        String[] suffixes = {" FE", " kFE", " MFE", " GFE", " TFE", " PFE"};
         int suffixIndex = 0;
         double formatedNumber = number;
 
         while (formatedNumber >= 1000) {
+            if(suffixIndex >= suffixes.length) break;
             formatedNumber /= 1000;
             suffixIndex++;
         }

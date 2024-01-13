@@ -25,6 +25,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemInfuserRecipeCategory implements IRecipeCategory<ItemInfuserRecipe> {
@@ -41,7 +42,7 @@ public class ItemInfuserRecipeCategory implements IRecipeCategory<ItemInfuserRec
         imageWidth = 176;
         imageHeight = 83;
 
-        this.background = helper.createDrawable(TEXTURE, 0, 0, 176, 83);
+        this.background = helper.createDrawable(TEXTURE, 0, 0, imageWidth, imageHeight);
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BlockRegister.ITEM_INFUSER.get()));
     }
 
@@ -67,7 +68,11 @@ public class ItemInfuserRecipeCategory implements IRecipeCategory<ItemInfuserRec
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, ItemInfuserRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 7, 19).addItemStack(new ItemStack(ItemRegister.CALIBRATOR.get()));
+        builder.addSlot(RecipeIngredientRole.INPUT, 7, 19).addIngredients(VanillaTypes.ITEM_STACK, new ArrayList<>(){{
+            add(ItemRegister.CALIBRATOR.get().getDefaultInstance());
+            add(ItemRegister.QUANTUMITE_CALIBRATOR.get().getDefaultInstance());
+        }});
+
         builder.addSlot(RecipeIngredientRole.INPUT, 7, 49).addIngredients(Ingredient.of(recipe.getHarmonizationMatrix()));
         builder.addSlot(RecipeIngredientRole.INPUT, 128, 34).addIngredients(Ingredient.of(recipe.getInput()));
         builder.addSlot(RecipeIngredientRole.OUTPUT, 148, 34).addItemStack(recipe.getOutput());
@@ -80,7 +85,7 @@ public class ItemInfuserRecipeCategory implements IRecipeCategory<ItemInfuserRec
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(.7f, .7f, .7f);
 
-        guiGraphics.drawString(Minecraft.getInstance().font, String.format("Energy Cost: %s", NumberUtil.formatToEnergy(recipe.getEnergyCost())), 41, 29, 0xffffff, false);
+        guiGraphics.drawString(Minecraft.getInstance().font, String.format("Energy Cost: %s/t", NumberUtil.formatToEnergy(recipe.getEnergyCost())), 41, 29, 0xffffff, false);
         guiGraphics.drawString(Minecraft.getInstance().font, String.format("Calibrator Damage: %d", recipe.getCalibratorDurabilityCost()), 41, 39, 0xffffff, false);
 
         guiGraphics.pose().popPose();

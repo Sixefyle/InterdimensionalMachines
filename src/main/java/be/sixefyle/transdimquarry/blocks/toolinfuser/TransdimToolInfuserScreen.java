@@ -36,18 +36,20 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
         int y = (height - imageHeight) / 2;
 
         energyInput = new EditBox(this.font, x + 43, y + 45, 60, 10, Component.literal("max_energy_input"));
+        energyInput.setValue(String.valueOf(menu.blockEntity.getNeededEnergy()));
 
         addRenderableWidget(energyInput);
         addRenderableWidget(new Button.Builder(Component.literal("Apply"), (button) -> {
             try {
+                long newValue = Long.parseLong(energyInput.getValue());
                 PacketSender.sendToServer(new SetMaxEnergyInputPacket(
-                        menu.getBlockEntity().getBlockPos(), Integer.parseInt(energyInput.getValue())));
-            } catch (Exception ignore){
-
-            }
-        })      .size(30, 10)
-                .pos(x + 104, y + 45)
-                .build());
+                        menu.getBlockEntity().getBlockPos(), newValue ));
+                menu.blockEntity.setEnergyCapacity((long) (newValue * 1.1));
+                menu.blockEntity.setEnergyNeeded(newValue);
+            } catch (Exception ignore){ }
+        }).size(30, 10)
+          .pos(x + 104, y + 45)
+          .build());
     }
 
     @Override
@@ -87,7 +89,7 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(.5f,.5f,.5f);
 
-        guiGraphics.drawString(this.font, String.format("%s added per infuse.", NumberUtil.formatToEnergy(Math.min(menu.getNeededEnergy(), menu.blockEntity.getEnergyStorage().getMaxEnergyStored()))), 86, 95, 0xffffff, true);
+        guiGraphics.drawString(this.font, String.format("%s added per infuse.", NumberUtil.formatToEnergy(menu.blockEntity.getNeededEnergy())), 86, 95, 0xffffff, true);
 
         guiGraphics.pose().popPose();
 
@@ -98,7 +100,7 @@ public class TransdimToolInfuserScreen extends AbstractContainerScreen<TransdimT
         ILongEnergyStorage energyStorage = menu.blockEntity.getEnergyStorage();
         if(isMouseAboveArea(pMouseX, pMouseY, x, y, 42, 15, 72, 11)) {
             guiGraphics.renderTooltip(this.font,
-                    Component.literal(NumberUtil.formatToEnergy(energyStorage.getEnergyStored())+"/"+NumberUtil.formatToEnergy(energyStorage.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
+                    Component.literal(NumberUtil.formatToEnergy(energyStorage.getLongEnergyStored())+"/"+NumberUtil.formatToEnergy(energyStorage.getLongMaxEnergyStored())), pMouseX - x, pMouseY - y);
         }
     }
 

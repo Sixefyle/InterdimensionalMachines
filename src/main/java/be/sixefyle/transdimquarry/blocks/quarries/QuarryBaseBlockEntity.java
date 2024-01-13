@@ -129,9 +129,8 @@ public abstract class QuarryBaseBlockEntity extends BaseEnergyContainerBlockEnti
             this.fakePlayer = LevelUtil.getFakePlayer((ServerLevel) level, "TransDim-Player");;
         }
 
-        if(getEnergy() > 0){
-            PacketSender.sendToClients(new EnergySyncPacket(getEnergy(), pos));
-        }
+        PacketSender.sendToClients(new EnergySyncPacket(getEnergy(), pos));
+
 
         if(!isWorking()) return;
         if(isContainerFull()) return;

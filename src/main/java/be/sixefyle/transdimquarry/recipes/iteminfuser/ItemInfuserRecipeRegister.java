@@ -15,9 +15,19 @@ public class ItemInfuserRecipeRegister {
         ItemInfuserRecipeRegister.all.add(CALIBRATED_ECHO_INGOT);
         ItemInfuserRecipeRegister.all.add(REINFORCED_NETHER_STAR);
         ItemInfuserRecipeRegister.all.add(CALIBRATOR);
+        ItemInfuserRecipeRegister.all.add(QUANTUMITE_CALIBRATOR);
         ItemInfuserRecipeRegister.all.add(RAW_ECHO_INGOT);
         ItemInfuserRecipeRegister.all.add(ECHO_SHARD);
         ItemInfuserRecipeRegister.all.add(DIAMOND);
+        ItemInfuserRecipeRegister.all.add(CALIBRATED_QUANTUMITE_INGOT);
+        ItemInfuserRecipeRegister.all.add(ADVANCED_QUARRY_ENERGY_UPGRADE);
+        ItemInfuserRecipeRegister.all.add(ADVANCED_QUARRY_SPEED_UPGRADE);
+        ItemInfuserRecipeRegister.all.add(ADVANCED_QUARRY_FORTUNE_UPGRADE);
+        ItemInfuserRecipeRegister.all.add(ADVANCED_QUARRY_ORE_FINDER_UPGRADE);
+        ItemInfuserRecipeRegister.all.add(COSMIC_QUARRY_ENERGY_UPGRADE);
+        ItemInfuserRecipeRegister.all.add(COSMIC_QUARRY_SPEED_UPGRADE);
+        ItemInfuserRecipeRegister.all.add(COSMIC_QUARRY_FORTUNE_UPGRADE);
+        ItemInfuserRecipeRegister.all.add(COSMIC_QUARRY_ORE_FINDER_UPGRADE);
     }
 
     public static void register(ItemInfuserRecipe recipe){
@@ -48,6 +58,14 @@ public class ItemInfuserRecipeRegister {
             .setCalibratorDurabilityCost(1)
             .build();
 
+    public static final ItemInfuserRecipe QUANTUMITE_CALIBRATOR = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 32))
+            .setInput(new ItemStack(ItemRegister.CALIBRATOR.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.QUANTUMITE_CALIBRATOR.get(), 1))
+            .setEnergyCost(100_000)
+            .setCalibratorDurabilityCost(10)
+            .build();
+
     public static final ItemInfuserRecipe REINFORCED_NETHER_STAR = new ItemInfuserRecipe.Builder()
             .setHarmonizationMatrix(new ItemStack(ItemRegister.QUANTUMITE_INGOT.get(), 8))
             .setInput(new ItemStack(Items.NETHER_STAR, 1))
@@ -68,7 +86,7 @@ public class ItemInfuserRecipeRegister {
             .setHarmonizationMatrix(new ItemStack(Items.ECHO_SHARD, 1))
             .setInput(new ItemStack(Items.BLAZE_ROD, 8))
             .setOutput(new ItemStack(Items.ECHO_SHARD, 2))
-            .setEnergyCost(5_000)
+            .setEnergyCost(500)
             .setCalibratorDurabilityCost(0)
             .build();
 
@@ -78,5 +96,74 @@ public class ItemInfuserRecipeRegister {
             .setOutput(new ItemStack(Items.DIAMOND, 1))
             .setEnergyCost(25_000)
             .setCalibratorDurabilityCost(0)
+            .build();
+
+    public static final ItemInfuserRecipe CALIBRATED_QUANTUMITE_INGOT = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_ECHO_INGOT.get(), 4))
+            .setInput(new ItemStack(ItemRegister.QUANTUMITE_INGOT.get(), 64))
+            .setOutput(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setEnergyCost(100_000)
+            .setCalibratorDurabilityCost(10)
+            .build();
+
+    public static final ItemInfuserRecipe ADVANCED_QUARRY_SPEED_UPGRADE = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(Items.REDSTONE_BLOCK, 64))
+            .setInput(new ItemStack(ItemRegister.QUARRY_SPEED_UPGRADE.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.ADVANCED_QUARRY_SPEED_UPGRADE.get(), 1))
+            .setEnergyCost(50_000)
+            .setCalibratorDurabilityCost(6)
+            .build();
+
+    public static final ItemInfuserRecipe ADVANCED_QUARRY_FORTUNE_UPGRADE = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(Items.DIAMOND_BLOCK, 32))
+            .setInput(new ItemStack(ItemRegister.QUARRY_FORTUNE_UPGRADE.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.ADVANCED_QUARRY_FORTUNE_UPGRADE.get(), 1))
+            .setEnergyCost(50_000)
+            .setCalibratorDurabilityCost(6)
+            .build();
+
+    public static final ItemInfuserRecipe ADVANCED_QUARRY_ORE_FINDER_UPGRADE = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(Items.EMERALD_BLOCK, 32))
+            .setInput(new ItemStack(ItemRegister.ORE_FINDER_UPGRADE.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.ADVANCED_ORE_FINDER_UPGRADE.get(), 1))
+            .setEnergyCost(50_000)
+            .setCalibratorDurabilityCost(6)
+            .build();
+
+    public static final ItemInfuserRecipe ADVANCED_QUARRY_ENERGY_UPGRADE = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(Items.COPPER_BLOCK, 32))
+            .setInput(new ItemStack(ItemRegister.QUARRY_ENERGY_UPGRADE.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.ADVANCED_QUARRY_ENERGY_UPGRADE.get(), 1))
+            .setEnergyCost(50_000)
+            .setCalibratorDurabilityCost(6)
+            .build();
+
+    public static final ItemInfuserRecipe COSMIC_QUARRY_SPEED_UPGRADE = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setInput(new ItemStack(ItemRegister.ADVANCED_QUARRY_SPEED_UPGRADE.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.COSMIC_QUARRY_SPEED_UPGRADE.get(), 1))
+            .setEnergyCost(100_000)
+            .setCalibratorDurabilityCost(150)
+            .build();
+    public static final ItemInfuserRecipe COSMIC_QUARRY_FORTUNE_UPGRADE = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setInput(new ItemStack(ItemRegister.ADVANCED_QUARRY_FORTUNE_UPGRADE.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.COSMIC_QUARRY_FORTUNE_UPGRADE.get(), 1))
+            .setEnergyCost(100_000)
+            .setCalibratorDurabilityCost(150)
+            .build();
+    public static final ItemInfuserRecipe COSMIC_QUARRY_ORE_FINDER_UPGRADE = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setInput(new ItemStack(ItemRegister.ADVANCED_ORE_FINDER_UPGRADE.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.COSMIC_ORE_FINDER_UPGRADE.get(), 1))
+            .setEnergyCost(100_000)
+            .setCalibratorDurabilityCost(150)
+            .build();
+    public static final ItemInfuserRecipe COSMIC_QUARRY_ENERGY_UPGRADE = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setInput(new ItemStack(ItemRegister.ADVANCED_QUARRY_ENERGY_UPGRADE.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.COSMIC_QUARRY_ENERGY_UPGRADE.get(), 1))
+            .setEnergyCost(100_000)
+            .setCalibratorDurabilityCost(150)
             .build();
 }

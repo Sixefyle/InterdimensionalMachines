@@ -63,6 +63,7 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
                 return switch (pIndex){
                     case 0 -> (isWorking() ? 1 : 0);
                     case 1 -> getProgress();
+                    case 2 -> getMaxProgress();
                     default -> 0;
                 };
             }
@@ -72,12 +73,13 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
                 switch (pIndex){
                     case 0 -> setWorking(pValue > 0);
                     case 1 -> setProgress(pValue);
+                    case 2 -> setMaxProgress(pValue);
                 };
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 3;
             }
         };
     }

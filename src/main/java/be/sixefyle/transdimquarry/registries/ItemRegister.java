@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.registries;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
+import be.sixefyle.transdimquarry.items.CalibratorItem;
 import be.sixefyle.transdimquarry.items.quarryupgrades.advanced.AdvancedQuarryEnergyOptimizationUpgradeItem;
 import be.sixefyle.transdimquarry.items.quarryupgrades.advanced.AdvancedQuarryFortuneUpgradeItem;
 import be.sixefyle.transdimquarry.items.quarryupgrades.advanced.AdvancedQuarryOreFinderUpgradeItem;
@@ -34,7 +35,9 @@ public class ItemRegister {
     public static final RegistryObject<Item> REINFORCED_NETHER_STAR = CreativeTabRegister.add(ALL.register("reinforced_nether_star",
             () -> new Item(new Item.Properties().fireResistant())));
     public static final RegistryObject<Item> CALIBRATOR = CreativeTabRegister.add(ALL.register("calibrator",
-            () -> new Item(new Item.Properties().durability(10))));
+            () -> new CalibratorItem(new Item.Properties().durability(10))));
+    public static final RegistryObject<Item> QUANTUMITE_CALIBRATOR = CreativeTabRegister.add(ALL.register("quantumite_calibrator",
+            () -> new CalibratorItem(new Item.Properties().durability(250))));
     public static final RegistryObject<Item> CALIBRATED_ECHO_SHARD = CreativeTabRegister.add(ALL.register("calibrated_echo_shard",
             () -> new Item(new Item.Properties())));
     public static final RegistryObject<Item> CALIBRATED_ECHO_INGOT = CreativeTabRegister.add(ALL.register("calibrated_echo_ingot",

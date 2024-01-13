@@ -19,7 +19,7 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public TransdimToolInfuserMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
-        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(6));
+        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
     }
 
     public TransdimToolInfuserMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
@@ -44,7 +44,7 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
     }
 
     public double getScaledEnergy(){
-        return (double) blockEntity.getEnergyStorage().getEnergyStored() / blockEntity.getEnergyStorage().getMaxEnergyStored();
+        return (double) blockEntity.getEnergyStorage().getLongEnergyStored() / blockEntity.getEnergyStorage().getLongMaxEnergyStored();
     }
 
     public double getScaledInfusedEnergy(){
@@ -61,16 +61,12 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
         return (double) getProgress() / getMaxProgress();
     }
 
-    public int getNeededEnergy(){
-        return this.data.get(0);
-    }
-
     public int getProgress(){
-        return this.data.get(1);
+        return data.get(1);
     }
 
     public int getMaxProgress(){
-        return this.data.get(2);
+        return data.get(2);
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons

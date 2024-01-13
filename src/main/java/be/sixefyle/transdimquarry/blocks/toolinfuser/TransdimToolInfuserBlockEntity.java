@@ -1,5 +1,8 @@
 package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
+import be.sixefyle.transdimquarry.blocks.BaseEnergyContainerBlockEntity;
+import be.sixefyle.transdimquarry.networking.PacketSender;
+import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
 import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
 import be.sixefyle.transdimquarry.config.CommonConfig;
@@ -27,49 +30,13 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 
-public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity implements MenuProvider, IEnergyHandler {
+public class TransdimToolInfuserBlockEntity extends BaseEnergyContainerBlockEntity {
 
     public static final int CONTAINER_SIZE = 1;
 
-    private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
-
-    private final BlockEnergyStorage energyStorage = new BlockEnergyStorage(CommonConfig.TOOL_INFUSER_ENERGY_CAPACITY.get(), Integer.MAX_VALUE, Integer.MAX_VALUE);
-    private long baseEnergyNeeded = 100000;
-    private int progress = 0;
-    private int maxProgress = CommonConfig.TOOL_INFUSER_MAX_PROGRESS.get();
-    private LazyOptional<ILongEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
-
-    protected final ContainerData data;
-
     public TransdimToolInfuserBlockEntity(BlockPos pos, BlockState state) {
-
-        super(BlockEntityRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(), pos, state);
-
-        this.data = new ContainerData() {
-            @Override
-            public int get(int index) {
-                return switch (index) {
-                    case 0 -> (int) TransdimToolInfuserBlockEntity.this.baseEnergyNeeded;
-                    case 1 -> TransdimToolInfuserBlockEntity.this.progress;
-                    case 2 -> TransdimToolInfuserBlockEntity.this.maxProgress;
-                    default -> 0;
-                };
-            }
-
-            @Override
-            public void set(int index, int value) {
-                switch (index) {
-                    case 0 -> TransdimToolInfuserBlockEntity.this.baseEnergyNeeded = value;
-                    case 1 -> TransdimToolInfuserBlockEntity.this.progress = value;
-                    case 2 -> TransdimToolInfuserBlockEntity.this.maxProgress = value;
-                };
-            }
-
-            @Override
-            public int getCount() {
-                return 3;
-            }
-        };
+        super(BlockEntityRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(), pos, state, 1, CommonConfig.TOOL_INFUSER_ENERGY_CAPACITY.get());
+        setMaxProgress(CommonConfig.TOOL_INFUSER_MAX_PROGRESS.get());
     }
 
     @Override
@@ -79,64 +46,7 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
     @Override
     protected AbstractContainerMenu createMenu(int id, Inventory inventory) {
-        return new TransdimToolInfuserMenu(id, inventory, this, this.data);
-    }
-
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-        if(cap == ForgeCapabilities.ENERGY) {
-            return lazyEnergyHandler.cast();
-        }
-
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-
-        lazyEnergyHandler.invalidate();
-    }
-
-
-    @Override
-    public void reviveCaps() {
-        super.reviveCaps();
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
-
-        ContainerHelper.saveAllItems(nbt, this.items);
-        nbt.putLong("energy", energyStorage.getEnergyStored());
-        nbt.putLong("energyNeeded", baseEnergyNeeded);
-    }
-
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-
-        lazyEnergyHandler = LazyOptional.of(() -> energyStorage);
-    }
-
-    @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-        this.items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
-
-        ContainerHelper.loadAllItems(nbt, this.items);
-        energyStorage.setEnergy(nbt.getInt("energy"));
-        baseEnergyNeeded = nbt.getInt("energyNeeded");
-    }
-
-    protected NonNullList<ItemStack> getItems() {
-        return this.items;
-    }
-
-    public void dropInventory(){
-        Containers.dropContents(level, worldPosition, getItems());
+        return new TransdimToolInfuserMenu(id, inventory, this, this.getBaseData());
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, TransdimToolInfuserBlockEntity blockEntity) {
@@ -144,18 +54,17 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
 
         if(!pos.equals(blockEntity.getBlockPos())) return;
 
+        PacketSender.sendToClients(new EnergySyncPacket(blockEntity.getEnergy(), pos));
+
         setChanged(level, pos, state);
 
-//        if(blockEntity.getEnergyStorage().getEnergyStored() <= 1){
-//            blockEntity.getEnergyStorage().receiveEnergy(1000000000, false);
-//        }
-
-        long energyCost = blockEntity.getEnergyCost();
-        ItemStack itemStack = blockEntity.items.get(0);
-        if(!itemStack.isEmpty() && energyCost > 0){
+        long energyCost = blockEntity.getNeededEnergy();
+        ItemStack itemStack = blockEntity.getItem(0);
+        if(!itemStack.isEmpty() && energyCost > 0 && blockEntity.getEnergy() >= energyCost){
             boolean isItemMaxed = itemStack.hasTag() && itemStack.getTag().getBoolean("is_maxed");
-            if(!isItemMaxed && ++blockEntity.progress >= blockEntity.maxProgress){
-                blockEntity.energyStorage.extractEnergy(energyCost, false);
+            blockEntity.setProgress(blockEntity.getProgress() + 1);
+            if(!isItemMaxed && blockEntity.getProgress() >= blockEntity.getMaxProgress()){
+                blockEntity.getEnergyStorage().extractEnergy(energyCost, false);
 
                 if(!itemStack.isEmpty() && itemStack.getItem() instanceof InfusedTool tool) {
                     if(!itemStack.hasTag())
@@ -164,99 +73,17 @@ public class TransdimToolInfuserBlockEntity extends BaseContainerBlockEntity imp
                     tool.addInfusedEnergy(itemStack, energyCost);
                 }
 
-                blockEntity.progress = 0;
-                blockEntity.maxProgress = Math.max(CommonConfig.TOOL_INFUSER_MIN_PROGRESS.get(), blockEntity.maxProgress - 5);
+                blockEntity.resetProgress();
+                blockEntity.setMaxProgress(Math.max(CommonConfig.TOOL_INFUSER_MIN_PROGRESS.get(), blockEntity.getMaxProgress() - 5));
             }
         } else {
-            blockEntity.progress = 0;
-            blockEntity.maxProgress = CommonConfig.TOOL_INFUSER_MAX_PROGRESS.get();
+            blockEntity.resetProgress();
+            blockEntity.setMaxProgress(CommonConfig.TOOL_INFUSER_MAX_PROGRESS.get());
         }
-    }
-
-    private boolean hasEnoughEnergy() {
-        return energyStorage.getEnergyStored() >= baseEnergyNeeded;
-    }
-
-    private long getEnergyCost(){
-        return Math.min(energyStorage.getEnergyStored(), baseEnergyNeeded);
     }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack itemStack) {
         return itemStack.getItem() instanceof InfusedTool;
-    }
-
-    @Override
-    public void setItem(int slot, ItemStack itemStack) {
-        this.items.set(slot, itemStack);
-        setChanged();
-    }
-
-    @Override
-    public boolean stillValid(Player p_18946_) {
-        return true;
-    }
-
-    @Override
-    public int getContainerSize() {
-        return CONTAINER_SIZE;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return this.getItems().stream().allMatch(ItemStack::isEmpty);
-    }
-
-    @Override
-    public ItemStack getItem(int slot) {
-        return items.get(slot);
-    }
-
-    @Override
-    public ItemStack removeItem(int slot, int amount) {
-        ItemStack itemstack = ContainerHelper.removeItem(this.items, slot, amount);
-        if (!itemstack.isEmpty()) {
-            this.setChanged();
-        }
-
-        return itemstack;
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int slot) {
-        return ContainerHelper.takeItem(this.items, slot);
-    }
-
-    public long getBaseEnergyNeeded() {
-        return baseEnergyNeeded;
-    }
-
-    public void setBaseEnergyNeeded(int baseEnergyNeeded) {
-        this.baseEnergyNeeded = baseEnergyNeeded;
-    }
-
-    @Override
-    public ILongEnergyStorage getEnergyStorage() {
-        return energyStorage;
-    }
-
-    @Override
-    public long getEnergy() {
-        return energyStorage.getEnergyStored();
-    }
-
-    @Override
-    public void setEnergy(long value) {
-        this.energyStorage.setEnergy(value);
-    }
-
-    @Override
-    public void setMaxEnergyInput(long value) {
-        baseEnergyNeeded = value;
-    }
-
-    @Override
-    public void clearContent() {
-        items.clear();
     }
 }

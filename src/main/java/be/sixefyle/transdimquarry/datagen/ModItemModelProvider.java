@@ -37,6 +37,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemRegister.COSMIC_ORE_FINDER_UPGRADE.get());
 
         basicItem(ItemRegister.CALIBRATOR.get());
+        basicItem(ItemRegister.QUANTUMITE_CALIBRATOR.get());
         basicItem(ItemRegister.CALIBRATED_ECHO_INGOT.get());
         basicItem(ItemRegister.RAW_ECHO_INGOT.get());
         basicItem(ItemRegister.ECHO_INGOT.get());

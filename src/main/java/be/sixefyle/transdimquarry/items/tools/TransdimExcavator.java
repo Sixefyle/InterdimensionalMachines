@@ -314,20 +314,20 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getInfusedLevel(itemStack)))));
             tooltip.add(EnumColor.TEAL.getColoredComponent("Energy Per Block: ")
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getBaseMineEnergyCost(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MIN_COST_PER_BLOCK + " FE")));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MIN_COST_PER_BLOCK + " FE")));
             tooltip.add(EnumColor.RED.getColoredComponent("Mining Speed: ")
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMiningSpeed(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MAX_MINING_SPEED)));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MAX_MINING_SPEED)));
             tooltip.add(EnumColor.YELLOW.getColoredComponent("Max Vein Size: ")
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxVeinSize(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MAX_VEIN_SIZE)));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MAX_VEIN_SIZE)));
             tooltip.add(EnumColor.BLUE.getColoredComponent("Mining")
                     .append(EnumColor.BLUE.getColoredComponent(" Width: "))
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMineWidth(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MAX_WIDTH)));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MAX_WIDTH)));
             tooltip.add(EnumColor.BLUE.getColoredComponent("        Height: ")
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMineHeight(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("/" + MAX_HEIGHT)));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MAX_HEIGHT)));
         } else if(Screen.hasControlDown()){
             tooltip.add(Component.literal("§7This tool can also mine, dig and chop trees"));
             tooltip.add(Component.literal("§6- §eWhile used on tree the tool will automatically use"));

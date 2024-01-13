@@ -19,7 +19,7 @@ public class ItemInfuserMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public ItemInfuserMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
-        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(5));
+        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
     }
 
     public ItemInfuserMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
@@ -56,7 +56,7 @@ public class ItemInfuserMenu extends AbstractContainerMenu {
         return data.get(1);
     }
     public double getScaledProgression(){
-        return (double) data.get(1) / blockEntity.getMaxProgress();
+        return (double) data.get(1) / data.get(2);
     }
     public boolean isWorking() {
         return data.get(0) > 0;

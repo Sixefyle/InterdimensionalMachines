@@ -1,4 +1,4 @@
-// 1.20.1	2024-01-09T21:25:31.9195197	Item Models: transdimensionalmachines
+// 1.20.1	2024-01-12T21:00:07.3522097	Item Models: transdimensionalmachines
 238cbde8aba3149345996ef1ba9f266854513546 assets/transdimensionalmachines/models/item/advanced_energy_quarry_upgrade.json
 80ab44dc1367adb14e397613fb0185c4c4b7a7c2 assets/transdimensionalmachines/models/item/advanced_fortune_quarry_upgrade.json
 2d396c9eca5bb157e65a09062101d7ff819eadec assets/transdimensionalmachines/models/item/advanced_ore_finder_quarry_upgrade.json
@@ -16,6 +16,7 @@ c465e1f3f303c15f4fb47c0227b909b463babc7e assets/transdimensionalmachines/models/
 20df1f27c88a6f9fd8eb7f2f988c3d05bd5964b3 assets/transdimensionalmachines/models/item/energy_quarry_upgrade.json
 276e3f940b6504e3404dc9949f37eac8369efb04 assets/transdimensionalmachines/models/item/fortune_quarry_upgrade.json
 907060d1cd9948b17b5e7ff70da3d2b2b90456eb assets/transdimensionalmachines/models/item/ore_finder_quarry_upgrade.json
+f366957fa285a60edba15223b96ec453154d4627 assets/transdimensionalmachines/models/item/quantumite_calibrator.json
 ff54cc4c8271bc46f72c68ac92951cb8590f4f81 assets/transdimensionalmachines/models/item/quantumite_ingot.json
 42bec85b3f60d1c8ce1c1124d60d9f05ca6238ee assets/transdimensionalmachines/models/item/raw_echo_ingot.json
 3c7ee1bdfbf7d872ec858e05760606beee306692 assets/transdimensionalmachines/models/item/raw_quantumite_ore.json
