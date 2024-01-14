@@ -1,12 +1,12 @@
 package be.sixefyle.transdimquarry.blocks.iteminfuser;
 
-import be.sixefyle.transdimquarry.blocks.BaseEnergyContainerBlockEntity;
+import be.sixefyle.transdimquarry.blocks.TransDimMachine;
+import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.items.CalibratorItem;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import be.sixefyle.transdimquarry.recipes.iteminfuser.ItemInfuserRecipe;
 import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
-import be.sixefyle.transdimquarry.registries.ItemRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -14,12 +14,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class ItemInfuserBlockEntity extends BaseEnergyContainerBlockEntity {
+public class ItemInfuserBlockEntity extends TransDimMachine {
     public static final int CONTAINER_SIZE = 4;
-    public static final int ENERGY_CAPACITY = 100_000;
+    public static final long ENERGY_CAPACITY = CommonConfig.ITEM_INFUSER_ENERGY_CAPACITY.get();
     public static final short CALIBRATOR_SLOT = 0;
     public static final short HARMONIZATION_MATRIX_SLOT = 1;
     public static final short INPUT_SLOT = 2;
@@ -27,7 +28,7 @@ public class ItemInfuserBlockEntity extends BaseEnergyContainerBlockEntity {
 
     public ItemInfuserBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegister.ITEM_INFUSER.get(), pos, state, CONTAINER_SIZE, ENERGY_CAPACITY);
-        setMaxProgress(200);
+        setMaxProgress(CommonConfig.ITEM_INFUSER_TIME_TO_INFUSE.get());
     }
 
     @Override
@@ -53,16 +54,17 @@ public class ItemInfuserBlockEntity extends BaseEnergyContainerBlockEntity {
 
     @Override
     public boolean canPlaceItemThroughFace(int slot, ItemStack itemStack, @Nullable Direction direction) {
-        if(slot == CALIBRATOR_SLOT && direction.equals(Direction.SOUTH)) {
+        if(direction == null) return false;
+        Direction blockDirection = getBlockState().getValue(HorizontalDirectionalBlock.FACING);
+
+        if(slot == CALIBRATOR_SLOT && direction.get2DDataValue() == (blockDirection.get2DDataValue() + 1) % 4) {
             return isCalibrator(itemStack);
-        } else if(slot == INPUT_SLOT && direction.equals(Direction.EAST)){
+        } else if(slot == INPUT_SLOT && direction.get2DDataValue() == (blockDirection.get2DDataValue() + 2) % 4){
             return true;
-        } else if(slot == HARMONIZATION_MATRIX_SLOT && direction.equals(Direction.WEST)){
+        } else if(slot == HARMONIZATION_MATRIX_SLOT && direction.get2DDataValue() == (blockDirection.get2DDataValue() + 3) % 4){
             return true;
-        } else if(slot == OUTPUT_SLOT){
-            return false;
         }
-        return super.canPlaceItemThroughFace(slot, itemStack, direction);
+        return false;
     }
 
     @Override

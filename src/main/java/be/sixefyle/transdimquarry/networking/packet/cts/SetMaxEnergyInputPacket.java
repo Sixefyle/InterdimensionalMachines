@@ -1,7 +1,6 @@
 package be.sixefyle.transdimquarry.networking.packet.cts;
 
-import be.sixefyle.transdimquarry.blocks.BaseEnergyContainerBlockEntity;
-import be.sixefyle.transdimquarry.blocks.IEnergyHandler;
+import be.sixefyle.transdimquarry.blocks.TransDimMachine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -36,7 +35,7 @@ public class SetMaxEnergyInputPacket {
             ServerPlayer player = context.getSender();
             ServerLevel world = player.serverLevel();
 
-            if(world.getBlockEntity(blockpos) instanceof BaseEnergyContainerBlockEntity blockEntity){
+            if(world.getBlockEntity(blockpos) instanceof TransDimMachine blockEntity){
                blockEntity.setEnergyNeeded(newAmount);
                blockEntity.setEnergyCapacity((long)(newAmount * 1.1));
             }

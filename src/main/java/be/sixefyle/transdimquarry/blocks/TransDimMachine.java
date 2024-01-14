@@ -1,8 +1,6 @@
 package be.sixefyle.transdimquarry.blocks;
 
 import be.sixefyle.transdimquarry.energy.BlockEnergyStorage;
-import be.sixefyle.transdimquarry.items.quarryupgrades.QuarryUpgrade;
-import be.sixefyle.transdimquarry.registries.ItemRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -23,13 +21,16 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockEntity implements IEnergyHandler, WorldlyContainer, MenuProvider {
+public abstract class TransDimMachine extends BaseContainerBlockEntity implements IEnergyHandler, WorldlyContainer, MenuProvider {
     private final int containerSize;
     private final long baseEnergyCapacity;
 
@@ -47,7 +48,7 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
 
     private ContainerData baseData;
 
-    public BaseEnergyContainerBlockEntity(BlockEntityType<?> be, BlockPos pos, BlockState state, int containerSize, int energyCapacity) {
+    public TransDimMachine(BlockEntityType<?> be, BlockPos pos, BlockState state, int containerSize, long energyCapacity) {
         super(be, pos, state);
 
         this.containerSize = containerSize;
@@ -163,10 +164,9 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
     public void load(CompoundTag nbt) {
         super.load(nbt);
         this.items = NonNullList.withSize(containerSize, ItemStack.EMPTY);
-
         ContainerHelper.loadAllItems(nbt, this.items);
-        energyStorage.setEnergy(nbt.getInt("energy"));
 
+        energyStorage.setEnergy(nbt.getInt("energy"));
         setWorking(nbt.getBoolean("isWorking"));
     }
 
@@ -175,32 +175,33 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
     }
 
     public void dropInventory(){
-        Containers.dropContents(level, worldPosition, getItems());
+        Containers.dropContents(level, worldPosition, (Container) items);
     }
 
-    protected List<Container> getAttachedContainers(){
+    protected List<IItemHandler> getAttachedContainers(){
         if(level == null) return null;
 
-        List<Container> containers = new ArrayList<>();
-        Container container;
-        Block block;
+        List<IItemHandler> containers = new ArrayList<>();
         BlockEntity blockEntity;
         BlockPos blockPos;
         BlockState blockState;
         for (Direction direction : Direction.values()) {
             blockPos = getBlockPos().relative(direction);
             blockState = level.getBlockState(blockPos);
-            block = blockState.getBlock();
             blockEntity = level.getBlockEntity(blockPos);
 
             if(blockState.hasBlockEntity()){
-                if(blockEntity instanceof Container && getCapability(ForgeCapabilities.ITEM_HANDLER, direction).isPresent()){
-                    container = (Container) blockEntity;
-                    if(container instanceof ChestBlockEntity && block instanceof ChestBlock chestBlock){
-                        containers.add(ChestBlock.getContainer(chestBlock, blockState, level, blockPos, true));
-                    } else {
-                        containers.add(container);
+                IItemHandler handler = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, direction).orElse(null);
+                if (handler == null) {
+                    if (direction != null && blockEntity instanceof WorldlyContainer) {
+                        handler = new SidedInvWrapper((WorldlyContainer) blockEntity, direction);
+                        containers.add(handler);
+                    } else if (blockEntity instanceof Container) {
+                        handler = new InvWrapper((Container) blockEntity);
+                        containers.add(handler);
                     }
+                } else {
+                    containers.add(handler);
                 }
             }
         }
@@ -208,24 +209,26 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
     }
 
     protected List<ItemStack> tryAddItemToAttachedContainer(List<ItemStack> itemStacks){
-        List<Container> attachedContainer = getAttachedContainers();
+        List<IItemHandler> attachedContainer = getAttachedContainers();
         List<ItemStack> itemsLeft = itemStacks;
         if(attachedContainer != null){
-            for (Container container : attachedContainer) {
+            for (IItemHandler container : attachedContainer) {
                 itemsLeft = tryAddItems(itemsLeft, container);
             }
         }
         if(attachedContainer == null || itemsLeft.size() > 0){
-            itemsLeft = tryAddItems(itemsLeft, this, getItemSlotsSize());
+            itemsLeft = tryAddItems(itemsLeft, getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null), getItemSlotsSize());
         }
         return itemsLeft;
     }
 
-    protected List<ItemStack> tryAddItems(List<ItemStack> itemStacks, Container container){
-        return tryAddItems(itemStacks, container, container.getContainerSize());
+    protected List<ItemStack> tryAddItems(List<ItemStack> itemStacks, IItemHandler container){
+        return tryAddItems(itemStacks, container, container.getSlots());
     }
 
-    protected List<ItemStack> tryAddItems(List<ItemStack> itemStacks, Container container, int containerSize){
+    protected List<ItemStack> tryAddItems(List<ItemStack> itemStacks, IItemHandler container, int containerSize){
+        if(container == null) return null;
+
         List<ItemStack> itemsLeft = new ArrayList<>();
         for (ItemStack itemStack : itemStacks) {
             for (int j = 0; j < containerSize && !itemStack.isEmpty(); ++j) {
@@ -241,19 +244,23 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
     }
 
     protected ItemStack tryAddItem(ItemStack itemStack, int slot){
-        return tryAddItem(itemStack,this, slot);
+        return tryAddItem(itemStack, getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null), slot);
     }
 
-    protected ItemStack tryAddItem(ItemStack itemStack, Container container, int slot){
-        ItemStack currentItemStack = container.getItem(slot);
+    protected ItemStack tryAddItem(ItemStack itemStack, IItemHandler itemHandler, int slot){
+        ItemStack currentItemStack = itemHandler.getStackInSlot(slot);
 
-        if(slot >= container.getContainerSize() && itemStack.getCount() > 0){
+        if(slot >= itemHandler.getSlots() && itemStack.getCount() > 0){
             return itemStack;
         }
 
         if (currentItemStack.isEmpty()) {
-            container.setItem(slot, itemStack);
-            itemStack = ItemStack.EMPTY;
+            if(itemHandler instanceof InvWrapper invWrapper){
+                invWrapper.getInv().setItem(slot, itemStack);
+                itemStack = ItemStack.EMPTY;
+            } else {
+                itemStack = itemHandler.insertItem(slot, itemStack, false);
+            }
         } else if (canMergeItems(currentItemStack, itemStack)) {
             int i = getMaxStackSize() - currentItemStack.getCount();
             int j = Math.min(itemStack.getCount(), i);
@@ -261,7 +268,6 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
             currentItemStack.grow(j);
         }
 
-        container.setChanged();
         return itemStack;
     }
 
@@ -379,7 +385,7 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
         return baseEnergyNeeded;
     }
 
-    public void setBaseEnergyNeeded(int baseEnergyNeeded) {
+    public void setBaseEnergyNeeded(long baseEnergyNeeded) {
         this.baseEnergyNeeded = baseEnergyNeeded;
         if(this.getNeededEnergy() <= 0) {
             setEnergyNeeded(baseEnergyNeeded);

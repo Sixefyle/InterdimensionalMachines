@@ -62,7 +62,7 @@ public class ItemInfuserMenu extends AbstractContainerMenu {
         return data.get(0) > 0;
     }
     public double getScaledEnergy(){
-        return (double) getEnergyStored() / getMaxEnergyStored();
+        return Math.min((double) getEnergyStored() / getMaxEnergyStored(), 1);
     }
 
 

@@ -1,6 +1,6 @@
 package be.sixefyle.transdimquarry.blocks.quarries;
 
-import be.sixefyle.transdimquarry.blocks.BaseEnergyContainerBlockEntity;
+import be.sixefyle.transdimquarry.blocks.TransDimMachine;
 import be.sixefyle.transdimquarry.items.quarryupgrades.QuarryUpgrade;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class QuarryBaseBlockEntity extends BaseEnergyContainerBlockEntity {
+public abstract class QuarryBaseBlockEntity extends TransDimMachine {
     private final int[] upgradeSlots;
 
     private final Map<Integer, ItemStack> upgrades;
@@ -41,7 +41,7 @@ public abstract class QuarryBaseBlockEntity extends BaseEnergyContainerBlockEnti
     private List<ItemStack> waitingItems = new ArrayList<>();
     FakePlayer fakePlayer;
 
-    public QuarryBaseBlockEntity(BlockEntityType<?> be, BlockPos pos, BlockState state, int containerSize, int[] upgradeSlots, int energyCapacity) {
+    public QuarryBaseBlockEntity(BlockEntityType<?> be, BlockPos pos, BlockState state, int containerSize, int[] upgradeSlots, long energyCapacity) {
         super(be, pos, state, containerSize, energyCapacity);
 
         this.upgradeSlots = upgradeSlots;
@@ -103,11 +103,6 @@ public abstract class QuarryBaseBlockEntity extends BaseEnergyContainerBlockEnti
         });
     }
 
-    @Override
-    public boolean canPlaceItemThroughFace(int p_19235_, ItemStack itemStack, @Nullable Direction direction) {
-        return false;
-    }
-
     protected boolean canMineBlock(BlockState state, Level level, BlockPos pos, FakePlayer fakePlayer) {
         boolean canMine = false;
         if(state.getBlock().canEntityDestroy(state, level, pos, fakePlayer)) {
@@ -125,12 +120,7 @@ public abstract class QuarryBaseBlockEntity extends BaseEnergyContainerBlockEnti
     public void onTick(Level level, BlockPos pos) {
         if(level.isClientSide) return;
 
-        if(fakePlayer == null){
-            this.fakePlayer = LevelUtil.getFakePlayer((ServerLevel) level, "TransDim-Player");;
-        }
-
         PacketSender.sendToClients(new EnergySyncPacket(getEnergy(), pos));
-
 
         if(!isWorking()) return;
         if(isContainerFull()) return;
@@ -144,6 +134,10 @@ public abstract class QuarryBaseBlockEntity extends BaseEnergyContainerBlockEnti
             setProgress(getProgress()+1);
             if(getProgress() >= getRoundTimeToMine()){
                 setMining(false);
+
+                if(fakePlayer == null){
+                    this.fakePlayer = LevelUtil.getFakePlayer((ServerLevel) level, "TransDim-Player");;
+                }
 
                 List<ItemStack> itemStacks = mineNextBlock();
                 if(itemStacks.size() > 0){

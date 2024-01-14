@@ -27,9 +27,10 @@ public class TransdimQuarryBlockEntity extends QuarryBaseBlockEntity {
     public static final int[] UPGRADE_SLOTS = {27,28,29};
 
     public TransdimQuarryBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegister.TRANSDIMENSIONAL_QUARRY.get(), pos, state, CONTAINER_SIZE, UPGRADE_SLOTS, 51_200_000);
+        super(BlockEntityRegister.TRANSDIMENSIONAL_QUARRY.get(), pos, state, CONTAINER_SIZE, UPGRADE_SLOTS,
+                CommonConfig.TRANSDIMENSIONAL_QUARRY_ENERGY_CAPACITY.get());
 
-        setBaseEnergyNeeded(CommonConfig.QUARRY_BASE_COST.get());
+        setBaseEnergyNeeded(CommonConfig.TRANSDIMENSIONAL_QUARRY_BASE_ENERGY_COST.get());
         setBaseTimeToMine(CommonConfig.MINING_TIME.get());
         setTimeToMine(getBaseTimeToMine());
         setOreFindChange(CommonConfig.ORE_FIND_CHANCE.get());
