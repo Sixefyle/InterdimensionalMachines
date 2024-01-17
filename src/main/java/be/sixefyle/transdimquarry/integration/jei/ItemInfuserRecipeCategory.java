@@ -68,10 +68,13 @@ public class ItemInfuserRecipeCategory implements IRecipeCategory<ItemInfuserRec
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, ItemInfuserRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 7, 19).addIngredients(VanillaTypes.ITEM_STACK, new ArrayList<>(){{
-            add(ItemRegister.CALIBRATOR.get().getDefaultInstance());
-            add(ItemRegister.QUANTUMITE_CALIBRATOR.get().getDefaultInstance());
-        }});
+        List<ItemStack> calibrators = new ArrayList<>();
+        if(recipe.getCalibratorDurabilityCost() <= 10){
+            calibrators.add(ItemRegister.CALIBRATOR.get().getDefaultInstance());
+        }
+        calibrators.add(ItemRegister.QUANTUMITE_CALIBRATOR.get().getDefaultInstance());
+
+        builder.addSlot(RecipeIngredientRole.INPUT, 7, 19).addIngredients(VanillaTypes.ITEM_STACK, calibrators);
 
         builder.addSlot(RecipeIngredientRole.INPUT, 7, 49).addIngredients(Ingredient.of(recipe.getHarmonizationMatrix()));
         builder.addSlot(RecipeIngredientRole.INPUT, 128, 34).addIngredients(Ingredient.of(recipe.getInput()));

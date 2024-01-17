@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "transdimensionalmachines:raw_quantumite_ore"
+          "name": "transdimensionalmachines:quantumite_dust"
         }
       ],
       "rolls": 1.0

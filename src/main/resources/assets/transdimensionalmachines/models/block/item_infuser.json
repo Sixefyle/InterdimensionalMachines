@@ -1,9 +1,10 @@
 {
   "parent": "minecraft:block/orientable",
   "textures": {
-    "top": "minecraft:block/netherite_block",
-    "front": "transdimensionalmachines:block/item_infuser",
-    "side": "minecraft:block/netherite_block",
-    "bottom": "minecraft:block/netherite_block"
+    "top": "transdimensionalmachines:block/item_infuser_face",
+    "front": "transdimensionalmachines:block/item_infuser_front",
+    "back": "transdimensionalmachines:block/item_infuser_back",
+    "side": "transdimensionalmachines:block/item_infuser_face",
+    "bottom": "transdimensionalmachines:block/item_infuser_face"
   }
 }

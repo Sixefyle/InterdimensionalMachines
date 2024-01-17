@@ -6,10 +6,10 @@
       "item": "transdimensionalmachines:echo_ingot"
     },
     "N": {
-      "item": "minecraft:netherite_ingot"
+      "tag": "forge:ingots/netherite"
     },
     "S": {
-      "item": "minecraft:nether_star"
+      "tag": "forge:nether_stars"
     }
   },
   "pattern": [

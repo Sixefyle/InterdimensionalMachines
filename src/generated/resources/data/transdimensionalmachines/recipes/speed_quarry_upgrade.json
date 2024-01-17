@@ -13,9 +13,9 @@
     }
   },
   "pattern": [
-    "SSS",
+    " S ",
     "RER",
-    "RRR"
+    " R "
   ],
   "result": {
     "item": "transdimensionalmachines:speed_quarry_upgrade"

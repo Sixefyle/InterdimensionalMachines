@@ -19,7 +19,7 @@ public class NumberUtil {
             suffixIndex++;
         }
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.#");
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         return decimalFormat.format(formatedNumber) + suffixes[suffixIndex];
     }
 }

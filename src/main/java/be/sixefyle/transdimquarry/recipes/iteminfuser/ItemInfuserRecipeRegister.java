@@ -59,7 +59,7 @@ public class ItemInfuserRecipeRegister {
             .build();
 
     public static final ItemInfuserRecipe QUANTUMITE_CALIBRATOR = new ItemInfuserRecipe.Builder()
-            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 32))
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE.get(), 32))
             .setInput(new ItemStack(ItemRegister.CALIBRATOR.get(), 1))
             .setOutput(new ItemStack(ItemRegister.QUANTUMITE_CALIBRATOR.get(), 1))
             .setEnergyCost(100_000)
@@ -67,7 +67,7 @@ public class ItemInfuserRecipeRegister {
             .build();
 
     public static final ItemInfuserRecipe REINFORCED_NETHER_STAR = new ItemInfuserRecipe.Builder()
-            .setHarmonizationMatrix(new ItemStack(ItemRegister.QUANTUMITE_INGOT.get(), 8))
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.ECHO_INGOT.get(), 4))
             .setInput(new ItemStack(Items.NETHER_STAR, 1))
             .setOutput(new ItemStack(ItemRegister.REINFORCED_NETHER_STAR.get()))
             .setEnergyCost(60_000)
@@ -101,7 +101,7 @@ public class ItemInfuserRecipeRegister {
     public static final ItemInfuserRecipe CALIBRATED_QUANTUMITE_INGOT = new ItemInfuserRecipe.Builder()
             .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_ECHO_INGOT.get(), 4))
             .setInput(new ItemStack(ItemRegister.QUANTUMITE_INGOT.get(), 64))
-            .setOutput(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setOutput(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE.get(), 1))
             .setEnergyCost(100_000)
             .setCalibratorDurabilityCost(10)
             .build();
@@ -139,28 +139,28 @@ public class ItemInfuserRecipeRegister {
             .build();
 
     public static final ItemInfuserRecipe COSMIC_QUARRY_SPEED_UPGRADE = new ItemInfuserRecipe.Builder()
-            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.REINFORCED_NETHER_STAR.get(), 2))
             .setInput(new ItemStack(ItemRegister.ADVANCED_QUARRY_SPEED_UPGRADE.get(), 1))
             .setOutput(new ItemStack(ItemRegister.COSMIC_QUARRY_SPEED_UPGRADE.get(), 1))
             .setEnergyCost(100_000)
             .setCalibratorDurabilityCost(150)
             .build();
     public static final ItemInfuserRecipe COSMIC_QUARRY_FORTUNE_UPGRADE = new ItemInfuserRecipe.Builder()
-            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.REINFORCED_NETHER_STAR.get(), 2))
             .setInput(new ItemStack(ItemRegister.ADVANCED_QUARRY_FORTUNE_UPGRADE.get(), 1))
             .setOutput(new ItemStack(ItemRegister.COSMIC_QUARRY_FORTUNE_UPGRADE.get(), 1))
             .setEnergyCost(100_000)
             .setCalibratorDurabilityCost(150)
             .build();
     public static final ItemInfuserRecipe COSMIC_QUARRY_ORE_FINDER_UPGRADE = new ItemInfuserRecipe.Builder()
-            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.REINFORCED_NETHER_STAR.get(), 2))
             .setInput(new ItemStack(ItemRegister.ADVANCED_ORE_FINDER_UPGRADE.get(), 1))
             .setOutput(new ItemStack(ItemRegister.COSMIC_ORE_FINDER_UPGRADE.get(), 1))
             .setEnergyCost(100_000)
             .setCalibratorDurabilityCost(150)
             .build();
     public static final ItemInfuserRecipe COSMIC_QUARRY_ENERGY_UPGRADE = new ItemInfuserRecipe.Builder()
-            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get(), 1))
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.REINFORCED_NETHER_STAR.get(), 2))
             .setInput(new ItemStack(ItemRegister.ADVANCED_QUARRY_ENERGY_UPGRADE.get(), 1))
             .setOutput(new ItemStack(ItemRegister.COSMIC_QUARRY_ENERGY_UPGRADE.get(), 1))
             .setEnergyCost(100_000)

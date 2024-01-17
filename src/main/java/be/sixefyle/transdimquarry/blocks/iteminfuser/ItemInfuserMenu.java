@@ -1,6 +1,5 @@
 package be.sixefyle.transdimquarry.blocks.iteminfuser;
 
-import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryBlockEntity;
 import be.sixefyle.transdimquarry.registries.BlockRegister;
 import be.sixefyle.transdimquarry.registries.MenuRegister;
 import net.minecraft.network.FriendlyByteBuf;

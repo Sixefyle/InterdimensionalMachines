@@ -102,12 +102,11 @@ public class ItemInfuserBlockEntity extends TransDimMachine {
     }
 
     public static void tick(Level level, BlockPos blockPos, BlockState blockState, ItemInfuserBlockEntity blockEntity) {
+        blockEntity.onTick(level, blockPos);
+
         if(level.isClientSide) return;
 
         if(!blockPos.equals(blockEntity.getBlockPos())) return;
-
-        PacketSender.sendToClients(new EnergySyncPacket(blockEntity.getEnergy(), blockPos));
-
 
         ItemStack calibrator = blockEntity.getItem(CALIBRATOR_SLOT);
         ItemStack input = blockEntity.getItem(INPUT_SLOT);

@@ -30,8 +30,8 @@ public class EnergySyncPacket {
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            if(Minecraft.getInstance().level.getBlockEntity(pos) instanceof TransDimMachine baseEnergyContainerBlockEntity) {
-                baseEnergyContainerBlockEntity.setEnergy(energy);
+            if(Minecraft.getInstance().level.getBlockEntity(pos) instanceof TransDimMachine transDimMachine) {
+                transDimMachine.setEnergy(energy);
             }
         });
         return true;

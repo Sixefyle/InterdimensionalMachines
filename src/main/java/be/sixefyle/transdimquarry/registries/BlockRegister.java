@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -39,11 +40,15 @@ public class BlockRegister {
 
     public static final RegistryObject<Block> QUANTUMITE_ORE = CreativeTabRegister.add(ALL.register("quantumite_ore",
             () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE)
+                    .mapColor(MapColor.DEEPSLATE)
                     .requiresCorrectToolForDrops()
-                    .strength(25f, 100f),
+                    .strength(4.5f, 6f),
                     UniformInt.of(4, 8))));
     public static final RegistryObject<Block> QUANTUMITE_BLOCK = CreativeTabRegister.add(ALL.register("quantumite_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(25f))));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .mapColor(MapColor.DEEPSLATE)
+                    .requiresCorrectToolForDrops()
+                    .strength(4.5f, 6f))));
 
     @SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {

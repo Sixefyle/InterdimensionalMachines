@@ -35,13 +35,11 @@ public class TransdimToolInfuserBlockEntity extends TransDimMachine {
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, TransdimToolInfuserBlockEntity blockEntity) {
+        blockEntity.onTick(level, pos);
+
         if(level.isClientSide) return;
 
         if(!pos.equals(blockEntity.getBlockPos())) return;
-
-        PacketSender.sendToClients(new EnergySyncPacket(blockEntity.getEnergy(), pos));
-
-        setChanged(level, pos, state);
 
         long energyCost = blockEntity.getNeededEnergy();
         ItemStack itemStack = blockEntity.getItem(0);
@@ -61,9 +59,11 @@ public class TransdimToolInfuserBlockEntity extends TransDimMachine {
                 blockEntity.resetProgress();
                 blockEntity.setMaxProgress(Math.max(CommonConfig.TOOL_INFUSER_MIN_PROGRESS.get(), blockEntity.getMaxProgress() - 5));
             }
+            setChanged(level, pos, state);
         } else {
             blockEntity.resetProgress();
             blockEntity.setMaxProgress(CommonConfig.TOOL_INFUSER_MAX_PROGRESS.get());
+            setChanged(level, pos, state);
         }
     }
 

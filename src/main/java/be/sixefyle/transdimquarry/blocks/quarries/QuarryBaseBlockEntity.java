@@ -6,7 +6,6 @@ import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import be.sixefyle.transdimquarry.utils.LevelUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.level.BlockEvent;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,10 +115,11 @@ public abstract class QuarryBaseBlockEntity extends TransDimMachine {
         return canMine;
     }
 
+    @Override
     public void onTick(Level level, BlockPos pos) {
-        if(level.isClientSide) return;
+        super.onTick(level, pos);
 
-        PacketSender.sendToClients(new EnergySyncPacket(getEnergy(), pos));
+        if(level.isClientSide) return;
 
         if(!isWorking()) return;
         if(isContainerFull()) return;

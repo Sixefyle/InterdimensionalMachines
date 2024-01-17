@@ -23,7 +23,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
         this.dropSelf(BlockRegister.QUANTUMITE_BLOCK.get());
 
-        this.dropOther(BlockRegister.QUANTUMITE_ORE.get(), ItemRegister.RAW_QUANTUMITE_ORE.get());
+        this.dropOther(BlockRegister.QUANTUMITE_ORE.get(), ItemRegister.QUANTUMITE_DUST.get());
     }
 
     @Override

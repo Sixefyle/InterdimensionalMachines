@@ -2,20 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "E": {
-      "item": "transdimensionalmachines:echo_ingot"
-    },
-    "N": {
-      "item": "minecraft:netherite_ingot"
+    "I": {
+      "tag": "forge:ingots/iron"
     },
     "S": {
       "item": "minecraft:echo_shard"
     }
   },
   "pattern": [
-    "NSN",
-    "NEN",
-    " S "
+    "ISI",
+    "III",
+    " I "
   ],
   "result": {
     "item": "transdimensionalmachines:transdimensional_excavator"

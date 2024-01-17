@@ -13,9 +13,9 @@
     }
   },
   "pattern": [
-    "SSS",
+    " S ",
     "CPC",
-    "CCC"
+    " C "
   ],
   "result": {
     "item": "transdimensionalmachines:silk_quarry_upgrade"

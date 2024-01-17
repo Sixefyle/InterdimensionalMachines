@@ -1,13 +1,19 @@
 package be.sixefyle.transdimquarry.blocks.toolinfuser;
 
+import be.sixefyle.transdimquarry.enums.EnumColor;
 import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -22,6 +28,8 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class TransdimToolInfuserBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -84,5 +92,13 @@ public class TransdimToolInfuserBlock extends BaseEntityBlock {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return createTickerHelper(type, BlockEntityRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(),
                 TransdimToolInfuserBlockEntity::tick);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> tooltip, TooltipFlag pFlag) {
+        super.appendHoverText(pStack, pLevel, tooltip, pFlag);
+
+        tooltip.add(Component.empty());
+        tooltip.add(EnumColor.GRAY.getColoredComponent("This block is not finished and should change in future!").withStyle(ChatFormatting.ITALIC));
     }
 }

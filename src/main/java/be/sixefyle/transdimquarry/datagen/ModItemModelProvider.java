@@ -45,9 +45,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemRegister.ORE_FINDER_UPGRADE.get());
         basicItem(ItemRegister.CALIBRATED_ECHO_SHARD.get());
 
-        basicItem(ItemRegister.RAW_QUANTUMITE_ORE.get());
+        basicItem(ItemRegister.QUANTUMITE_DUST.get());
         basicItem(ItemRegister.QUANTUMITE_INGOT.get());
-        basicItem(ItemRegister.CALIBRATED_QUANTUMITE_INGOT.get());
+        basicItem(ItemRegister.CALIBRATED_QUANTUMITE.get());
 
         handheld(ItemRegister.TRANSDIMENSIONAL_SWORD);
         handheld(ItemRegister.TRANSDIMENSIONAL_EXCAVATOR);

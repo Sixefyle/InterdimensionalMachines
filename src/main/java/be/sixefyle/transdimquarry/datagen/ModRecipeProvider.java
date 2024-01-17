@@ -2,7 +2,6 @@ package be.sixefyle.transdimquarry.datagen;
 
 import be.sixefyle.transdimquarry.registries.BlockRegister;
 import be.sixefyle.transdimquarry.registries.ItemRegister;
-import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -23,8 +22,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     protected void buildRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.TRANSDIMENSIONAL_QUARRY.get())
-                .define('S', ItemRegister.REINFORCED_NETHER_STAR.get())
-                .define('I', ItemRegister.CALIBRATED_ECHO_INGOT.get())
+                .define('S', ItemRegister.QUANTUMITE_CALIBRATOR.get())
+                .define('I', ItemRegister.REINFORCED_NETHER_STAR.get())
                 .define('N', Tags.Items.STORAGE_BLOCKS_NETHERITE)
                 .pattern("NIN")
                 .pattern("ISI")
@@ -48,20 +47,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('E', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('R', Tags.Items.STORAGE_BLOCKS_REDSTONE)
                 .define('S', Tags.Items.ENDER_PEARLS)
-                .pattern("SSS")
+                .pattern(" S ")
                 .pattern("RER")
-                .pattern("RRR")
+                .pattern(" R ")
                 .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.QUARRY_FORTUNE_UPGRADE.get())
                 .define('S', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
-                .define('A', ItemRegister.CALIBRATED_ECHO_INGOT.get())
+                .define('A', Items.ECHO_SHARD)
                 .define('B', Tags.Items.STORAGE_BLOCKS_GOLD)
-                .pattern("AAA")
+                .pattern(" A ")
                 .pattern("BSB")
-                .pattern("BBB")
+                .pattern(" B ")
                 .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
@@ -70,9 +69,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('P', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('S', Tags.Items.SLIMEBALLS)
                 .define('C', Items.CRYING_OBSIDIAN)
-                .pattern("SSS")
+                .pattern(" S ")
                 .pattern("CPC")
-                .pattern("CCC")
+                .pattern(" C ")
                 .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
@@ -81,9 +80,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('P', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('S', Items.BLUE_ICE)
                 .define('C', Tags.Items.STORAGE_BLOCKS_DIAMOND)
-                .pattern("SSS")
+                .pattern(" S ")
                 .pattern("CPC")
-                .pattern("CCC")
+                .pattern(" C ")
                 .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
@@ -92,50 +91,48 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('P', ItemRegister.EMPTY_QUARRY_UPGRADE.get())
                 .define('S', Items.OXIDIZED_COPPER)
                 .define('C', Tags.Items.STORAGE_BLOCKS_EMERALD)
-                .pattern("SSS")
+                .pattern(" S ")
                 .pattern("CPC")
-                .pattern("CCC")
+                .pattern(" C ")
                 .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.TRANSDIMENSIONAL_SWORD.get())
-                .define('C', ItemRegister.CALIBRATED_ECHO_INGOT.get())
-                .define('I', ItemRegister.CALIBRATED_ECHO_SHARD.get())
+                .define('C', ItemRegister.CALIBRATED_ECHO_SHARD.get())
+                .define('N', Tags.Items.INGOTS_NETHERITE)
                 .pattern(" C ")
                 .pattern(" C ")
-                .pattern(" I ")
+                .pattern(" N ")
                 .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.TRANSDIMENSIONAL_EXCAVATOR.get())
-                .define('E', ItemRegister.ECHO_INGOT.get())
                 .define('S', Items.ECHO_SHARD)
-                .define('N', Items.NETHERITE_INGOT)
-                .pattern("NSN")
-                .pattern("NEN")
-                .pattern(" S ")
+                .define('I', Tags.Items.INGOTS_IRON)
+                .pattern("ISI")
+                .pattern("III")
+                .pattern(" I ")
                 .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.ECHO_SHARD).build()))
                 .save(pFinishedRecipeConsumer);
 
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get())
-                .define('N', Items.NETHERITE_BLOCK)
+                .define('N', Items.NETHERITE_INGOT)
                 .define('A', ItemRegister.CALIBRATOR.get())
-                .define('S', ItemRegister.REINFORCED_NETHER_STAR.get())
-                .pattern("SNS")
-                .pattern("NAN")
-                .pattern("SNS")
+                .define('S', ItemRegister.ECHO_INGOT.get())
+                .pattern("NSN")
+                .pattern("SAS")
+                .pattern("NSN")
                 .unlockedBy("has_nether_star", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.NETHER_STAR).build()))
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemRegister.REINFORCED_NETHER_STAR.get())
                 .define('E', ItemRegister.ECHO_INGOT.get())
-                .define('N', Items.NETHERITE_INGOT)
-                .define('S', Items.NETHER_STAR)
+                .define('N', Tags.Items.INGOTS_NETHERITE)
+                .define('S', Tags.Items.NETHER_STARS)
                 .pattern("ENE")
                 .pattern("NSN")
                 .pattern("ENE")
@@ -192,20 +189,49 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.ECHO_SHARD).build()))
                 .save(pFinishedRecipeConsumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegister.ITEM_INFUSER.get())
+                .define('Q', ItemRegister.QUANTUMITE_INGOT.get())
+                .define('I', Items.IRON_INGOT)
+                .define('E', Items.ECHO_SHARD)
+                .pattern("III")
+                .pattern("QEQ")
+                .pattern("III")
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegister.QUANTUMITE_INGOT.get(), 9)
+                .requires(BlockRegister.QUANTUMITE_BLOCK.get())
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer);
+
         SimpleCookingRecipeBuilder.smelting(
                         Ingredient.of(ItemRegister.RAW_ECHO_INGOT.get()), RecipeCategory.MISC, ItemRegister.ECHO_INGOT.get(),
-                        10, 40)
+                        10, 300)
                 .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.ECHO_SHARD).build()))
-                .save(pFinishedRecipeConsumer);
+                .save(pFinishedRecipeConsumer, "echo_ingot_smelting");
 
+        SimpleCookingRecipeBuilder.blasting(
+                        Ingredient.of(ItemRegister.RAW_ECHO_INGOT.get()), RecipeCategory.MISC, ItemRegister.ECHO_INGOT.get(),
+                        10, 100)
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer, "echo_ingot_smelting_blasting");
 
         SimpleCookingRecipeBuilder.smelting(
-                        Ingredient.of(ItemRegister.RAW_QUANTUMITE_ORE.get()), RecipeCategory.MISC, ItemRegister.QUANTUMITE_INGOT.get(),
-                        0, 120)
+                        Ingredient.of(ItemRegister.QUANTUMITE_DUST.get()), RecipeCategory.MISC, ItemRegister.QUANTUMITE_INGOT.get(),
+                        0, 300)
                 .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.ECHO_SHARD).build()))
-                .save(pFinishedRecipeConsumer);
+                .save(pFinishedRecipeConsumer, "quantumite_dust_smelting");
 
+        SimpleCookingRecipeBuilder.blasting(
+                        Ingredient.of(ItemRegister.QUANTUMITE_DUST.get()), RecipeCategory.MISC, ItemRegister.QUANTUMITE_INGOT.get(),
+                        0, 100)
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer, "quantumite_dust_smelting_blasting");
     }
 }

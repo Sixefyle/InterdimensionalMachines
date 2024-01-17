@@ -22,11 +22,11 @@ public class ItemRegister {
 
     public static final DeferredRegister<Item> ALL = DeferredRegister.create(ForgeRegistries.ITEMS, TransdimensionalMachines.MODID);
 
-    public static final RegistryObject<Item> RAW_QUANTUMITE_ORE = CreativeTabRegister.add(ALL.register("raw_quantumite_ore",
+    public static final RegistryObject<Item> QUANTUMITE_DUST = CreativeTabRegister.add(ALL.register("quantumite_dust",
             () -> new Item(new Item.Properties())));
     public static final RegistryObject<Item> QUANTUMITE_INGOT = CreativeTabRegister.add(ALL.register("quantumite_ingot",
             () -> new Item(new Item.Properties())));
-    public static final RegistryObject<Item> CALIBRATED_QUANTUMITE_INGOT = CreativeTabRegister.add(ALL.register("calibrated_quantumite_ingot",
+    public static final RegistryObject<Item> CALIBRATED_QUANTUMITE = CreativeTabRegister.add(ALL.register("calibrated_quantumite",
             () -> new Item(new Item.Properties())));
     public static final RegistryObject<Item> RAW_ECHO_INGOT = CreativeTabRegister.add(ALL.register("raw_echo_ingot",
             () -> new Item(new Item.Properties())));

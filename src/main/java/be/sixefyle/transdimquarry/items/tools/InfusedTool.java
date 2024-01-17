@@ -90,13 +90,17 @@ public abstract class InfusedTool extends EnergizedItem {
                     .append(EnumColor.GRAY.getColoredComponent("/" + NumberUtil.formatToEnergy(getNeededInfusedEnergy(itemStack))))));
         }
 
+        addCenterTooltip(tooltip, itemStack);
+
         if(this instanceof IModeHandle){
             tooltip.add(Component.empty());
             tooltip.add(EnumColor.GRAY.getColoredComponent("Press [")
                     .append(EnumColor.RED.getColoredComponent(KeyBinding.TOOL_SETTINGS_KEY.getKey().getDisplayName().getString())
-                    .append(EnumColor.GRAY.getColoredComponent("] to open the config menu."))));
+                    .append(EnumColor.GRAY.getColoredComponent("] while holding to open the config menu."))));
         }
     }
+
+    public void addCenterTooltip(List<Component> tooltip, ItemStack itemStack) {}
 
     public int getBaseEnergyCost() {
         return useEnergyCost;

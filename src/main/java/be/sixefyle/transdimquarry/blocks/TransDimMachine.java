@@ -1,6 +1,8 @@
 package be.sixefyle.transdimquarry.blocks;
 
 import be.sixefyle.transdimquarry.energy.BlockEnergyStorage;
+import be.sixefyle.transdimquarry.networking.PacketSender;
+import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -13,20 +15,19 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ChestBlock;
-import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,7 +149,8 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
         super.saveAdditional(nbt);
 
         ContainerHelper.saveAllItems(nbt, this.items);
-        nbt.putLong("energy", energyStorage.getEnergyStored());
+        //nbt.putLong("energyCapacity", getEnergyCapacity());
+        nbt.putLong("energy", getEnergy());
         nbt.putBoolean("isWorking", isWorking);
     }
 
@@ -156,7 +158,6 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
     @Override
     public void onLoad() {
         super.onLoad();
-
         lazyEnergyHandler = LazyOptional.of(() -> energyStorage);
     }
 
@@ -166,8 +167,13 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
         this.items = NonNullList.withSize(containerSize, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(nbt, this.items);
 
-        energyStorage.setEnergy(nbt.getInt("energy"));
+        //setEnergyCapacity(nbt.getLong("energyCapacity"));
+        setEnergy(nbt.getLong("energy"));
         setWorking(nbt.getBoolean("isWorking"));
+    }
+
+    public void onTick(Level level, BlockPos blockPos){
+        PacketSender.sendToClients(new EnergySyncPacket(getEnergy(), blockPos));
     }
 
     protected NonNullList<ItemStack> getItems() {
@@ -175,7 +181,7 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
     }
 
     public void dropInventory(){
-        Containers.dropContents(level, worldPosition, (Container) items);
+        Containers.dropContents(level, worldPosition, items);
     }
 
     protected List<IItemHandler> getAttachedContainers(){
@@ -404,8 +410,10 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
         return energyStorage;
     }
 
-    public void setEnergy(long energy) {
+    public void setEnergy(long newEnergy) {
+        long energy = Math.max(newEnergy, 0);
         this.energyStorage.setEnergy(energy);
+        setChanged();
     }
 
     @Override
@@ -449,10 +457,12 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
 
 
     public void setEnergyCapacity(long energyCapacity) {
-        this.getEnergyStorage().setCapacity(energyCapacity);
+        long capacity = Math.max(energyCapacity, 1);
+        this.getEnergyStorage().setCapacity(capacity);
         if(getEnergy() > getEnergyCapacity()) {
-            this.getEnergyStorage().setEnergy(energyCapacity);
+            this.getEnergyStorage().setEnergy(capacity);
         }
+        setChanged();
     }
 
     public long getEnergyCapacity() {

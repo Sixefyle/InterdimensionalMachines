@@ -1,10 +1,13 @@
 {
-  "type": "minecraft:smelting",
+  "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "cookingtime": 120,
-  "experience": 0.0,
-  "ingredient": {
-    "item": "transdimensionalmachines:raw_quantumite_ore"
-  },
-  "result": "transdimensionalmachines:quantumite_ingot"
+  "ingredients": [
+    {
+      "item": "transdimensionalmachines:quantumite_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "transdimensionalmachines:quantumite_ingot"
+  }
 }

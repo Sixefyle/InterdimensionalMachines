@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
@@ -305,6 +306,15 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
     }
 
     @Override
+    public void addCenterTooltip(List<Component> tooltip, ItemStack itemStack) {
+        tooltip.add(Component.empty());
+        tooltip.add(EnumColor.CYAN.getColoredComponent("Current mining area: ")
+                .append(EnumColor.WHITE.getColoredComponent(String.format("%dx%d blocks", getMineWidth(itemStack), getMineHeight(itemStack)))));
+        tooltip.add(EnumColor.RED.getColoredComponent("Mining speed: ")
+                .append(EnumColor.WHITE.getColoredComponent(String.valueOf(getMineSpeed(itemStack)))));
+    }
+
+    @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> tooltip, TooltipFlag tooltipFlag) {
         //tooltip.add(Component.empty());
 
@@ -314,27 +324,29 @@ public class TransdimExcavator extends InfusedTool implements IModeHandle {
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getInfusedLevel(itemStack)))));
             tooltip.add(EnumColor.TEAL.getColoredComponent("Energy Per Block: ")
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getBaseMineEnergyCost(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MIN_COST_PER_BLOCK + " FE")));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("→" + MIN_COST_PER_BLOCK + " FE")));
             tooltip.add(EnumColor.RED.getColoredComponent("Mining Speed: ")
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMiningSpeed(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MAX_MINING_SPEED)));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("→" + MAX_MINING_SPEED)));
             tooltip.add(EnumColor.YELLOW.getColoredComponent("Max Vein Size: ")
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxVeinSize(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MAX_VEIN_SIZE)));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("→" + MAX_VEIN_SIZE)));
             tooltip.add(EnumColor.BLUE.getColoredComponent("Mining")
                     .append(EnumColor.BLUE.getColoredComponent(" Width: "))
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMineWidth(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MAX_WIDTH)));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("→" + MAX_WIDTH)));
             tooltip.add(EnumColor.BLUE.getColoredComponent("        Height: ")
                     .append(EnumColor.GRAY.getColoredComponent(String.valueOf(getMaxMineHeight(itemStack))))
-                    .append(EnumColor.DARK_GRAY.getColoredComponent("->" + MAX_HEIGHT)));
+                    .append(EnumColor.DARK_GRAY.getColoredComponent("→" + MAX_HEIGHT)));
         } else if(Screen.hasControlDown()){
-            tooltip.add(Component.literal("§7This tool can also mine, dig and chop trees"));
-            tooltip.add(Component.literal("§6- §eWhile used on tree the tool will automatically use"));
-            tooltip.add(Component.literal("  §ethe vein miner to chop the whole tree (using Max vein size)"));
-            tooltip.add(Component.literal("§2- §aElse it will mine in area (Using Mining width & height)"));
-            tooltip.add(Component.literal("  §aif you press SHIFT while mining it will use the vein"));
-            tooltip.add(Component.literal("  §aminer instead of area!"));
+            tooltip.add(EnumColor.GRAY.getColoredComponent("This tool can also mine, dig and chop trees"));
+            tooltip.add(EnumColor.TEAL.getColoredComponent("- Use on tree or ore vein to destroy all vein or tree"));
+            tooltip.add(EnumColor.GRAY.getColoredComponent("  (depending on ")
+                            .append(EnumColor.YELLOW.getColoredComponent("Max Vein Size"))
+                            .append(EnumColor.GRAY.getColoredComponent(")")));
+            tooltip.add(Component.empty());
+            tooltip.add(EnumColor.GREEN.getColoredComponent("- Use on normal block to destroy on a defined area"));
+            tooltip.add(EnumColor.GRAY.getColoredComponent("  You can define area on the config menu!"));
         } else {
             super.appendHoverText(itemStack, level, tooltip, tooltipFlag);
 

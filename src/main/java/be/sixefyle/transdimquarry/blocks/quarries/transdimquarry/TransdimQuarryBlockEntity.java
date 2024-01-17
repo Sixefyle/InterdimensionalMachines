@@ -46,6 +46,20 @@ public class TransdimQuarryBlockEntity extends QuarryBaseBlockEntity {
         return new TransdimQuarryMenu(id, inventory, this, this.getBaseData());
     }
 
+    @Override
+    public void onLoad() {
+        super.onLoad();
+
+        ItemStack itemStack;
+        for (int upgradeSlot : UPGRADE_SLOTS) {
+            itemStack = getItems().get(upgradeSlot);
+            if(itemStack.getItem() instanceof QuarryUpgrade upgrade){
+                getUpgrades().replace(upgradeSlot, itemStack.copy());
+                upgrade.onPlaced(this);
+            }
+        }
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, TransdimQuarryBlockEntity quarry) {
         quarry.onTick(level, pos);
     }

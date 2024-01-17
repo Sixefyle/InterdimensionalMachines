@@ -1,9 +1,10 @@
 {
   "parent": "minecraft:block/orientable",
   "textures": {
-    "top": "minecraft:block/iron_block",
-    "front": "transdimensionalmachines:block/transdimensional_quarry",
-    "side": "minecraft:block/iron_block",
-    "bottom": "minecraft:block/iron_block"
+    "top": "transdimensionalmachines:block/transdimensional_quarry_face",
+    "front": "transdimensionalmachines:block/transdimensional_quarry_front",
+    "back": "transdimensionalmachines:block/transdimensional_quarry_back",
+    "side": "transdimensionalmachines:block/transdimensional_quarry_face",
+    "bottom": "transdimensionalmachines:block/transdimensional_quarry_face"
   }
 }
