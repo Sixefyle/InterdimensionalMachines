@@ -21,7 +21,7 @@ public class AdvancedQuarrySpeedUpgradeItem extends Item implements QuarryUpgrad
 
 
     public AdvancedQuarrySpeedUpgradeItem() {
-        super(new Properties().stacksTo(4).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

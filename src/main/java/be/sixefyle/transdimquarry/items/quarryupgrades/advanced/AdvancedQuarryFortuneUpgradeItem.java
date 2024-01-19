@@ -19,7 +19,7 @@ public class AdvancedQuarryFortuneUpgradeItem extends Item implements QuarryUpgr
     private final int FORTUNE_POWER = 6;
 
     public AdvancedQuarryFortuneUpgradeItem() {
-        super(new Properties().stacksTo(4).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

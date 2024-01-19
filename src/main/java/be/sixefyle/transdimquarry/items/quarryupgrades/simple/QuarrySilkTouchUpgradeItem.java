@@ -18,7 +18,7 @@ public class QuarrySilkTouchUpgradeItem extends Item implements QuarryUpgrade {
     private final int ENERGY_COST = 250;
 
     public QuarrySilkTouchUpgradeItem() {
-        super(new Properties().stacksTo(4).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

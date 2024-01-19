@@ -44,7 +44,7 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
     }
 
     public double getScaledEnergy(){
-        return (double) blockEntity.getEnergyStorage().getLongEnergyStored() / blockEntity.getEnergyStorage().getLongMaxEnergyStored();
+        return (double) Math.min(1, blockEntity.getEnergyStorage().getLongEnergyStored() / blockEntity.getEnergyStorage().getLongMaxEnergyStored());
     }
 
     public double getScaledInfusedEnergy(){

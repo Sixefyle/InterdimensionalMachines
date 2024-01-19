@@ -19,7 +19,7 @@ public class AdvancedQuarryEnergyOptimizationUpgradeItem extends Item implements
     private final int TICK_ADDED = 40;
 
     public AdvancedQuarryEnergyOptimizationUpgradeItem() {
-        super(new Properties().stacksTo(4).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

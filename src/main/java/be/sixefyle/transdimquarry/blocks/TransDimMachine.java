@@ -57,7 +57,7 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
 
         items = NonNullList.withSize(containerSize, ItemStack.EMPTY);
 
-        energyStorage = new BlockEnergyStorage(energyCapacity, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        energyStorage = new BlockEnergyStorage(energyCapacity, Long.MAX_VALUE, Long.MAX_VALUE);
 
         baseData = new ContainerData() {
             @Override
@@ -173,6 +173,8 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
     }
 
     public void onTick(Level level, BlockPos blockPos){
+        if(level.isClientSide()) return;
+
         PacketSender.sendToClients(new EnergySyncPacket(getEnergy(), blockPos));
     }
 
@@ -415,6 +417,12 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
         this.energyStorage.setEnergy(energy);
         setChanged();
     }
+
+    public void addEnergy(long toAdd) {
+        this.energyStorage.setEnergy(energyStorage.getLongEnergyStored() + toAdd);
+        setChanged();
+    }
+
 
     @Override
     public void setMaxEnergyInput(long value) {

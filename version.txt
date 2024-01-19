@@ -1,0 +1,4 @@
+2.0.2:
+* Fix screen bug when you change energy too high with tool infuser
+* Change max stack for simple and advanced upgrade to 1
+* Fix no energy usage bug

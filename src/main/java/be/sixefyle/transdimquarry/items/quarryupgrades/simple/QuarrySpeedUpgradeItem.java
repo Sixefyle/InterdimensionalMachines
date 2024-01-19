@@ -20,7 +20,7 @@ public class QuarrySpeedUpgradeItem extends Item implements QuarryUpgrade {
     private final int ENERGY_MULTIPLIER = 2;
 
     public QuarrySpeedUpgradeItem() {
-        super(new Item.Properties().stacksTo(4).rarity(Rarity.COMMON));
+        super(new Item.Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

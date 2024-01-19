@@ -19,7 +19,7 @@ public class AdvancedQuarryOreFinderUpgradeItem extends Item implements QuarryUp
     private final int FIND_CHANCE = 16;
 
     public AdvancedQuarryOreFinderUpgradeItem() {
-        super(new Properties().stacksTo(4).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

@@ -19,7 +19,7 @@ public class QuarryEnergyOptimizationUpgradeItem extends Item implements QuarryU
     private final int TICK_ADDED = 45;
 
     public QuarryEnergyOptimizationUpgradeItem() {
-        super(new Properties().stacksTo(4).rarity(Rarity.COMMON));
+        super(new Properties().stacksTo(1).rarity(Rarity.COMMON));
     }
 
     @Override

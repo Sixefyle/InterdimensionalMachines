@@ -60,7 +60,7 @@ public class LongEnergyStorage implements ILongEnergyStorage, INBTSerializable<T
 
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
-        return (int) receiveEnergy((long) maxReceive, false);
+        return (int) receiveEnergy((long) maxReceive, simulate);
     }
 
     @Override
