@@ -22,6 +22,12 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(BlockRegister.ITEM_INFUSER.get());
 
         this.dropSelf(BlockRegister.QUANTUMITE_BLOCK.get());
+        this.dropSelf(BlockRegister.FOUNDRY.get());
+        this.dropSelf(BlockRegister.ADVANCED_FOUNDRY.get());
+        this.dropSelf(BlockRegister.COSMIC_FOUNDRY.get());
+        this.dropSelf(BlockRegister.ETHEREAL_FOUNDRY.get());
+
+        //this.dropSelf(BlockRegister.TEST_CASING.get());
 
         this.dropOther(BlockRegister.QUANTUMITE_ORE.get(), ItemRegister.QUANTUMITE_DUST.get());
     }

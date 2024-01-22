@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "minecraft:furnace"
+    },
+    "I": {
+      "item": "transdimensionalmachines:quantumite_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "EIE",
+    "IRI",
+    "EIE"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:foundry"
+  },
+  "show_notification": true
+}

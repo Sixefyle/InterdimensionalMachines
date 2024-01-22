@@ -3,6 +3,10 @@
     "transdimensionalmachines:item_infuser",
     "transdimensionalmachines:transdimensional_quarry",
     "transdimensionalmachines:transdimensional_tool_infuser",
+    "transdimensionalmachines:foundry",
+    "transdimensionalmachines:advanced_foundry",
+    "transdimensionalmachines:cosmic_foundry",
+    "transdimensionalmachines:ethereal_foundry",
     "transdimensionalmachines:quantumite_ore",
     "transdimensionalmachines:quantumite_block"
   ]

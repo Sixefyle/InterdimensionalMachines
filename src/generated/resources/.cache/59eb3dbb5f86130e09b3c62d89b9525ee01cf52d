@@ -1,4 +1,8 @@
-// 1.20.1	2024-01-16T19:21:28.2556504	Loot Tables
+// 1.20.1	2024-01-22T20:03:49.1028623	Loot Tables
+cd1ed8a7c259b74cf32b55ff7a5883e714273fb0 data/transdimensionalmachines/loot_tables/blocks/advanced_foundry.json
+53cea0efc6fc1603e3449389b230b0244691f76c data/transdimensionalmachines/loot_tables/blocks/cosmic_foundry.json
+87e016213cb97ceaf5abbe3717a8f2b39c276d8e data/transdimensionalmachines/loot_tables/blocks/ethereal_foundry.json
+d0ef5765aa4899bf18f775b24a98e48035ed4131 data/transdimensionalmachines/loot_tables/blocks/foundry.json
 7f11863358c56b29fa5129a7ffc339a99a9b9662 data/transdimensionalmachines/loot_tables/blocks/item_infuser.json
 48ae53f84a07a8f5e5401fb9f3d1a4c558d8d014 data/transdimensionalmachines/loot_tables/blocks/quantumite_block.json
 91165b72af09aa62a68f9bf5ca07e796d98b218f data/transdimensionalmachines/loot_tables/blocks/quantumite_ore.json

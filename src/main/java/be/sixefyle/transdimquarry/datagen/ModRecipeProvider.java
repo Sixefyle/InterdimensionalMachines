@@ -7,6 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
@@ -189,7 +190,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         .of(Items.ECHO_SHARD).build()))
                 .save(pFinishedRecipeConsumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegister.ITEM_INFUSER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.ITEM_INFUSER.get())
                 .define('Q', ItemRegister.QUANTUMITE_INGOT.get())
                 .define('I', Items.IRON_INGOT)
                 .define('E', Items.ECHO_SHARD)
@@ -198,6 +199,28 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("III")
                 .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.FOUNDRY.get())
+                .define('I', ItemRegister.QUANTUMITE_INGOT.get())
+                .define('E', Items.FURNACE)
+                .define('R', Items.REDSTONE)
+                .pattern("EIE")
+                .pattern("IRI")
+                .pattern("EIE")
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.ECHO_SHARD).build()))
+                .save(pFinishedRecipeConsumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockRegister.ADVANCED_FOUNDRY.get())
+                .define('I', Items.DIAMOND)
+                .define('E', BlockRegister.FOUNDRY.get())
+                .define('F', Items.FURNACE)
+                .pattern("FIF")
+                .pattern("IEI")
+                .pattern("FIF")
+                .unlockedBy("has_echo_shard", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(ItemRegister.QUANTUMITE_INGOT.get()).build()))
                 .save(pFinishedRecipeConsumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemRegister.QUANTUMITE_INGOT.get(), 9)

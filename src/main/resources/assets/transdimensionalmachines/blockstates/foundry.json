@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "transdimensionalmachines:block/foundry",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "transdimensionalmachines:block/foundry"
+    },
+    "facing=south": {
+      "model": "transdimensionalmachines:block/foundry",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "transdimensionalmachines:block/foundry",
+      "y": 270
+    }
+  }
+}

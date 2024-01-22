@@ -1,6 +1,11 @@
 package be.sixefyle.transdimquarry.registries;
 
+import be.sixefyle.transdimquarry.blocks.foundry.advancedfoundry.AdvancedFoundryBlock;
+import be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry.CosmicFoundryBlock;
+import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryBlock;
+import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryBlock;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserBlock;
+import be.sixefyle.transdimquarry.blocks.multiblock.test.TestMultiblockBlock;
 import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryBlock;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserBlock;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -35,6 +40,7 @@ public class BlockRegister {
 
     public static final RegistryObject<Block> TRANSDIMENSIONAL_TOOL_INFUSER = CreativeTabRegister.add(ALL.register("transdimensional_tool_infuser",
             () -> new TransdimToolInfuserBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))));
+
     public static final RegistryObject<Block> ITEM_INFUSER = CreativeTabRegister.add(ALL.register("item_infuser",
             () -> new ItemInfuserBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))));
 
@@ -49,6 +55,21 @@ public class BlockRegister {
                     .mapColor(MapColor.DEEPSLATE)
                     .requiresCorrectToolForDrops()
                     .strength(4.5f, 6f))));
+    public static final RegistryObject<Block> FOUNDRY = CreativeTabRegister.add(ALL.register("foundry",
+            () -> new FoundryBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(4.5f, 6f))));
+    public static final RegistryObject<Block> ADVANCED_FOUNDRY = CreativeTabRegister.add(ALL.register("advanced_foundry",
+            () -> new AdvancedFoundryBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(4.5f, 6f))));
+    public static final RegistryObject<Block> COSMIC_FOUNDRY = CreativeTabRegister.add(ALL.register("cosmic_foundry",
+            () -> new CosmicFoundryBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(4.5f, 6f))));
+    public static final RegistryObject<Block> ETHEREAL_FOUNDRY = CreativeTabRegister.add(ALL.register("ethereal_foundry",
+            () -> new EtherealFoundryBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(4.5f, 6f))));
+    public static final RegistryObject<Block> TEST_CASING = null; //= CreativeTabRegister.add(ALL.register("test_casing",
+           // () -> new TestMultiblockBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+           //         .strength(4.5f, 6f))));
 
     @SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {

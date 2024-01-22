@@ -1,5 +1,12 @@
 package be.sixefyle.transdimquarry;
 
+import be.sixefyle.transdimquarry.blocks.foundry.advancedfoundry.AdvancedFoundryScreen;
+import be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry.CosmicFoundryMenu;
+import be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry.CosmicFoundryScreen;
+import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryBlockEntity;
+import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryMenu;
+import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryScreen;
+import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryScreen;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserScreen;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserScreen;
 import be.sixefyle.transdimquarry.config.CommonConfig;
@@ -82,6 +89,10 @@ public class TransdimensionalMachines
             MenuScreens.register(MenuRegister.TRANSDIMENSIONAL_QUARRY.get(), TransdimQuarryScreen::new);
             MenuScreens.register(MenuRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(), TransdimToolInfuserScreen::new);
             MenuScreens.register(MenuRegister.ITEM_INFUSER.get(), ItemInfuserScreen::new);
+            MenuScreens.register(MenuRegister.FOUNDRY.get(), FoundryScreen::new);
+            MenuScreens.register(MenuRegister.ADVANCED_FOUNDRY.get(), AdvancedFoundryScreen::new);
+            MenuScreens.register(MenuRegister.COSMIC_FOUNDRY.get(), CosmicFoundryScreen::new);
+            MenuScreens.register(MenuRegister.ETHEREAL_FOUNDRY.get(), EtherealFoundryScreen::new);
             ItemInfuserRecipeRegister.register();
         }
 

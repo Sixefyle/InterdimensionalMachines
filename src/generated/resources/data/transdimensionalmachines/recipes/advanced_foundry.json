@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "transdimensionalmachines:foundry"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "I": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "pattern": [
+    "FIF",
+    "IEI",
+    "FIF"
+  ],
+  "result": {
+    "item": "transdimensionalmachines:advanced_foundry"
+  },
+  "show_notification": true
+}

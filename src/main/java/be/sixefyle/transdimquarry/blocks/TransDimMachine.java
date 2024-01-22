@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TransDimMachine extends BaseContainerBlockEntity implements IEnergyHandler, WorldlyContainer, MenuProvider {
-    private final int containerSize;
+    private int containerSize;
     private final long baseEnergyCapacity;
 
     private NonNullList<ItemStack> items;
@@ -461,6 +461,11 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
 
     public void setItems(NonNullList<ItemStack> items) {
         this.items = items;
+    }
+
+    public void setItems(int size) {
+        containerSize = size;
+        items = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
 

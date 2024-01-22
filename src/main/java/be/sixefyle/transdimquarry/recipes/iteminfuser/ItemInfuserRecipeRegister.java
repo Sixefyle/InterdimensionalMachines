@@ -28,6 +28,8 @@ public class ItemInfuserRecipeRegister {
         ItemInfuserRecipeRegister.all.add(COSMIC_QUARRY_SPEED_UPGRADE);
         ItemInfuserRecipeRegister.all.add(COSMIC_QUARRY_FORTUNE_UPGRADE);
         ItemInfuserRecipeRegister.all.add(COSMIC_QUARRY_ORE_FINDER_UPGRADE);
+        ItemInfuserRecipeRegister.all.add(COSMIC_FOUNDRY);
+        ItemInfuserRecipeRegister.all.add(ETHEREAL_FOUNDRY);
     }
 
     public static void register(ItemInfuserRecipe recipe){
@@ -165,5 +167,19 @@ public class ItemInfuserRecipeRegister {
             .setOutput(new ItemStack(ItemRegister.COSMIC_QUARRY_ENERGY_UPGRADE.get(), 1))
             .setEnergyCost(100_000)
             .setCalibratorDurabilityCost(150)
+            .build();
+    public static final ItemInfuserRecipe COSMIC_FOUNDRY = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.ECHO_INGOT.get(), 4))
+            .setInput(new ItemStack(BlockRegister.ADVANCED_FOUNDRY.get(), 1))
+            .setOutput(new ItemStack(BlockRegister.COSMIC_FOUNDRY.get(), 1))
+            .setEnergyCost(2000)
+            .setCalibratorDurabilityCost(4)
+            .build();
+    public static final ItemInfuserRecipe ETHEREAL_FOUNDRY = new ItemInfuserRecipe.Builder()
+            .setHarmonizationMatrix(new ItemStack(ItemRegister.CALIBRATED_QUANTUMITE.get(), 4))
+            .setInput(new ItemStack(BlockRegister.COSMIC_FOUNDRY.get(), 1))
+            .setOutput(new ItemStack(BlockRegister.ETHEREAL_FOUNDRY.get(), 1))
+            .setEnergyCost(25000)
+            .setCalibratorDurabilityCost(10)
             .build();
 }

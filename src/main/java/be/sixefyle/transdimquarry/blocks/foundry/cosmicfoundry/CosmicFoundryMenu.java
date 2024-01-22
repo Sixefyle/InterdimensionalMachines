@@ -1,9 +1,8 @@
-package be.sixefyle.transdimquarry.blocks.toolinfuser;
+package be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry;
 
+import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserBlockEntity;
 import be.sixefyle.transdimquarry.registries.BlockRegister;
 import be.sixefyle.transdimquarry.registries.MenuRegister;
-import be.sixefyle.transdimquarry.items.tools.InfusedTool;
-import mekanism.api.MekanismAPI;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -14,19 +13,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class TransdimToolInfuserMenu extends AbstractContainerMenu {
-    public final TransdimToolInfuserBlockEntity blockEntity;
+public class CosmicFoundryMenu extends AbstractContainerMenu {
+    public final CosmicFoundryBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
 
-    public TransdimToolInfuserMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
+    public CosmicFoundryMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
         this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
     }
 
-    public TransdimToolInfuserMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(MenuRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get(), id);
-        checkContainerSize(inv, TransdimToolInfuserBlockEntity.CONTAINER_SIZE);
-        blockEntity = (TransdimToolInfuserBlockEntity) entity;
+    public CosmicFoundryMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(MenuRegister.COSMIC_FOUNDRY.get(), id);
+
+        blockEntity = (CosmicFoundryBlockEntity) entity;
         this.level = inv.player.level();
         this.data = data;
 
@@ -34,41 +33,52 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            this.addSlot(new SlotItemHandler(handler, 0, 118, 20));
+            addSlot(new SlotItemHandler(handler, 1, 18, 17));
+            addSlot(new SlotItemHandler(handler, 3, 40, 17));
+            addSlot(new SlotItemHandler(handler, 5, 62, 17));
+            addSlot(new SlotItemHandler(handler, 7, 84, 17));
+            addSlot(new SlotItemHandler(handler, 9, 106, 17));
+            addSlot(new SlotItemHandler(handler, 11, 128, 17));
+
+
+            addSlot(new SlotItemHandler(handler, 0, 18, 62));
+            addSlot(new SlotItemHandler(handler, 2, 40, 62));
+            addSlot(new SlotItemHandler(handler, 4, 62, 62));
+            addSlot(new SlotItemHandler(handler, 6, 84,  62));
+            addSlot(new SlotItemHandler(handler, 8, 106, 62));
+            addSlot(new SlotItemHandler(handler, 10, 128, 62));
         });
-        
+
         addDataSlots(data);
     }
 
-    public TransdimToolInfuserBlockEntity getBlockEntity() {
-        return blockEntity;
+    public long getEnergyStored(){
+        return blockEntity.getEnergy();
+    }
+    public long getMaxEnergyStored(){
+        return blockEntity.getEnergyCapacity();
+    }
+    public long getPowerConsumption(){
+        return blockEntity.getNeededEnergy();
     }
 
-    public double getScaledEnergy(){
-        return (double) Math.min(1, blockEntity.getEnergyStorage().getLongEnergyStored() / blockEntity.getEnergyStorage().getLongMaxEnergyStored());
-    }
-
-    public double getScaledInfusedEnergy(){
-        ItemStack itemStack = blockEntity.getItem(0);
-        if(itemStack.isEmpty() || !itemStack.hasTag()) return 0;
-
-        if(itemStack.getItem() instanceof InfusedTool tool){
-            return (double) tool.getInfusedEnergy(itemStack) / tool.getNeededInfusedEnergy(itemStack);
-        }
-        return 0;
-    }
-
-    public double getScaledInfusingEnergy(){
-        return (double) getProgress() / getMaxProgress();
-    }
-
-    public int getProgress(){
+    public int getProgression(){
         return data.get(1);
     }
-
-    public int getMaxProgress(){
-        return data.get(2);
+    public double getScaledProgression(){
+        return (double) data.get(1) / data.get(2);
     }
+    public boolean isWorking() {
+        return data.get(0) > 0;
+    }
+    public double getScaledEnergy(){
+        return Math.min((double) getEnergyStored() / getMaxEnergyStored(), 1);
+    }
+
+    public double getScaledSmelting(int slot){
+        return (double) blockEntity.getCookTime()[slot] / blockEntity.getMaxProgress();
+    }
+
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
@@ -86,7 +96,7 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = TransdimToolInfuserBlockEntity.CONTAINER_SIZE;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 12;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {
@@ -124,20 +134,20 @@ public class TransdimToolInfuserMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                player, BlockRegister.TRANSDIMENSIONAL_TOOL_INFUSER.get());
+                player, BlockRegister.COSMIC_FOUNDRY.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 77 + i * 18));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 100 + i * 18));
             }
         }
     }
 
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 135));
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 158));
         }
     }
 }
