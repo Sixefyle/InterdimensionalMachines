@@ -66,14 +66,14 @@ public abstract class BaseFoundryBlock extends BaseEntityBlock {
 
         if(foundry == null || foundry.INPUT_SLOT == null) return;
 
-        tooltip.add(EnumColor.TEAL.getColoredComponent(String.format("Input slots: %d", foundry.INPUT_SLOT.length)));
-        tooltip.add(EnumColor.TEAL.getColoredComponent(String.format("Smelt time: %d ticks ", foundry.getMaxProgress())));
-        tooltip.add(EnumColor.TEAL.getColoredComponent(String.format("Smelt %d items at once ", foundry.getCookMult())));
+        tooltip.add(EnumColor.GREEN.getColoredComponent(String.format("Input amount: %d slots", foundry.INPUT_SLOT.length)));
+        tooltip.add(EnumColor.GREEN.getColoredComponent(String.format("Smelting speed: %d ticks ", foundry.getMaxProgress())));
+        tooltip.add(EnumColor.GREEN.getColoredComponent(String.format("Smelt %d items at once ", foundry.getCookMult())));
 
         if(foundry.getInputCostReductionChance() > 0){
             tooltip.add(Component.empty());
-            tooltip.add(EnumColor.PURPLE.getColoredComponent("Have a small chance to use only"));
-            tooltip.add(EnumColor.PURPLE.getColoredComponent("1 item on smelting"));
+            tooltip.add(EnumColor.PURPLE.getColoredComponent("Have a small chance to use"));
+            tooltip.add(EnumColor.PURPLE.getColoredComponent("only 1 item on smelting"));
         }
 
         tooltip.add(Component.empty());

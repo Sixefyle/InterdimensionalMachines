@@ -8,6 +8,7 @@ import be.sixefyle.transdimquarry.registries.BlockRegister;
 import be.sixefyle.transdimquarry.registries.ItemRegister;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.recipe.RecipeType;
@@ -44,5 +45,6 @@ public class JEITransDimMachinesPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(BlockRegister.ITEM_INFUSER.get().asItem().getDefaultInstance(), ITEM_INFUSER_TYPE);
+        registration.addRecipeCatalyst(BlockRegister.FOUNDRY.get().asItem().getDefaultInstance(), RecipeTypes.SMELTING);
     }
 }

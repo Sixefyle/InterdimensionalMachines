@@ -15,7 +15,7 @@ public class EtherealFoundryBlockEntity extends BaseFoundry {
 
         setInputSlotAmount(8);
         setCookMult(32);
-        setInputCostReductionChance(.1);
+        setInputCostReductionChance(.05);
         setMaxProgress(getMaxProgress() / 8);
 
         setEnergyCapacity(getEnergyCapacity() * 32);

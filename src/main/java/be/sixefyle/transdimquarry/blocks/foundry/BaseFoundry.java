@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
@@ -16,7 +17,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseFoundry extends TransDimMachine {
@@ -29,7 +32,7 @@ public abstract class BaseFoundry extends TransDimMachine {
 
     private int[] cookTime;
     private int cookMult;
-    private boolean autoSplit = false;
+    private boolean autoSplit = true;
     private double inputCostReductionChance = 0.0;
 
     public BaseFoundry(BlockEntityType<?> be, BlockPos pos, BlockState state) {
@@ -77,13 +80,21 @@ public abstract class BaseFoundry extends TransDimMachine {
             recipe = getRecipe(itemStack);
             if(recipe.isEmpty()) continue;
 
+            if(autoSplit && !isWorking()){
+                split();
+            }
+
             smeltingRecipe = recipe.get();
             outputItem = getItem(OUTPUT_SLOT[i]);
+
+            if(!outputItem.isEmpty()
+                    && !smeltingRecipe.getResultItem(RegistryAccess.EMPTY).is(outputItem.getItem())) return;
 
             if(outputItem.getCount() < outputItem.getMaxStackSize()) {
                 if(getEnergy() >= getNeededEnergy()){
                     addEnergy(-getNeededEnergy());
                     if(cookTime[i]++ >= getMaxProgress()){
+
                         cookTime[i] = 0;
 
                         if(level.isClientSide()) return;
@@ -105,6 +116,10 @@ public abstract class BaseFoundry extends TransDimMachine {
                         } else {
                             inputItem.shrink(count);
                         }
+
+                        if(autoSplit){
+                            split();
+                        }
                     }
                 }
             } else {
@@ -114,19 +129,71 @@ public abstract class BaseFoundry extends TransDimMachine {
     }
 
     @Override
-    public void setItem(int slot, ItemStack itemStack) {
-        super.setItem(slot, itemStack);
+    public boolean isWorking() {
+        return Arrays.stream(cookTime).anyMatch(i -> i > 0);
+    }
 
-//        if(autoSplit && !itemStack.isEmpty()){
-//            int itemPerSlots = itemStack.getCount() / INPUT_SLOT.length;
-//            int itemRemaining = itemStack.getCount() % INPUT_SLOT.length;
-//            ItemStack itemCopy = itemStack.copy();
-//
-//            for (int i : INPUT_SLOT) {
-//                itemCopy.setCount(itemPerSlots);
-//                setItem(i, itemCopy);
-//            }
-//        }
+    public List<Integer> availableSlots(ItemStack itemStack){
+        List<Integer> slots = new ArrayList<>(INPUT_SLOT.length);
+        for (int i : INPUT_SLOT) {
+            if(getItem(i).is(itemStack.getItem()) || getItem(i).isEmpty()){
+                slots.add(i);
+            }
+        }
+        return slots;
+    }
+
+    public List<ItemStack> itemTypeInFoundry(){
+        List<ItemStack> itemsType = new ArrayList<>();
+        ItemStack item;
+        for (int slot : INPUT_SLOT) {
+            item = getItem(slot);
+            if(!item.isEmpty() && !itemsType.contains(item)) {
+                itemsType.add(item);
+            }
+        }
+        return itemsType;
+    }
+
+    public void split() {
+        if(level == null || level.isClientSide) return;
+
+        List<ItemStack> itemTypes = itemTypeInFoundry();
+        if(itemTypes.size() == 0) return;
+
+        for (ItemStack itemType : itemTypes) {
+            split(itemType.getItem());
+        }
+    }
+
+    public void split(Item item) {
+        ItemStack itemStack;
+        ItemStack tempItemStack = null;
+        for (int slot : INPUT_SLOT) {
+            itemStack = getItem(slot);
+
+            if (!itemStack.isEmpty()) {
+                if(tempItemStack == null && itemStack.is(item)) {
+                    tempItemStack = itemStack.copy();
+                } else if(tempItemStack != null && tempItemStack.is(item) && itemStack.is(item)){
+                    tempItemStack.grow(itemStack.getCount());
+                }
+            }
+        }
+
+        if(tempItemStack == null || tempItemStack.getCount() == 1) return;
+
+        List<Integer> availableSlots = availableSlots(tempItemStack);
+        int totalCount = tempItemStack.getCount();
+        int elementsPerSlot = totalCount / availableSlots.size();
+        int slotsWithExtraElement = totalCount % availableSlots.size();
+
+        ItemStack itemCopy;
+        int i = 0;
+        for (int slot : availableSlots) {
+            itemCopy = tempItemStack.copyWithCount(elementsPerSlot + (i++ < slotsWithExtraElement ? 1 : 0));
+            setItem(slot, itemCopy);
+        }
     }
 
     @Override

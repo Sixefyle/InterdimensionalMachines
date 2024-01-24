@@ -15,7 +15,7 @@ public class CosmicFoundryBlockEntity extends BaseFoundry {
 
         setInputSlotAmount(6);
         setCookMult(16);
-        setInputCostReductionChance(0.05);
+        setInputCostReductionChance(0.01);
         setMaxProgress(getMaxProgress() / 4);
 
         setEnergyCapacity(getEnergyCapacity() * 8);
