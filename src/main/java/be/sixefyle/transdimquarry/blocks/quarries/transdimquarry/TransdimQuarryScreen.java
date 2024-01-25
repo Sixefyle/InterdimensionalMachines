@@ -1,12 +1,15 @@
 package be.sixefyle.transdimquarry.blocks.quarries.transdimquarry;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
+import be.sixefyle.transdimquarry.blocks.TransDimMachineScreen;
 import be.sixefyle.transdimquarry.enums.EnumColor;
+import be.sixefyle.transdimquarry.gui.EnergyBar;
 import be.sixefyle.transdimquarry.items.quarryupgrades.QuarryUpgrade;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.cts.SwitchQuarryStatePacket;
 import be.sixefyle.transdimquarry.utils.MouseUtil;
 import be.sixefyle.transdimquarry.utils.NumberUtil;
+import be.sixefyle.transdimquarry.utils.Vec2i;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,15 +24,16 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
 
-public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarryMenu> {
-    private static final ResourceLocation TEXTURE =
-            new ResourceLocation(TransdimensionalMachines.MODID, "textures/gui/transdimensional_quarry512.png");
-
+public class TransdimQuarryScreen extends TransDimMachineScreen<TransdimQuarryMenu> {
     Button switchButton;
     Map<String, Integer> blackScreenLabels = new LinkedHashMap<>();
 
     public TransdimQuarryScreen(TransdimQuarryMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
+
+        setTexture("transdimensional_quarry512");
+
+        textureRes = 512;
 
         imageHeight = 234;
         imageWidth = 176;
@@ -39,29 +43,21 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
     protected void init() {
         super.init();
 
+        energyBar = new EnergyBar(
+                new Vec2i(texturePos.x + 75, texturePos.y + 71),
+                new Vec2i(imageWidth, 0),
+                new Vec2i(94, 10),
+                textureRes,
+                true
+        );
+
         switchButton = new Button.Builder(Component.literal("Start"), (button) -> {
-            PacketSender.sendToServer(new SwitchQuarryStatePacket(menu.getBlockEntity().getBlockPos()));
+            PacketSender.sendToServer(new SwitchQuarryStatePacket(menu.blockEntity.getBlockPos()));
         }).size(54, 20)
           .pos(width / 2 - 75, height / 2 - 10)
           .build();
 
         addRenderableWidget(switchButton);
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1,1,1,1);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
-
-        guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight, 512, 512);
-        renderProgressEnergyBar(guiGraphics, x, y);
-    }
-
-    private void renderProgressEnergyBar(GuiGraphics guiGraphics, int x, int y){
-        guiGraphics.blit(TEXTURE, x + 75, y + 71, imageWidth, 0, (int) (menu.getScaledEnergy() * 94), 10, 512, 512);
     }
 
     String[] dots = {"", ".", "..", "..."};
@@ -111,16 +107,14 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
+        int x = texturePos.x;
+        int y = texturePos.y;
 
         switchButton.setMessage(Component.literal(menu.isWorking() ? "Stop" : "Start"));
         switchButton.setFGColor(menu.isWorking() ? TextColor.parseColor(EnumColor.RED.getHexColor()).getValue() : TextColor.parseColor(EnumColor.TEAL.getHexColor()).getValue());
 
         //Draw titles
-        guiGraphics.drawString(this.font, this.title, 7, 6, 4210752, false);
         guiGraphics.drawString(this.font, "Upgrades", 16, 72, 4210752, false);
-        guiGraphics.drawString(this.font, this.playerInventoryTitle, 7, 142, 4210752, false);
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(.7f,.7f,.7f);
@@ -129,9 +123,9 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         if(menu.isWorking() && menu.isInventoryFull()) {
             showErrorMessage(guiGraphics, "Inventory full!","", "Tips: You can attach a", "container to the quarry");
         } else if(menu.isWorking() && menu.getEnergyStored() < menu.getPowerConsumption()){
-            showErrorMessage(guiGraphics, "Not enough energy!", String.format("Need %s to work", NumberUtil.formatToEnergy(menu.getEnergyNeeded())));
+            showErrorMessage(guiGraphics, "Not enough energy!", String.format("Need %s to work", NumberUtil.formatToEnergy(menu.getPowerConsumption())));
         } else {
-            addBlackScreenLabel("Progression: " + String.format("%.0f", menu.getScaledProgress() * 100) + "%", 0xfffbe7);
+            addBlackScreenLabel("Progression: " + String.format("%.0f", menu.getScaledProgression() * 100) + "%", 0xfffbe7);
             addBlackScreenLabel("Time to mine: " + menu.getTimeToMine() + " ticks", 0xfffbe7);
 
             boolean costTooHigh = menu.getPowerConsumption() > menu.getMaxEnergyStored();
@@ -148,8 +142,8 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
         showBlackScreenLabels(guiGraphics);
         guiGraphics.pose().popPose();
 
-        renderEnergyAreaTooltips(guiGraphics, mouseX, mouseY, x, y);
         renderUpgradeAreaTooltips(guiGraphics, mouseX, mouseY, x, y);
+        energyBar.renderAreaTooltips(guiGraphics, mouseX, mouseY, x, y, menu);
     }
 
     private void renderUpgradeAreaTooltips(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y) {
@@ -163,23 +157,5 @@ public class TransdimQuarryScreen extends AbstractContainerScreen<TransdimQuarry
                 }
             }
         }
-    }
-
-    private void renderEnergyAreaTooltips(GuiGraphics guiGraphics, int pMouseX, int pMouseY, int x, int y) {
-        if(isMouseAboveArea(pMouseX, pMouseY, x, y, 75, 71, 94, 10)) {
-            guiGraphics.renderTooltip(this.font,
-                    Component.literal(NumberUtil.formatToEnergy(menu.getEnergyStored())+"/"+NumberUtil.formatToEnergy(menu.getMaxEnergyStored())), pMouseX - x, pMouseY - y);
-        }
-    }
-
-    private boolean isMouseAboveArea(int pMouseX, int pMouseY, int x, int y, int offsetX, int offsetY, int width, int height) {
-        return MouseUtil.isMouseOver(pMouseX, pMouseY, x + offsetX, y + offsetY, width, height);
-    }
-
-    @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        renderBackground(guiGraphics);
-        super.render(guiGraphics, mouseX, mouseY, delta);
-        renderTooltip(guiGraphics, mouseX, mouseY);
     }
 }

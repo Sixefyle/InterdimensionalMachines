@@ -36,8 +36,7 @@ public class MenuRegister {
             registerMenuType(CosmicFoundryMenu::new, "cosmic_foundry_menu");
     public static final RegistryObject<MenuType<EtherealFoundryMenu>> ETHEREAL_FOUNDRY =
             registerMenuType(EtherealFoundryMenu::new, "ethereal_foundry_menu");
-    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory,
-                                                                                                  String name) {
+    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return ALL.register(name, () -> IForgeMenuType.create(factory));
     }
 

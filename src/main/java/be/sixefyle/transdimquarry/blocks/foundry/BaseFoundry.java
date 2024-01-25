@@ -23,10 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseFoundry extends TransDimMachine {
-    //TODO: check quand le minerais est quasi full
-    //      check quand le minerais n'est pas pareil
-    //      add energy cost
-
     protected int[] INPUT_SLOT;
     protected int[] OUTPUT_SLOT;
 
