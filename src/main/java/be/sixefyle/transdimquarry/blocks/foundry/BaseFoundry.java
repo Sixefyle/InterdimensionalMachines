@@ -1,13 +1,16 @@
 package be.sixefyle.transdimquarry.blocks.foundry;
 
 import be.sixefyle.transdimquarry.blocks.TransDimMachine;
+import be.sixefyle.transdimquarry.blocks.quarries.QuarryBaseBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -41,6 +44,44 @@ public abstract class BaseFoundry extends TransDimMachine {
         setMaxProgress(80);
 
         setBaseEnergyNeeded(120);
+
+        ContainerData baseData = getBaseData();
+        this.setBaseData(new ContainerData() {
+            @Override
+            public int get(int index) {
+                for (int i = 0; i < baseData.getCount(); i++) {
+                    if(index == i){
+                        return baseData.get(i);
+                    }
+                }
+
+                int baseCount = baseData.getCount() - 1;
+                if (index == baseCount + 1) {
+                    return BaseFoundry.this.isAutoSplit() ? 1 : 0;
+                }
+
+                return baseData.get(0);
+            }
+
+            @Override
+            public void set(int index, int value) {
+                for (int i = 0; i < baseData.getCount(); i++) {
+                    if(index == i){
+                        baseData.set(index, value);
+                    }
+                }
+
+                int baseCount = baseData.getCount() - 1;
+                if (index == baseCount + 1) {
+                    BaseFoundry.this.setAutoSplit(value > 0);
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return baseData.getCount() + 1;
+            }
+        });
     }
 
     public void setInputSlotAmount(int amount){
@@ -224,6 +265,20 @@ public abstract class BaseFoundry extends TransDimMachine {
         if(level == null) return Optional.empty();
 
         return level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SimpleContainer(itemStack), level);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag nbt) {
+        super.saveAdditional(nbt);
+
+        nbt.putBoolean("autoSplit", isAutoSplit());
+    }
+
+    @Override
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
+
+        setAutoSplit(nbt.getBoolean("autoSplit"));
     }
 
     @Override

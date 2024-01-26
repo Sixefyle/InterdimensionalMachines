@@ -3,6 +3,7 @@ package be.sixefyle.transdimquarry.networking;
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
 import be.sixefyle.transdimquarry.networking.packet.cts.ChangeToolModePacket;
 import be.sixefyle.transdimquarry.networking.packet.cts.SetMaxEnergyInputPacket;
+import be.sixefyle.transdimquarry.networking.packet.cts.SwitchAutoSplitPacket;
 import be.sixefyle.transdimquarry.networking.packet.cts.SwitchQuarryStatePacket;
 import be.sixefyle.transdimquarry.networking.packet.stc.EnergySyncPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -49,6 +50,11 @@ public class PacketSender {
                 .consumerMainThread(ChangeToolModePacket::handle)
                 .add();
 
+        net.messageBuilder(SwitchAutoSplitPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SwitchAutoSplitPacket::new)
+                .encoder(SwitchAutoSplitPacket::toBytes)
+                .consumerMainThread(SwitchAutoSplitPacket::handle)
+                .add();
 
         net.messageBuilder(EnergySyncPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(EnergySyncPacket::new)

@@ -17,7 +17,7 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class CosmicFoundryMenu extends BaseFoundryMenu {
     public CosmicFoundryMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
-        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
+        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(CONTAINER_SIZE));
     }
 
     public CosmicFoundryMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {

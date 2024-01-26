@@ -19,7 +19,7 @@ import net.minecraftforge.items.SlotItemHandler;
 public class EtherealFoundryMenu extends BaseFoundryMenu {
 
     public EtherealFoundryMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
-        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
+        this(id, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(CONTAINER_SIZE));
     }
 
     public EtherealFoundryMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {

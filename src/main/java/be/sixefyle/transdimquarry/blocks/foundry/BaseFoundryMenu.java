@@ -9,6 +9,8 @@ import net.minecraft.world.phys.Vec2;
 
 public abstract class BaseFoundryMenu extends TransDimMachineMenu<BaseFoundry> {
 
+    public static final int CONTAINER_SIZE = 4;
+
     public BaseFoundryMenu(MenuType<?> menuType, int id, Inventory inv, BlockEntity entity, ContainerData data) {
         super(menuType, id, inv, entity, data);
 
@@ -21,5 +23,9 @@ public abstract class BaseFoundryMenu extends TransDimMachineMenu<BaseFoundry> {
 
     public double getScaledSmelting(int slot){
         return (double) blockEntity.getCookTime()[slot] / blockEntity.getMaxProgress();
+    }
+
+    public boolean isAutoSplit(){
+        return data.get(3) > 0;
     }
 }
