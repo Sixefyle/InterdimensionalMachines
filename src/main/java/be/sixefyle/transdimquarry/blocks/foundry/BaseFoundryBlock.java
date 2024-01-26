@@ -51,8 +51,8 @@ public abstract class BaseFoundryBlock extends BaseEntityBlock {
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if(state.getBlock() != newState.getBlock()){
             BlockEntity blockEntity = level.getBlockEntity(pos);
-            if(blockEntity instanceof ItemInfuserBlockEntity itemInfuserBlockEntity){
-                itemInfuserBlockEntity.dropInventory();
+            if(blockEntity instanceof BaseFoundry foundry){
+                foundry.dropInventory();
             }
         }
 
