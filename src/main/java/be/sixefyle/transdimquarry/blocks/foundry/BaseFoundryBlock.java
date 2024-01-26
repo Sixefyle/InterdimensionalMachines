@@ -70,13 +70,30 @@ public abstract class BaseFoundryBlock extends BaseEntityBlock {
         tooltip.add(EnumColor.GREEN.getColoredComponent(String.format("Smelting speed: %d ticks ", foundry.getMaxProgress())));
         tooltip.add(EnumColor.GREEN.getColoredComponent(String.format("Smelt %d items at once ", foundry.getCookMult())));
 
-        if(foundry.getInputCostReductionChance() > 0){
+        double chance = foundry.getInputCostReductionChance();
+        if(chance > 0){
             tooltip.add(Component.empty());
-            tooltip.add(EnumColor.PURPLE.getColoredComponent("Have a small chance to use"));
+            tooltip.add(EnumColor.PURPLE.getColoredComponent("Have a " + getChanceWord(chance) + " chance to use"));
             tooltip.add(EnumColor.PURPLE.getColoredComponent("only 1 item on smelting"));
         }
 
         tooltip.add(Component.empty());
         tooltip.add(EnumColor.GRAY.getColoredComponent("Like a furnace but better"));
+    }
+
+    private String getChanceWord(double chance){
+        String word = "";
+        if(chance <= 0.1) {
+            word = "very low";
+        } else if(chance <= 0.3){
+            word = "low";
+        } else if(chance <= 0.4){
+            word = "moderate";
+        } else if(chance <= 0.7){
+            word = "high";
+        } else if(chance <= 1){
+            word = "very high";
+        }
+        return word;
     }
 }

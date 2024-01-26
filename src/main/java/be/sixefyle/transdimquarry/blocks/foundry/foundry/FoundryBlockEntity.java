@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.blocks.foundry.foundry;
 
 import be.sixefyle.transdimquarry.blocks.foundry.BaseFoundry;
+import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -14,9 +15,12 @@ public class FoundryBlockEntity extends BaseFoundry {
         super(BlockEntityRegister.FOUNDRY.get(), pos, state);
 
         setInputSlotAmount(2);
-        setMaxProgress(80);
-        setCookMult(4);
-        setEnergyNeeded(80);
+
+        setCookMult(CommonConfig.FOUNDRY_COOK_MULTIPLIER.get());
+        setInputCostReductionChance(CommonConfig.FOUNDRY_INPUT_REDUCTION_CHANCE.get());
+        setMaxProgress(CommonConfig.FOUNDRY_SMELT_TIME.get());
+        setEnergyNeeded(CommonConfig.FOUNDRY_ENERGY_COST.get());
+        setEnergyCapacity(CommonConfig.FOUNDRY_ENERGY_CAPACITY.get());
     }
 
     @Override

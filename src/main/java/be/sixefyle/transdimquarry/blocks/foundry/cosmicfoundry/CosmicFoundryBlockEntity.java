@@ -1,6 +1,7 @@
 package be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry;
 
 import be.sixefyle.transdimquarry.blocks.foundry.BaseFoundry;
+import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -14,12 +15,12 @@ public class CosmicFoundryBlockEntity extends BaseFoundry {
         super(BlockEntityRegister.COSMIC_FOUNDRY.get(), pos, state);
 
         setInputSlotAmount(6);
-        setCookMult(16);
-        setInputCostReductionChance(0.01);
-        setMaxProgress(getMaxProgress() / 4);
 
-        setEnergyCapacity(getEnergyCapacity() * 8);
-        setEnergyNeeded(getNeededEnergy() * 16);
+        setCookMult(CommonConfig.COSMIC_FOUNDRY_COOK_MULTIPLIER.get());
+        setInputCostReductionChance(CommonConfig.COSMIC_FOUNDRY_INPUT_REDUCTION_CHANCE.get());
+        setMaxProgress(CommonConfig.COSMIC_FOUNDRY_SMELT_TIME.get());
+        setEnergyNeeded(CommonConfig.COSMIC_FOUNDRY_ENERGY_COST.get());
+        setEnergyCapacity(CommonConfig.COSMIC_FOUNDRY_ENERGY_CAPACITY.get());
     }
 
     @Override
