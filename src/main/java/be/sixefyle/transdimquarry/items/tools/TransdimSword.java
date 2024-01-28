@@ -15,15 +15,24 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TransdimSword extends InfusedTool {
 
     public static final double DAMAGE_PER_INFUSE = 0.1;
+
+    public static final List<Enchantment> ALLOWED_ENCHANT =
+            List.of(Enchantments.SHARPNESS, Enchantments.SMITE, Enchantments.FIRE_ASPECT,
+                    Enchantments.MOB_LOOTING, Enchantments.KNOCKBACK);
 
     public TransdimSword() {
         super(new Properties().rarity(Rarity.EPIC).fireResistant().setNoRepair(),
@@ -41,6 +50,22 @@ public class TransdimSword extends InfusedTool {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
         return super.use(level, player, interactionHand);
+    }
+
+
+    @Override
+    public int getEnchantmentValue(ItemStack stack) {
+        return Tiers.NETHERITE.getEnchantmentValue();
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack pStack) {
+        return true;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return ALLOWED_ENCHANT.stream().anyMatch(enchantment1 -> enchantment1.equals(enchantment));
     }
 
     @Override
