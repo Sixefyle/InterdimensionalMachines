@@ -51,6 +51,9 @@ public class CommonConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> ETHEREAL_FOUNDRY_COOK_MULTIPLIER;
     public static final ForgeConfigSpec.ConfigValue<Double> ETHEREAL_FOUNDRY_INPUT_REDUCTION_CHANCE;
 
+    //Soul jar
+    public static final ForgeConfigSpec.ConfigValue<List<String>> BLACKLISTED_ENTITIES;
+
     static {
         BUILDER.push("Machines");
         BUILDER.push("Quarry");
@@ -102,6 +105,8 @@ public class CommonConfig {
         ETHEREAL_FOUNDRY_INPUT_REDUCTION_CHANCE = BUILDER.comment("Chance to reduce the input consumption to one").defineInRange("inputReductionChance", 0.05, 0.0, 1.0);
         BUILDER.pop();
         BUILDER.pop();
+        BUILDER.push("SoulJar");
+        BLACKLISTED_ENTITIES = BUILDER.comment("Blacklisted entities. Example: [\"minecraft:zombie\", \"minecraft:ender_dragon\"])").define("blacklistedEntities", new ArrayList<>());
 
         SPEC = BUILDER.build();
     }

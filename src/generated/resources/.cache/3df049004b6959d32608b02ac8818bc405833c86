@@ -1,4 +1,4 @@
-// 1.20.1	2024-01-16T19:21:28.2531386	Item Models: transdimensionalmachines
+// 1.20.1	2024-01-29T15:05:27.9825229	Item Models: transdimensionalmachines
 238cbde8aba3149345996ef1ba9f266854513546 assets/transdimensionalmachines/models/item/advanced_energy_quarry_upgrade.json
 80ab44dc1367adb14e397613fb0185c4c4b7a7c2 assets/transdimensionalmachines/models/item/advanced_fortune_quarry_upgrade.json
 2d396c9eca5bb157e65a09062101d7ff819eadec assets/transdimensionalmachines/models/item/advanced_ore_finder_quarry_upgrade.json
@@ -13,6 +13,7 @@ bc5ae3db651cf40e2ea2679b0303ead19812f419 assets/transdimensionalmachines/models/
 ec339a58d19dac38227faaabc2897d84c3be88be assets/transdimensionalmachines/models/item/cosmic_speed_quarry_upgrade.json
 c465e1f3f303c15f4fb47c0227b909b463babc7e assets/transdimensionalmachines/models/item/echo_ingot.json
 14b5d08f53a12a62d37ba2a89502c48829b104fe assets/transdimensionalmachines/models/item/empty_quarry_upgrade.json
+eb18b0cf722f35f63654f9010dda295dc037a2c2 assets/transdimensionalmachines/models/item/empty_soul_jar.json
 20df1f27c88a6f9fd8eb7f2f988c3d05bd5964b3 assets/transdimensionalmachines/models/item/energy_quarry_upgrade.json
 276e3f940b6504e3404dc9949f37eac8369efb04 assets/transdimensionalmachines/models/item/fortune_quarry_upgrade.json
 907060d1cd9948b17b5e7ff70da3d2b2b90456eb assets/transdimensionalmachines/models/item/ore_finder_quarry_upgrade.json

@@ -49,6 +49,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ItemRegister.QUANTUMITE_INGOT.get());
         basicItem(ItemRegister.CALIBRATED_QUANTUMITE.get());
 
+        //basicItem(ItemRegister.EMPTY_SOUL_JAR.get());
+
         handheld(ItemRegister.TRANSDIMENSIONAL_SWORD);
         handheld(ItemRegister.TRANSDIMENSIONAL_EXCAVATOR);
     }
