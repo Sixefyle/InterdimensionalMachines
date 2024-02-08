@@ -21,13 +21,16 @@ public class AdvancedFoundryScreen extends BaseFoundryScreen<AdvancedFoundryMenu
         imageHeight = 182;
         imageWidth = 176;
 
-        setTexture("advanced_foundry");
-
         smeltingBar = new int[][] {
                 {30, 36},
                 {65, 36},
                 {100, 36},
                 {134, 36}
         };
+    }
+
+    @Override
+    protected String getTextureName() {
+        return "advanced_foundry";
     }
 }

@@ -1,22 +1,19 @@
 package be.sixefyle.transdimquarry.items;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
-import be.sixefyle.transdimquarry.blocks.TransDimMachine;
 import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.enums.EnumColor;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -29,10 +26,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class SoulJarItem extends Item {
+public class SoulBottleItem extends Item {
     private static final int MAX_SOULS = 16;
 
-    public SoulJarItem() {
+    public SoulBottleItem() {
         super(new Properties().stacksTo(1));
     }
 
@@ -104,7 +101,9 @@ public class SoulJarItem extends Item {
 
     @Override
     public Component getName(ItemStack pStack) {
-        return super.getName(pStack);
+        MutableComponent name = (MutableComponent) super.getName(pStack);
+        MutableComponent prefix = isEmpty(pStack) ? Component.literal("Empty ") : Component.literal("Filled ") ;
+        return prefix.append(name);
     }
 
     @Override
@@ -115,6 +114,7 @@ public class SoulJarItem extends Item {
         if(entitytypeId == null) return;
 
         Optional<EntityType<?>> entityType = EntityType.byString(entitytypeId);
+
         if(entityType.isEmpty()) return;
         tooltip.add(EnumColor.GRAY.getColoredComponent("Stored entity: ").append(entityType.get().getDescription()));
         tooltip.add(EnumColor.GRAY.getColoredComponent("Amount: " + getSoulAmount(itemStack) + "/" + MAX_SOULS ));
@@ -144,6 +144,10 @@ public class SoulJarItem extends Item {
         CompoundTag tag = itemStack.getOrCreateTag();
         if(!tag.contains("soulAmount")) return 0;
         return tag.getInt("soulAmount");
+    }
+
+    public boolean isEmpty(ItemStack itemStack){
+        return itemStack.getOrCreateTag().getFloat("fill") == 0;
     }
 
     public void addSoulAmount(ItemStack itemStack, int toAdd){

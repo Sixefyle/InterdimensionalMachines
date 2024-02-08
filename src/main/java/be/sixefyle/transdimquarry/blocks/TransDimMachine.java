@@ -16,8 +16,10 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -372,13 +374,26 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
         return containerSize;
     }
 
-
     public int getProgress() {
         return progress;
     }
 
     public void setProgress(int progress) {
         this.progress = progress;
+    }
+
+    /**
+     *
+     * @param toAdd
+     * @return true if progress is reset
+     */
+    public boolean updateProgress(int toAdd) {
+        this.progress += toAdd;
+        if(this.progress >= getMaxProgress()){
+            resetProgress();
+            return true;
+        }
+        return false;
     }
 
     public int getMaxProgress() {

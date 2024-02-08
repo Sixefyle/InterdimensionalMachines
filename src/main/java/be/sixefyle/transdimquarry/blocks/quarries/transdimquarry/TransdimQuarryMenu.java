@@ -3,6 +3,7 @@ package be.sixefyle.transdimquarry.blocks.quarries.transdimquarry;
 import be.sixefyle.transdimquarry.blocks.TransDimMachineMenu;
 import be.sixefyle.transdimquarry.registries.BlockRegister;
 import be.sixefyle.transdimquarry.registries.MenuRegister;
+import be.sixefyle.transdimquarry.utils.Vec2i;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +15,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
+
+import java.util.List;
 
 public class TransdimQuarryMenu extends TransDimMachineMenu<TransdimQuarryBlockEntity> {
     public TransdimQuarryMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
@@ -41,6 +44,11 @@ public class TransdimQuarryMenu extends TransDimMachineMenu<TransdimQuarryBlockE
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
+    }
+
+    @Override
+    public List<Vec2i> getSlotsLocation() {
+        return null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package be.sixefyle.transdimquarry.blocks;
 
+import be.sixefyle.transdimquarry.utils.Vec2i;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -8,6 +9,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec2;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.SlotItemHandler;
+
+import java.util.List;
 
 public abstract class TransDimMachineMenu<T extends TransDimMachine> extends AbstractContainerMenu {
     public final T blockEntity;
@@ -39,6 +44,22 @@ public abstract class TransDimMachineMenu<T extends TransDimMachine> extends Abs
         addDataSlots(data);
     }
 
+    public void initSlots(Inventory inv) {
+        if(getSlotsLocation() != null) {
+            this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
+                Vec2i loc;
+                for (int i = 0; i < getSlotsLocation().size(); i++) {
+                    loc = getSlotsLocation().get(i);
+                    addSlot(new SlotItemHandler(handler, i, loc.x, loc.y));
+                }
+            });
+        }
+
+        addPlayerInventory(inv);
+        addPlayerHotbar(inv);
+    }
+
+    public abstract List<Vec2i> getSlotsLocation();
 
     public long getEnergyStored(){
         return blockEntity.getEnergy();

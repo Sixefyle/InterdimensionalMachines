@@ -5,8 +5,8 @@ import be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry.CosmicFoundryBloc
 import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryBlock;
 import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryBlock;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserBlock;
-import be.sixefyle.transdimquarry.blocks.multiblock.test.TestMultiblockBlock;
 import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryBlock;
+import be.sixefyle.transdimquarry.blocks.soulharverster.SoulHarvesterBlock;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserBlock;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -70,6 +70,10 @@ public class BlockRegister {
     public static final RegistryObject<Block> TEST_CASING = null; //= CreativeTabRegister.add(ALL.register("test_casing",
            // () -> new TestMultiblockBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
            //         .strength(4.5f, 6f))));
+
+    public static final RegistryObject<Block> SOUL_MANIPULATOR = CreativeTabRegister.add(ALL.register("soul_manipulator",
+            () -> new SoulHarvesterBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(4.5f, 6f))));
 
     @SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {

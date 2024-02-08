@@ -1,37 +1,26 @@
 package be.sixefyle.transdimquarry.blocks.quarries.transdimquarry;
 
-import be.sixefyle.transdimquarry.TransdimensionalMachines;
 import be.sixefyle.transdimquarry.blocks.TransDimMachineScreen;
 import be.sixefyle.transdimquarry.enums.EnumColor;
 import be.sixefyle.transdimquarry.gui.EnergyBar;
 import be.sixefyle.transdimquarry.items.quarryupgrades.QuarryUpgrade;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.cts.SwitchQuarryStatePacket;
-import be.sixefyle.transdimquarry.utils.MouseUtil;
 import be.sixefyle.transdimquarry.utils.NumberUtil;
 import be.sixefyle.transdimquarry.utils.Vec2i;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.*;
-
 public class TransdimQuarryScreen extends TransDimMachineScreen<TransdimQuarryMenu> {
     Button switchButton;
-    Map<String, Integer> blackScreenLabels = new LinkedHashMap<>();
 
     public TransdimQuarryScreen(TransdimQuarryMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
-
-        setTexture("transdimensional_quarry512");
 
         textureRes = 512;
 
@@ -60,50 +49,11 @@ public class TransdimQuarryScreen extends TransDimMachineScreen<TransdimQuarryMe
         addRenderableWidget(switchButton);
     }
 
-    String[] dots = {"", ".", "..", "..."};
-    int dotIndex = 0;
-    int ticksToWait = 30;
-    int lastTick = ticksToWait;
-
-    /**
-     * Show error message with 5 message max
-     * @param guiGraphics
-     * @param messages
-     */
-    private void showErrorMessage(GuiGraphics guiGraphics, String... messages){
-        if(messages.length > 5) return;
-
-        if(lastTick >= ticksToWait){
-            dotIndex = (dotIndex + 1) % (dots.length);
-            lastTick = 0;
-        }
-        lastTick++;
-
-        int baseY = 124;
-        guiGraphics.drawString(this.font, "ERROR" + dots[dotIndex], 112, baseY, 0xff2020, false);
-
-        for (int i = messages.length; i > 0; i--) {
-            guiGraphics.drawString(this.font, messages[i-1], 112, baseY + (i * 10), 0xff2020, false);
-        }
+    @Override
+    protected String getTextureName() {
+        return "transdimensional_quarry512";
     }
 
-    private void addBlackScreenLabel(String text, Integer hexColor){
-        blackScreenLabels.put(text, hexColor);
-    }
-
-    private void showBlackScreenLabels(GuiGraphics guiGraphics){
-        int i = 0;
-        int hexColor;
-        for (String text : blackScreenLabels.keySet()){
-            hexColor = blackScreenLabels.get(text);
-            guiGraphics.drawString(this.font, text, 112, 124 + (i * 10), hexColor, false);
-            i++;
-        }
-    }
-
-    private void clearRegisteredLabels(){
-        blackScreenLabels.clear();
-    }
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
@@ -119,7 +69,7 @@ public class TransdimQuarryScreen extends TransDimMachineScreen<TransdimQuarryMe
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(.7f,.7f,.7f);
 
-        clearRegisteredLabels();
+        clearRegisteredBlackScreenLabels();
         if(menu.isWorking() && menu.isInventoryFull()) {
             showErrorMessage(guiGraphics, "Inventory full!","", "Tips: You can attach a", "container to the quarry");
         } else if(menu.isWorking() && menu.getEnergyStored() < menu.getPowerConsumption()){

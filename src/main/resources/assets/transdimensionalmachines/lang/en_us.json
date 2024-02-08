@@ -8,6 +8,7 @@
   "block.transdimensionalmachines.advanced_foundry": "Advanced Foundry",
   "block.transdimensionalmachines.cosmic_foundry": "Cosmic Foundry",
   "block.transdimensionalmachines.ethereal_foundry": "Ethereal Foundry",
+  "block.transdimensionalmachines.soul_manipulator": "Soul Manipulator",
   "item.transdimensionalmachines.empty_quarry_upgrade": "Empty Quarry Upgrade",
   "item.transdimensionalmachines.speed_quarry_upgrade": "Speed Quarry Upgrade",
   "item.transdimensionalmachines.advanced_speed_quarry_upgrade": "Advanced Speed Quarry Upgrade",
@@ -34,7 +35,7 @@
   "item.transdimensionalmachines.calibrated_quantumite": "Calibrated Quantumite",
   "item.transdimensionalmachines.transdimensional_sword": "Trans-dimensional Sword",
   "item.transdimensionalmachines.transdimensional_excavator": "Trans-dimensional Excavator",
-  "item.transdimensionalmachines.soul_jar": "Soul Jar",
+  "item.transdimensionalmachines.soul_bottle": "Soul In A Bottle",
   "transdimensionalmachines.tab": "Transdimensional Machines",
 
   "key.category.transdimensional": "Trans-dimensional Machines",

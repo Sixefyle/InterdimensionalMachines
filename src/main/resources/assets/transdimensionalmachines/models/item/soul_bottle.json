@@ -2,13 +2,13 @@
   "parent": "item/generated",
   "overrides": [
     {
-      "model": "transdimensionalmachines:item/filled_soul_jar",
+      "model": "transdimensionalmachines:item/filled_soul_bottle",
       "predicate": {
         "transdimensionalmachines:fill": 1.0
       }
     }
   ],
   "textures": {
-    "layer0": "transdimensionalmachines:item/empty_soul_jar"
+    "layer0": "transdimensionalmachines:item/empty_soul_bottle"
   }
 }

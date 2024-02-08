@@ -2,7 +2,7 @@ package be.sixefyle.transdimquarry.registries;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
 import be.sixefyle.transdimquarry.items.CalibratorItem;
-import be.sixefyle.transdimquarry.items.SoulJarItem;
+import be.sixefyle.transdimquarry.items.SoulBottleItem;
 import be.sixefyle.transdimquarry.items.quarryupgrades.advanced.AdvancedQuarryEnergyOptimizationUpgradeItem;
 import be.sixefyle.transdimquarry.items.quarryupgrades.advanced.AdvancedQuarryFortuneUpgradeItem;
 import be.sixefyle.transdimquarry.items.quarryupgrades.advanced.AdvancedQuarryOreFinderUpgradeItem;
@@ -73,8 +73,8 @@ public class ItemRegister {
     public static final RegistryObject<Item> COSMIC_ORE_FINDER_UPGRADE = CreativeTabRegister.add(ALL.register("cosmic_ore_finder_quarry_upgrade",
             CosmicQuarryOreFinderUpgradeItem::new));
 
-    public static final RegistryObject<Item> SOUL_JAR = CreativeTabRegister.add(ALL.register("soul_jar",
-            SoulJarItem::new));
+    public static final RegistryObject<Item> SOUL_BOTTLE = CreativeTabRegister.add(ALL.register("soul_bottle",
+            SoulBottleItem::new));
 
 
     public static final RegistryObject<Item> TRANSDIMENSIONAL_SWORD = CreativeTabRegister.add(ALL.register("transdimensional_sword",

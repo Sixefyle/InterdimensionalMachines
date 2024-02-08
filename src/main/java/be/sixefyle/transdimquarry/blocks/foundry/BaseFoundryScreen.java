@@ -2,6 +2,7 @@ package be.sixefyle.transdimquarry.blocks.foundry;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
 import be.sixefyle.transdimquarry.blocks.TransDimMachineScreen;
+import be.sixefyle.transdimquarry.gui.Widgets;
 import be.sixefyle.transdimquarry.networking.PacketSender;
 import be.sixefyle.transdimquarry.networking.packet.cts.SwitchAutoSplitPacket;
 import be.sixefyle.transdimquarry.utils.Vec2i;
@@ -14,7 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class BaseFoundryScreen<T extends BaseFoundryMenu> extends TransDimMachineScreen<T> {
+public abstract class BaseFoundryScreen<T extends BaseFoundryMenu> extends TransDimMachineScreen<T> {
     protected int[][] smeltingBar = new int[][] {
             {65, 37},
             {110, 37}
@@ -26,8 +27,6 @@ public class BaseFoundryScreen<T extends BaseFoundryMenu> extends TransDimMachin
 
     public BaseFoundryScreen(T menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
-
-        setTexture("foundry");
 
         imageHeight = 182;
         imageWidth = 176;
@@ -41,10 +40,14 @@ public class BaseFoundryScreen<T extends BaseFoundryMenu> extends TransDimMachin
         super.init();
 
         // x, y, width, height, widget pos x, widget pos y, y offset, resource, on press
-        splitButton = new ImageButton(texturePos.x - 20, texturePos.y + 8, 20, 20, 0, oldAutoSplitState ? 122 : 82, oldAutoSplitState ? -20 : 20, WIDGETS, button -> {
+        splitButton = Widgets.SPLIT.getImageButton(new Vec2i(texturePos.x - 20, texturePos.y + 8), new Vec2i(oldAutoSplitState ? 122 : 82, oldAutoSplitState ? -20 : 20), pButton -> {
             PacketSender.sendToServer(new SwitchAutoSplitPacket(menu.blockEntity.getBlockPos()));
             rebuildWidgets();
         });
+//        splitButton = new ImageButton(texturePos.x - 20, texturePos.y + 8, 20, 20, 0, oldAutoSplitState ? 122 : 82, oldAutoSplitState ? -20 : 20, WIDGETS, button -> {
+//            PacketSender.sendToServer(new SwitchAutoSplitPacket(menu.blockEntity.getBlockPos()));
+//            rebuildWidgets();
+//        });
         splitButton.setTooltip(Tooltip.create(Component.literal(String.format("Auto Split: %s", menu.isAutoSplit() ? "Enable" : "Disable"))));
 
         addRenderableWidget(splitButton);

@@ -7,6 +7,7 @@ import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundry
 import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryMenu;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserMenu;
 import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryMenu;
+import be.sixefyle.transdimquarry.blocks.soulharverster.SoulHarvesterMenu;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -36,6 +37,10 @@ public class MenuRegister {
             registerMenuType(CosmicFoundryMenu::new, "cosmic_foundry_menu");
     public static final RegistryObject<MenuType<EtherealFoundryMenu>> ETHEREAL_FOUNDRY =
             registerMenuType(EtherealFoundryMenu::new, "ethereal_foundry_menu");
+
+    public static final RegistryObject<MenuType<SoulHarvesterMenu>> SOUL_MANIPULATOR =
+            registerMenuType(SoulHarvesterMenu::new, "soul_manipulator_menu");
+
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return ALL.register(name, () -> IForgeMenuType.create(factory));
     }

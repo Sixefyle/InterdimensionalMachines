@@ -12,11 +12,14 @@ public class FoundryScreen extends BaseFoundryScreen<BaseFoundryMenu> {
         imageHeight = 182;
         imageWidth = 176;
 
-        setTexture("foundry");
-
         smeltingBar = new int[][] {
                 {65, 37},
                 {110, 37}
         };
+    }
+
+    @Override
+    protected String getTextureName() {
+        return "foundry";
     }
 }

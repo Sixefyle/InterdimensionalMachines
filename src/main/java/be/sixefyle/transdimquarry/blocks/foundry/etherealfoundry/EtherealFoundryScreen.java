@@ -11,8 +11,6 @@ public class EtherealFoundryScreen extends BaseFoundryScreen<EtherealFoundryMenu
         imageHeight = 182;
         imageWidth = 176;
 
-        setTexture("ethereal_foundry");
-
         smeltingBar = new int[][] {
                 {12, 36},
                 {31, 36},
@@ -23,5 +21,10 @@ public class EtherealFoundryScreen extends BaseFoundryScreen<EtherealFoundryMenu
                 {126, 36},
                 {145, 36}
         };
+    }
+
+    @Override
+    protected String getTextureName() {
+        return "ethereal_foundry";
     }
 }

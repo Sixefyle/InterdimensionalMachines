@@ -8,6 +8,7 @@ import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryBlockEntity;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserBlockEntity;
 import be.sixefyle.transdimquarry.blocks.multiblock.test.TestMultiblockBlockEntity;
 import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryBlockEntity;
+import be.sixefyle.transdimquarry.blocks.soulharverster.SoulHarvesterBlockEntity;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -36,6 +37,8 @@ public class BlockEntityRegister {
     public static final RegistryObject<BlockEntityType<EtherealFoundryBlockEntity>> ETHEREAL_FOUNDRY = ALL.register("ethereal_foundry",
             () -> BlockEntityType.Builder.of(EtherealFoundryBlockEntity::new, BlockRegister.ETHEREAL_FOUNDRY.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<SoulHarvesterBlockEntity>> SOUL_MANIPULATOR = ALL.register("soul_manipulator",
+            () -> BlockEntityType.Builder.of(SoulHarvesterBlockEntity::new, BlockRegister.SOUL_MANIPULATOR.get()).build(null));
     public static final RegistryObject<BlockEntityType<TestMultiblockBlockEntity>> TEST_MB = null; //= ALL.register("test_mb",
             //() -> BlockEntityType.Builder.of(TestMultiblockBlockEntity::new, BlockRegister.TEST_CASING.get()).build(null));
 }

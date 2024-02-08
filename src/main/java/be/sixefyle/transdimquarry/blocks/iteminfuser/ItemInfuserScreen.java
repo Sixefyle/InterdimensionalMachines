@@ -133,7 +133,7 @@ public class ItemInfuserScreen extends AbstractContainerScreen<ItemInfuserMenu> 
                 strings.add("  enough durability!");
             }
             if(!haveEnoughEnergy){
-                strings.add("- Not enought energy!");
+                strings.add("- Not enough energy!");
                 strings.add(String.format("  Need %s to work", NumberUtil.formatToEnergy(menu.getPowerConsumption() - menu.getEnergyStored())));
 //                if(recipe != null){
 //                    strings.add("");
