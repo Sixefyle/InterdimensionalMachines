@@ -1,14 +1,18 @@
 package be.sixefyle.transdimquarry.registries;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
-import be.sixefyle.transdimquarry.blocks.foundry.advancedfoundry.AdvancedFoundryBlockEntity;
-import be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry.CosmicFoundryBlockEntity;
-import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryBlockEntity;
+import be.sixefyle.transdimquarry.blocks.foundry.advanced.AdvancedFoundryBlockEntity;
+import be.sixefyle.transdimquarry.blocks.foundry.cosmic.CosmicFoundryBlockEntity;
+import be.sixefyle.transdimquarry.blocks.foundry.ethereal.EtherealFoundryBlockEntity;
 import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryBlockEntity;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserBlockEntity;
 import be.sixefyle.transdimquarry.blocks.multiblock.test.TestMultiblockBlockEntity;
 import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryBlockEntity;
 import be.sixefyle.transdimquarry.blocks.soulharverster.SoulHarvesterBlockEntity;
+import be.sixefyle.transdimquarry.blocks.soulharverster.advanced.AdvancedSoulHarvesterBlockEntity;
+import be.sixefyle.transdimquarry.blocks.soulharverster.cosmic.CosmicSoulHarvesterBlock;
+import be.sixefyle.transdimquarry.blocks.soulharverster.cosmic.CosmicSoulHarvesterBlockEntity;
+import be.sixefyle.transdimquarry.blocks.soulharverster.ethereal.EtherealSoulHarvesterBlockEntity;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -39,6 +43,14 @@ public class BlockEntityRegister {
 
     public static final RegistryObject<BlockEntityType<SoulHarvesterBlockEntity>> SOUL_MANIPULATOR = ALL.register("soul_manipulator",
             () -> BlockEntityType.Builder.of(SoulHarvesterBlockEntity::new, BlockRegister.SOUL_MANIPULATOR.get()).build(null));
+    public static final RegistryObject<BlockEntityType<AdvancedSoulHarvesterBlockEntity>> ADVANCED_SOUL_MANIPULATOR = ALL.register("advanced_soul_manipulator",
+            () -> BlockEntityType.Builder.of(AdvancedSoulHarvesterBlockEntity::new, BlockRegister.ADVANCED_SOUL_MANIPULATOR.get()).build(null));
+    public static final RegistryObject<BlockEntityType<CosmicSoulHarvesterBlockEntity>> COSMIC_SOUL_MANIPULATOR = ALL.register("cosmic_soul_manipulator",
+            () -> BlockEntityType.Builder.of(CosmicSoulHarvesterBlockEntity::new, BlockRegister.COSMIC_SOUL_MANIPULATOR.get()).build(null));
+    public static final RegistryObject<BlockEntityType<EtherealSoulHarvesterBlockEntity>> ETHEREAL_SOUL_MANIPULATOR = ALL.register("ethereal_soul_manipulator",
+            () -> BlockEntityType.Builder.of(EtherealSoulHarvesterBlockEntity::new, BlockRegister.ETHEREAL_SOUL_MANIPULATOR.get()).build(null));
+
+
     public static final RegistryObject<BlockEntityType<TestMultiblockBlockEntity>> TEST_MB = null; //= ALL.register("test_mb",
             //() -> BlockEntityType.Builder.of(TestMultiblockBlockEntity::new, BlockRegister.TEST_CASING.get()).build(null));
 }

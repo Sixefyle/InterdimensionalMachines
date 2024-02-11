@@ -1,4 +1,4 @@
-package be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry;
+package be.sixefyle.transdimquarry.blocks.foundry.ethereal;
 
 import be.sixefyle.transdimquarry.blocks.foundry.BaseFoundry;
 import be.sixefyle.transdimquarry.config.CommonConfig;

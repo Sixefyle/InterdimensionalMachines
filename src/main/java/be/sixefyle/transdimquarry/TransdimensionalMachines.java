@@ -1,11 +1,15 @@
 package be.sixefyle.transdimquarry;
 
-import be.sixefyle.transdimquarry.blocks.foundry.advancedfoundry.AdvancedFoundryScreen;
-import be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry.CosmicFoundryScreen;
-import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryScreen;
+import be.sixefyle.transdimquarry.blocks.foundry.advanced.AdvancedFoundryScreen;
+import be.sixefyle.transdimquarry.blocks.foundry.cosmic.CosmicFoundryScreen;
+import be.sixefyle.transdimquarry.blocks.foundry.ethereal.EtherealFoundryScreen;
 import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryScreen;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserScreen;
+import be.sixefyle.transdimquarry.blocks.soulharverster.SoulHarvesterMenu;
 import be.sixefyle.transdimquarry.blocks.soulharverster.SoulHarvesterScreen;
+import be.sixefyle.transdimquarry.blocks.soulharverster.advanced.AdvancedSoulHarvesterMenu;
+import be.sixefyle.transdimquarry.blocks.soulharverster.cosmic.CosmicSoulHarvesterMenu;
+import be.sixefyle.transdimquarry.blocks.soulharverster.ethereal.EtherealSoulHarvesterMenu;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserScreen;
 import be.sixefyle.transdimquarry.config.CommonConfig;
 import be.sixefyle.transdimquarry.dimension.CosmicBoundaryRender;
@@ -91,7 +95,11 @@ public class TransdimensionalMachines
             MenuScreens.register(MenuRegister.ADVANCED_FOUNDRY.get(), AdvancedFoundryScreen::new);
             MenuScreens.register(MenuRegister.COSMIC_FOUNDRY.get(), CosmicFoundryScreen::new);
             MenuScreens.register(MenuRegister.ETHEREAL_FOUNDRY.get(), EtherealFoundryScreen::new);
-            MenuScreens.register(MenuRegister.SOUL_MANIPULATOR.get(), SoulHarvesterScreen::new);
+
+            MenuScreens.register(MenuRegister.SOUL_MANIPULATOR.get(), SoulHarvesterScreen<SoulHarvesterMenu>::new);
+            MenuScreens.register(MenuRegister.ADVANCED_SOUL_MANIPULATOR.get(), SoulHarvesterScreen<AdvancedSoulHarvesterMenu>::new);
+            MenuScreens.register(MenuRegister.COSMIC_SOUL_MANIPULATOR.get(), SoulHarvesterScreen<CosmicSoulHarvesterMenu>::new);
+            MenuScreens.register(MenuRegister.ETHEREAL_SOUL_MANIPULATOR.get(), SoulHarvesterScreen<EtherealSoulHarvesterMenu>::new);
             ItemInfuserRecipeRegister.register();
         }
 

@@ -11,8 +11,8 @@ import net.minecraft.world.entity.player.Inventory;
 
 import java.util.Map;
 
-public class SoulHarvesterScreen extends TransDimMachineScreen<SoulHarvesterMenu> {
-    public SoulHarvesterScreen(SoulHarvesterMenu menu, Inventory inventory, Component component) {
+public class SoulHarvesterScreen<T extends SoulHarvesterMenu> extends TransDimMachineScreen<T> {
+    public SoulHarvesterScreen(T menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
 
         this.titlePos = new Vec2i(7, 3);
@@ -62,7 +62,6 @@ public class SoulHarvesterScreen extends TransDimMachineScreen<SoulHarvesterMenu
         showBlackScreenLabels(guiGraphics);
 
         guiGraphics.pose().popPose();
-
     }
 
     @Override

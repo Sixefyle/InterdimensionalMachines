@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "transdimensionalmachines:block/advanced_soul_manipulator",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "transdimensionalmachines:block/advanced_soul_manipulator"
+    },
+    "facing=south": {
+      "model": "transdimensionalmachines:block/advanced_soul_manipulator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "transdimensionalmachines:block/advanced_soul_manipulator",
+      "y": 270
+    }
+  }
+}

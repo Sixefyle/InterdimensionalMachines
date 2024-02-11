@@ -1,12 +1,16 @@
 package be.sixefyle.transdimquarry.registries;
 
-import be.sixefyle.transdimquarry.blocks.foundry.advancedfoundry.AdvancedFoundryBlock;
-import be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry.CosmicFoundryBlock;
-import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryBlock;
+import be.sixefyle.transdimquarry.blocks.foundry.advanced.AdvancedFoundryBlock;
+import be.sixefyle.transdimquarry.blocks.foundry.cosmic.CosmicFoundryBlock;
+import be.sixefyle.transdimquarry.blocks.foundry.ethereal.EtherealFoundryBlock;
 import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryBlock;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserBlock;
 import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryBlock;
 import be.sixefyle.transdimquarry.blocks.soulharverster.SoulHarvesterBlock;
+import be.sixefyle.transdimquarry.blocks.soulharverster.advanced.AdvancedSoulHarvesterBlock;
+import be.sixefyle.transdimquarry.blocks.soulharverster.cosmic.CosmicSoulHarvesterBlock;
+import be.sixefyle.transdimquarry.blocks.soulharverster.ethereal.EtherealSoulHarvesterBlock;
+import be.sixefyle.transdimquarry.blocks.soulharverster.ethereal.EtherealSoulHarvesterBlockEntity;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserBlock;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -74,6 +78,16 @@ public class BlockRegister {
     public static final RegistryObject<Block> SOUL_MANIPULATOR = CreativeTabRegister.add(ALL.register("soul_manipulator",
             () -> new SoulHarvesterBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
                     .strength(4.5f, 6f))));
+    public static final RegistryObject<Block> ADVANCED_SOUL_MANIPULATOR = CreativeTabRegister.add(ALL.register("advanced_soul_manipulator",
+            () -> new AdvancedSoulHarvesterBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(4.5f, 6f))));
+    public static final RegistryObject<Block> COSMIC_SOUL_MANIPULATOR = CreativeTabRegister.add(ALL.register("cosmic_soul_manipulator",
+            () -> new CosmicSoulHarvesterBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(4.5f, 6f))));
+    public static final RegistryObject<Block> ETHEREAL_SOUL_MANIPULATOR = CreativeTabRegister.add(ALL.register("ethereal_soul_manipulator",
+            () -> new EtherealSoulHarvesterBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(4.5f, 6f))));
+
 
     @SubscribeEvent
     public static void onRegisterItems(final RegisterEvent event) {

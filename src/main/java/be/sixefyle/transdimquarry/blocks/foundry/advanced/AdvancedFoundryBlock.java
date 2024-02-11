@@ -1,4 +1,4 @@
-package be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry;
+package be.sixefyle.transdimquarry.blocks.foundry.advanced;
 
 import be.sixefyle.transdimquarry.blocks.foundry.BaseFoundryBlock;
 import be.sixefyle.transdimquarry.registries.BlockEntityRegister;
@@ -8,7 +8,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,17 +16,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Properties;
-
-public class EtherealFoundryBlock extends BaseFoundryBlock {
-    public EtherealFoundryBlock(Properties pProperties) {
+public class AdvancedFoundryBlock extends BaseFoundryBlock {
+    public AdvancedFoundryBlock(Properties pProperties) {
         super(pProperties);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return BlockEntityRegister.ETHEREAL_FOUNDRY.get().create(pPos, pState);
+        return BlockEntityRegister.ADVANCED_FOUNDRY.get().create(pPos, pState);
     }
 
     @Override
@@ -35,7 +32,7 @@ public class EtherealFoundryBlock extends BaseFoundryBlock {
                                  Player player, InteractionHand hand, BlockHitResult hit) {
         if (!level.isClientSide()) {
             BlockEntity entity = level.getBlockEntity(pos);
-            if(entity instanceof EtherealFoundryBlockEntity foundryBlockEntity) {
+            if(entity instanceof AdvancedFoundryBlockEntity foundryBlockEntity) {
                 NetworkHooks.openScreen(((ServerPlayer)player), foundryBlockEntity, pos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
@@ -48,7 +45,7 @@ public class EtherealFoundryBlock extends BaseFoundryBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, BlockEntityRegister.ETHEREAL_FOUNDRY.get(),
-                EtherealFoundryBlockEntity::tick);
+        return createTickerHelper(type, BlockEntityRegister.ADVANCED_FOUNDRY.get(),
+                AdvancedFoundryBlockEntity::tick);
     }
 }

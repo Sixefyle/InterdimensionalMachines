@@ -7,6 +7,7 @@ import be.sixefyle.transdimquarry.utils.Vec2i;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,18 +30,23 @@ public class SoulHarvesterMenu extends TransDimMachineMenu<SoulHarvesterBlockEnt
         initSlots(inv);
     }
 
+    public SoulHarvesterMenu(MenuType<?> menuType, int id, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(menuType, id, inv, entity, data);
+
+        playerInventoryPos = new Vec2(8,114);
+        playerToolBarPos = new Vec2(8,172);
+
+        initSlots(inv);
+    }
+
     @Override
     public List<Vec2i> getSlotsLocation() {
         return List.of(
                 new Vec2i(100, 13),
                 new Vec2i(118, 13),
                 new Vec2i(136, 13),
-                new Vec2i(100, 31),
-                new Vec2i(118, 31),
-                new Vec2i(136, 31),
 
-                new Vec2i(15, 67),
-                new Vec2i(33, 67)
+                new Vec2i(15, 67)
         );
     }
 

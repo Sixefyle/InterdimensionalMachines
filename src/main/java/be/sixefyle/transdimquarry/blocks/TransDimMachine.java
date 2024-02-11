@@ -286,7 +286,7 @@ public abstract class TransDimMachine extends BaseContainerBlockEntity implement
             return false;
         } else if (itemStack.getDamageValue() != itemStack2.getDamageValue()) {
             return false;
-        } else if (itemStack.getCount() > itemStack.getMaxStackSize()) {
+        } else if (itemStack.getCount() >= itemStack.getMaxStackSize()) {
             return false;
         } else {
             return ItemStack.isSameItemSameTags(itemStack, itemStack2);

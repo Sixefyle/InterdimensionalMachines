@@ -11,10 +11,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -31,17 +33,21 @@ public class SoulHarvesterBlockEntity extends TransDimMachine {
     private FakePlayer fakePlayer;
     private List<ItemStack> itemLeft = new ArrayList<>();
 
-    public SoulHarvesterBlockEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegister.SOUL_MANIPULATOR.get(), pos, state, 8, 50_000);
+    public SoulHarvesterBlockEntity(BlockEntityType<?> entityType, BlockPos pos, BlockState state, int containerSize, int energyCap) {
+        super(entityType, pos, state, containerSize, energyCap);
+    }
 
-        soulBottleSlotsAmount = 2;
+    public SoulHarvesterBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntityRegister.SOUL_MANIPULATOR.get(), pos, state, 4, 50_000);
+
+        setSoulBottleSlotsAmount(1);
         setMaxProgress(250);
         setEnergyNeeded(12_500);
     }
 
     @Override
     protected Component getDefaultName() {
-        return Component.literal("Soul Harvester");
+        return Component.literal("Soul Manipulator");
     }
 
     @Override
@@ -60,13 +66,13 @@ public class SoulHarvesterBlockEntity extends TransDimMachine {
 
     @Override
     public int getItemSlotsSize() {
-        return getContainerSize() - soulBottleSlotsAmount;
+        return getContainerSize() - getSoulBottleSlotsAmount();
     }
 
     public Map<EntityType<?>, Integer> getStoredSouls(){
-        Map<EntityType<?>, Integer> map = new HashMap<>(soulBottleSlotsAmount);
+        Map<EntityType<?>, Integer> map = new HashMap<>(getSoulBottleSlotsAmount());
         ItemStack itemStack;
-        for (int i = getContainerSize() - 1; i >= getContainerSize() - soulBottleSlotsAmount; i--) {
+        for (int i = getContainerSize() - 1; i >= getContainerSize() - getSoulBottleSlotsAmount(); i--) {
             itemStack = getItem(i);
             if(itemStack.is(ItemRegister.SOUL_BOTTLE.get())){
                 SoulBottleItem soulBottleItem = (SoulBottleItem) itemStack.getItem();
@@ -88,24 +94,25 @@ public class SoulHarvesterBlockEntity extends TransDimMachine {
         return map;
     }
 
-    public static void tick(Level level, BlockPos blockPos, BlockState blockState, SoulHarvesterBlockEntity blockEntity) {
-        blockEntity.onTick(level, blockPos);
-
+    //TODO: handle custom drop, disable catching mob without drop
+    @Override
+    public void onTick(Level level, BlockPos blockPos) {
+        super.onTick(level, blockPos);
         if(level.isClientSide()) return;
 
-        if(blockEntity.itemLeft.size() > 0){
-            blockEntity.itemLeft = blockEntity.tryAddItemToAttachedContainer(blockEntity.itemLeft);
+        if(itemLeft.size() > 0){
+            itemLeft = tryAddItemToAttachedContainer(itemLeft);
             return;
         }
 
-        if(blockEntity.hasEnoughEnergy()){
-            Map<EntityType<?>, Integer> storedSouls = blockEntity.getStoredSouls();
+        if(hasEnoughEnergy()){
+            Map<EntityType<?>, Integer> storedSouls = getStoredSouls();
             if(!storedSouls.isEmpty()) {
-                if(blockEntity.updateProgress(1)) {
-                    blockEntity.addEnergy(-blockEntity.getNeededEnergy());
+                if(updateProgress(1)) {
+                    addEnergy(-getNeededEnergy());
 
-                    if (blockEntity.fakePlayer == null) {
-                        blockEntity.fakePlayer = LevelUtil.getFakePlayer((ServerLevel) level, "TransDim-Player");
+                    if (fakePlayer == null) {
+                        fakePlayer = LevelUtil.getFakePlayer((ServerLevel) level, "TransDim-Player");
                     }
 
                     storedSouls.forEach((entityType, integer) -> {
@@ -113,25 +120,34 @@ public class SoulHarvesterBlockEntity extends TransDimMachine {
                         LootTable loottable = level.getServer().getLootData().getLootTable(resourcelocation);
 
                         LootParams.Builder builder = new LootParams.Builder((ServerLevel) level)
-                                .withParameter(LootContextParams.DAMAGE_SOURCE, blockEntity.fakePlayer.damageSources().magic())
+                                .withParameter(LootContextParams.DAMAGE_SOURCE, fakePlayer.damageSources().magic())
                                 .withParameter(LootContextParams.ORIGIN, new Vec3(0, 0, 0))
                                 .withParameter(LootContextParams.THIS_ENTITY, entityType.create(level));
 
                         LootParams lootParams = builder.create(LootContextParamSets.ENTITY);
-                        ObjectArrayList<ItemStack> randomItems = loottable.getRandomItems(lootParams).clone();
-
-                        if (integer > 1) {
-                            for (ItemStack randomItem : randomItems) {
-                                randomItem.setCount(randomItem.getCount() * (int) (Math.random() * integer));
-                            }
+                        ObjectArrayList<ItemStack> randomItems = new ObjectArrayList<>();
+                        for (int i = 0; i < integer; i++) {
+                            randomItems.addAll(loottable.getRandomItems(lootParams).clone());
                         }
 
-                        blockEntity.itemLeft = blockEntity.tryAddItemToAttachedContainer(randomItems.clone());
+                        itemLeft = tryAddItemToAttachedContainer(randomItems.clone());
                     });
                 }
             } else {
-                blockEntity.resetProgress();
+                resetProgress();
             }
         }
+    }
+
+    public static void tick(Level level, BlockPos blockPos, BlockState blockState, SoulHarvesterBlockEntity blockEntity) {
+        blockEntity.onTick(level, blockPos);
+    }
+
+    public int getSoulBottleSlotsAmount() {
+        return soulBottleSlotsAmount;
+    }
+
+    public void setSoulBottleSlotsAmount(int soulBottleSlotsAmount) {
+        this.soulBottleSlotsAmount = soulBottleSlotsAmount;
     }
 }

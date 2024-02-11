@@ -1,13 +1,17 @@
 package be.sixefyle.transdimquarry.registries;
 
 import be.sixefyle.transdimquarry.TransdimensionalMachines;
-import be.sixefyle.transdimquarry.blocks.foundry.advancedfoundry.AdvancedFoundryMenu;
-import be.sixefyle.transdimquarry.blocks.foundry.cosmicfoundry.CosmicFoundryMenu;
-import be.sixefyle.transdimquarry.blocks.foundry.etherealfoundry.EtherealFoundryMenu;
+import be.sixefyle.transdimquarry.blocks.foundry.advanced.AdvancedFoundryMenu;
+import be.sixefyle.transdimquarry.blocks.foundry.cosmic.CosmicFoundryMenu;
+import be.sixefyle.transdimquarry.blocks.foundry.ethereal.EtherealFoundryMenu;
 import be.sixefyle.transdimquarry.blocks.foundry.foundry.FoundryMenu;
 import be.sixefyle.transdimquarry.blocks.iteminfuser.ItemInfuserMenu;
 import be.sixefyle.transdimquarry.blocks.quarries.transdimquarry.TransdimQuarryMenu;
 import be.sixefyle.transdimquarry.blocks.soulharverster.SoulHarvesterMenu;
+import be.sixefyle.transdimquarry.blocks.soulharverster.advanced.AdvancedSoulHarvesterMenu;
+import be.sixefyle.transdimquarry.blocks.soulharverster.cosmic.CosmicSoulHarvesterBlock;
+import be.sixefyle.transdimquarry.blocks.soulharverster.cosmic.CosmicSoulHarvesterMenu;
+import be.sixefyle.transdimquarry.blocks.soulharverster.ethereal.EtherealSoulHarvesterMenu;
 import be.sixefyle.transdimquarry.blocks.toolinfuser.TransdimToolInfuserMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -40,6 +44,13 @@ public class MenuRegister {
 
     public static final RegistryObject<MenuType<SoulHarvesterMenu>> SOUL_MANIPULATOR =
             registerMenuType(SoulHarvesterMenu::new, "soul_manipulator_menu");
+    public static final RegistryObject<MenuType<AdvancedSoulHarvesterMenu>> ADVANCED_SOUL_MANIPULATOR =
+            registerMenuType(AdvancedSoulHarvesterMenu::new, "advanced_soul_manipulator_menu");
+    public static final RegistryObject<MenuType<CosmicSoulHarvesterMenu>> COSMIC_SOUL_MANIPULATOR =
+            registerMenuType(CosmicSoulHarvesterMenu::new, "cosmic_soul_manipulator_menu");
+    public static final RegistryObject<MenuType<EtherealSoulHarvesterMenu>> ETHEREAL_SOUL_MANIPULATOR =
+            registerMenuType(EtherealSoulHarvesterMenu::new, "ethereal_soul_manipulator_menu");
+
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return ALL.register(name, () -> IForgeMenuType.create(factory));

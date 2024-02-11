@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "transdimensionalmachines:block/machine_face",
+    "front": "transdimensionalmachines:block/cosmic_foundry_front",
+    "back": "transdimensionalmachines:block/item_infuser_back",
+    "side": "transdimensionalmachines:block/machine_face",
+    "bottom": "transdimensionalmachines:block/machine_face"
+  }
+}

@@ -1,4 +1,4 @@
-package be.sixefyle.transdimquarry.blocks.foundry.advancedfoundry;
+package be.sixefyle.transdimquarry.blocks.foundry.advanced;
 
 import be.sixefyle.transdimquarry.blocks.foundry.BaseFoundry;
 import be.sixefyle.transdimquarry.config.CommonConfig;
@@ -7,7 +7,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
